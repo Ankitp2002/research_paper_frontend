@@ -1,0 +1,54 @@
+/* Overall page styles */
+.rejected-papers-page {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    min-height: 100vh; /* Full viewport height */
+    font-family: 'Arial', sans-serif; /* Set a clean font */
+    background-color: #f9f9f9; /* Light background for better contrast */
+}
+
+/* Container for the rejected papers */
+.rejected-papers-container {
+    flex: 1; /* Take up remaining space */
+    max-width: 800px; /* Limit the width for better readability */
+    margin: 0 auto; /* Center the container */
+    background-color: #fff; /* White background for the table area */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 20px; /* Padding inside the container */
+    align-content: center;
+}
+
+/* Header style */
+h1 {
+    text-align: center; /* Center the title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #333; /* Dark text color for contrast */
+}
+
+/* Table styles */
+table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Merge borders */
+    margin: 20px 0; /* Space around the table */
+}
+
+/* Header cells */
+th {
+    background-color: #E74C3C; /* Red header background for rejected papers */
+    color: white; /* White text in header */
+    padding: 12px; /* Padding in header */
+    text-align: left; /* Left-align header text */
+}
+
+/* Table cells */
+td {
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 10px; /* Padding in cells */
+    text-align: left; /* Left-align cell text */
+}
+
+/* Hover effect for table rows */
+tr:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+}

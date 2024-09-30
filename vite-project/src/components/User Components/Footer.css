@@ -1,0 +1,20 @@
+.simple-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    position: relative; /* Keeps the footer at the bottom of the page */
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Full width */
+}
+
+.footer-content a {
+    color: #4CAF50; /* Link color */
+    text-decoration: none;
+    margin: 0 10px; /* Space between links */
+}
+
+.footer-content a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

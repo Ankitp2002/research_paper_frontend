@@ -1,0 +1,20 @@
+.admin-footer {
+    background-color: #34495E; /* Dark background */
+    color: white; /* White text */
+    text-align: center; /* Center text */
+    padding: 15px 0; /* Padding for footer */
+}
+
+.footer-links {
+    margin-top: 10px; /* Space above links */
+}
+
+.footer-links a {
+    color: white; /* White text for links */
+    margin: 0 10px; /* Space between links */
+    text-decoration: none; /* Remove underline */
+}
+
+.footer-links a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

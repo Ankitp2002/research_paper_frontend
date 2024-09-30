@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Use a clean font */
+    background-color: #e9ecef; /* Light gray background */
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px; /* Add some padding */
+}
+
+.login-form {
+    max-width: 400px;
+    padding: 40px; /* Add padding for the form */
+    border: 1px solid #ced4da;
+    border-radius: 10px; /* Rounded corners */
+    background-color: #ffffff; /* White background for form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-bottom: 20px; /* Spacing below heading */
+    color: #495057; /* Dark gray color for text */
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column; /* Stack inputs vertically */
+}
+
+.login-form label {
+    margin-bottom: 5px;
+    color: #495057; /* Dark gray color for labels */
+}
+
+.login-form input,
+.login-form select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 5px; /* Slightly rounded corners */
+    font-size: 16px; /* Slightly larger font */
+}
+
+.login-form select {
+    cursor: pointer; /* Pointer cursor for dropdown */
+}
+
+.login-form button {
+    padding: 10px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Transition for hover */
+}
+
+.login-form button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column; /* Stack image and form on smaller screens */
+        align-items: center; /* Center horizontally */
+    }
+
+    .login-form {
+        max-width: 90%; /* Limit form width on smaller screens */
+    }
+}

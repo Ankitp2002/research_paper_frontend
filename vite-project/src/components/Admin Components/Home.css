@@ -1,0 +1,50 @@
+/* Overall page styles */
+.admin-home-page {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    min-height: 100vh; /* Full viewport height */
+    font-family: 'Arial', sans-serif; /* Set a clean font */
+    background-color: #f9f9f9; /* Light background for better contrast */
+}
+
+/* Container for the admin home */
+.admin-home-container {
+    flex: 1; /* Take up remaining space */
+    max-width: 800px; /* Limit the width for better readability */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Padding inside the container */
+}
+
+/* Header style */
+h1 {
+    text-align: center; /* Center the title */
+    margin-bottom: 20px; /* Space below the title */
+    color: #333; /* Dark text color for contrast */
+}
+
+/* Quick actions section */
+.admin-home-actions {
+    margin-top: 20px; /* Space above the actions */
+}
+
+/* Quick actions list */
+.admin-home-actions ul {
+    list-style-type: none; /* Remove default list styles */
+    padding: 0; /* Remove padding */
+}
+
+/* Quick actions links */
+.admin-home-actions a {
+    display: block; /* Each link on a new line */
+    padding: 10px; /* Padding for links */
+    margin: 5px 0; /* Margin between links */
+    background-color: #3498DB; /* Blue background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center text */
+}
+
+.admin-home-actions a:hover {
+    background-color: #2980B9; /* Darker blue on hover */
+}

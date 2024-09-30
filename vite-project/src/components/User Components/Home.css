@@ -1,0 +1,32 @@
+.user-home-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full height */
+}
+
+.home-container {
+    flex: 1; /* Allow this to grow and fill space between navbar and footer */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start; /* Align items at the start vertically */
+    width: 100%; /* Full width */
+}
+
+.papers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Space between heading and table */
+}
+
+.papers-table th,
+.papers-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.papers-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}

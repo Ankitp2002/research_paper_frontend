@@ -1,0 +1,31 @@
+.admin-navbar {
+    background-color: #34495E; /* Dark background */
+    color: white; /* White text */
+    display: flex; /* Flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    padding: 15px 30px; /* Padding for navbar */
+}
+
+.navbar-title {
+    font-size: 1.5em; /* Title size */
+}
+
+.navbar-links {
+    list-style-type: none; /* Remove default list styles */
+    display: flex; /* Horizontal layout */
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+}
+
+.navbar-links li {
+    margin-left: 20px; /* Space between links */
+}
+
+.navbar-links a {
+    color: white; /* White text for links */
+    text-decoration: none; /* Remove underline */
+}
+
+.navbar-links a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

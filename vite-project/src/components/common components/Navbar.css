@@ -1,0 +1,49 @@
+/* Navbar styles */
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: #fff;
+  box-sizing: border-box; /* Prevents padding from adding to width */
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+
+.nav-links li {
+  margin-left: 1.5rem;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.burger {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .nav-links {
+      display: none;
+  }
+
+  .burger {
+      display: block;
+      cursor: pointer;
+  }
+
+  .burger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 5px;
+  }
+}

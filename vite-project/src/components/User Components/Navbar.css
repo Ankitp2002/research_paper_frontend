@@ -1,0 +1,55 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center; /* Center items vertically */
+    background-color: #333; /* Navbar background color */
+    padding: 10px 20px; /* Padding around the navbar */
+    color: white; /* Text color */
+    position: sticky; /* Keep the navbar at the top when scrolling */
+    top: 0; /* Position at the top */
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure navbar is above other content */
+}
+
+.navbar h1 {
+    margin: 0; /* Remove default margin */
+}
+
+.navbar ul {
+    list-style: none; /* Remove bullet points from list */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Display list items in a row */
+}
+
+.navbar ul li {
+    margin-left: 20px; /* Space between links */
+}
+
+.navbar ul li a {
+    color: white; /* Link color */
+    text-decoration: none; /* Remove underline from links */
+    transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.navbar ul li a:hover {
+    color: #4CAF50; /* Change link color on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .navbar ul {
+        flex-direction: column; /* Stack links vertically */
+        width: 100%; /* Full width for the links */
+    }
+
+    .navbar ul li {
+        margin-left: 0; /* Remove left margin for vertical links */
+        margin-bottom: 10px; /* Space between links */
+    }
+}
