@@ -5,6 +5,7 @@ import "./Review.css";
 import { useNavigate } from "react-router";
 import {
   AuthorPaperEndPoint,
+  GetUsersEndPoint,
   ReviewAuthorPaper,
 } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
@@ -50,13 +51,12 @@ const ReviewPage = () => {
     setComments(event.target.value);
   };
 
-  const submitReview = async (action, id) => {
+  const submitReview = async (action, id, comment) => {
     const response = await apiRequest(
       ReviewAuthorPaper,
       "POST",
-      JSON.stringify({ status: action, paper_id: id })
+      JSON.stringify({ status: action, paper_id: id, comment: comment })
     );
-    debugger;
     if (response.message == "Review status updated successfully") {
       const updatedPapers = papers.map((paper) =>
         paper.id === selectedPaper.id
@@ -102,7 +102,7 @@ const ReviewPage = () => {
             {papers.map((paper) => (
               <tr key={paper.id}>
                 <td>{paper.title}</td>
-                <td>{paper.author}</td>
+                <td>{paper?.User?.username}</td>
                 <td>{paper.status}</td>
                 <td>
                   <button onClick={() => handleReview(paper)}>Review</button>
@@ -135,16 +135,34 @@ const ReviewPage = () => {
             </label>
             <div className="review-buttons">
               <button
-                onClick={() => submitReview("published", selectedPaper.id)}
+                onClick={() =>
+                  submitReview("published", selectedPaper.id, comments)
+                }
               >
                 Approve Paper
               </button>
               <button
-                onClick={() => submitReview("reviewed", selectedPaper.id)}
+                onClick={() =>
+                  submitReview("reviewed", selectedPaper.id, comments)
+                }
               >
                 Request Changes
               </button>
-              <button onClick={() => submitReview("delete", selectedPaper.id)}>
+              <button
+                onClick={async () => {
+                  try {
+                    await apiRequest(
+                      `${AuthorPaperEndPoint}/${selectedPaper.id}`,
+                      "DELETE"
+                    );
+                    // Reload the window after the request is completed
+                    window.location.reload();
+                  } catch (error) {
+                    // Handle any errors that occurred during the API request
+                    console.error("Error deleting user:", error);
+                  }
+                }}
+              >
                 Reject Paper
               </button>
             </div>

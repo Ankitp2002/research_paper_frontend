@@ -38,6 +38,7 @@ const PaperStatusPage = () => {
           }
         ); // Adjust the endpoint URL as necessary
         if (Array.isArray(response) && response.length > 0) {
+          debugger;
           setPapers(response); // Set the paper data to state
         }
       } catch (err) {
@@ -70,7 +71,7 @@ const PaperStatusPage = () => {
                 <tr key={paper.id}>
                   <td>{paper.title}</td>
                   <td>{paper.status}</td>
-                  <td>{paper.comments}</td>
+                  <td>{paper.keywords}</td>
                 </tr>
               ))}
             </tbody>

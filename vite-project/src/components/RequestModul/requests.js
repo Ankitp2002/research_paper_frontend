@@ -14,7 +14,6 @@ export const apiRequest = async (url, method, data = {}, headers = {}) => {
     "Content-Type": "application/json", // Default content type
     ...headers, // Merge any custom headers
   };
-  debugger;
   const response = await axios({
     url,
     method,
