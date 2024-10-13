@@ -27,16 +27,18 @@ const PaperStatusPage = () => {
 
     // Fetch the paper status data when the component mounts
     const fetchPapers = async () => {
+      const token = localStorage.getItem("authToken");
       try {
         const response = await apiRequest(
           `${AuthorPaperEndPoint}/excluded`,
-          "GET"
+          "GET",
+          {},
+          {
+            Authorization: `Bearer ${token}`,
+          }
         ); // Adjust the endpoint URL as necessary
-        debugger;
         if (Array.isArray(response) && response.length > 0) {
           setPapers(response); // Set the paper data to state
-        } else {
-          setError(`Error: ${response.status}`);
         }
       } catch (err) {
         setError(`An error occurred: ${err.message}`);
@@ -53,8 +55,8 @@ const PaperStatusPage = () => {
       <div className="paper-status-container">
         <h1>Check Paper Status</h1>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        {!error && papers.length === 0 && <p>No papers found.</p>}
-        {papers.length > 0 && (
+        {/* {!error && papers.length === 0 && <p>No papers found.</p>} */}
+        {papers.length > -1 && (
           <table>
             <thead>
               <tr>

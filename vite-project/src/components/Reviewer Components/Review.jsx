@@ -3,21 +3,15 @@ import ReviewerNavbar from "./Navbar";
 import ReviewerFooter from "./Footer";
 import "./Review.css";
 import { useNavigate } from "react-router";
-import { AuthorPaperEndPoint } from "../RequestModul/Endpoint";
+import {
+  AuthorPaperEndPoint,
+  ReviewAuthorPaper,
+} from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 import { handleGetPaperB64 } from "../../utils/handleAuthor";
 
 const ReviewPage = () => {
-  const [papers, setPapers] = useState([
-    // {
-    //   id: 1,
-    //   title: "Paper Title 1",
-    //   author: "Author Name 1",
-    //   status: "Pending",
-    //   link: "https://www.nber.org/system/files/working_papers/w24449/w24449.pdf", // Link to the research paper
-    // },
-    // Add more papers as needed
-  ]);
+  const [papers, setPapers] = useState([]);
 
   const [selectedPaper, setSelectedPaper] = useState(null);
   const [comments, setComments] = useState("");
@@ -56,25 +50,37 @@ const ReviewPage = () => {
     setComments(event.target.value);
   };
 
-  const submitReview = (action) => {
-    const updatedPapers = papers.map((paper) =>
-      paper.id === selectedPaper.id
-        ? {
-            ...paper,
-            status:
-              action === "approve"
-                ? "Approved"
-                : action === "requestChanges"
-                ? "Changes Required"
-                : "Rejected",
-          }
-        : paper
+  const submitReview = async (action, id) => {
+    const response = await apiRequest(
+      ReviewAuthorPaper,
+      "POST",
+      JSON.stringify({ status: action, paper_id: id })
     );
+    debugger;
+    if (response.message == "Review status updated successfully") {
+      const updatedPapers = papers.map((paper) =>
+        paper.id === selectedPaper.id
+          ? {
+              ...paper,
+              status:
+                action === "published"
+                  ? "Approved"
+                  : action === "reviewed"
+                  ? "Changes Required"
+                  : "Rejected",
+            }
+          : paper
+      );
 
-    setPapers(updatedPapers); // Update the papers state with the new status
-    setIsReviewed(true); // Set the review status
-    setSelectedPaper(null); // Clear the selected paper after review
-    setComments(""); // Clear the comments
+      setPapers(updatedPapers); // Update the papers state with the new status
+      setIsReviewed(true); // Set the review status
+      setSelectedPaper(null); // Clear the selected paper after review
+      setComments(""); // Clear the comments
+      setError(null);
+      window.location.reload();
+    } else {
+      setError(`Error: ${response.error}`);
+    }
   };
 
   return (
@@ -128,13 +134,17 @@ const ReviewPage = () => {
               ></textarea>
             </label>
             <div className="review-buttons">
-              <button onClick={() => submitReview("approve")}>
+              <button
+                onClick={() => submitReview("published", selectedPaper.id)}
+              >
                 Approve Paper
               </button>
-              <button onClick={() => submitReview("requestChanges")}>
+              <button
+                onClick={() => submitReview("reviewed", selectedPaper.id)}
+              >
                 Request Changes
               </button>
-              <button onClick={() => submitReview("reject")}>
+              <button onClick={() => submitReview("delete", selectedPaper.id)}>
                 Reject Paper
               </button>
             </div>

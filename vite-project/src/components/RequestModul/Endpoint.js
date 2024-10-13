@@ -13,3 +13,10 @@ export const CreateAuthorPaperEndPoint = `${AUTHOR}/create`;
 export const AuthorPaperEndPoint = `${AUTHOR}/paper`; // for all author
 export const AuthorPaperBS4EndPoint = `${AUTHOR}/paper_b64`; // for all author
 // export const AuthorPaper = `${BASE_URL}/author`;
+
+
+// Reviewers
+const REVIEWER = `${BASE_URL}/reviews`;
+export const ReviewAuthorPaper = `${REVIEWER}/paper_review`;
+
+
