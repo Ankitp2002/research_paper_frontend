@@ -1,35 +1,65 @@
 import React, { useState } from "react";
+import { LoginEndPoint } from "../RequestModul/Endpoint";
+import { apiRequest } from "../RequestModul/requests";
 import { useNavigate } from "react-router-dom";
 import "./Login.css"; // Ensure this imports the updated CSS
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [selectedRole, setRole] = useState("");
+  const [token, setToken] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      let response;
+      try {
+        const params = { username, password };
+        response = await apiRequest(LoginEndPoint, "POST", params, {});
+        console.log("Login successful:", response);
+        // Handle successful login (e.g., store token, redirect, etc.)
+      } catch (error) {
+        console.error("Login failed:", error);
+        // Handle login error (e.g., show error message)
+      }
+      const { role, token } = response;
 
-    // Mock authentication logic (replace with real authentication)
-    if (role === "admin" && username === "admin" && password === "admin") {
-      navigate("/admin-home");
-    } else if (
-      role === "reviewer" &&
-      username === "reviewer" &&
-      password === "reviewer"
-    ) {
-      navigate("/reviewer-home");
-    } else if (
-      role === "author" &&
-      username === "author" &&
-      password === "author"
-    ) {
-      navigate("/author-home");
-    } else if (role === "user" && username === "user" && password === "user") {
-      navigate("/user-home");
-    } else {
-      alert("Invalid credentials");
+      if (role == selectedRole) {
+        if (token) {
+          localStorage.setItem("authToken", token);
+          setToken(token); // Store token in state as well (optional)
+        }
+
+        // Navigate to different home pages based on role
+        switch (role) {
+          case "admin":
+            navigate("/admin-home");
+            break;
+          case "reviewer":
+            debugger;
+            navigate("/reviewer-home");
+            break;
+          case "author":
+            navigate("/author-home");
+            break;
+          case "user":
+            navigate("/user-home");
+            break;
+          default:
+            setError("Invalid role");
+        }
+      }
+      setError("Invalid Selected Role");
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message || "Login failed");
+      } else {
+        setError("Please Check Your Credentials......");
+      }
+      console.log("Error", error);
     }
   };
 
@@ -37,11 +67,12 @@ const Login = () => {
     <div className="login-container">
       <div className="login-form">
         <h2>Login</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleLogin}>
           <div>
             <label>Role:</label>
             <select
-              value={role}
+              value={selectedRole}
               onChange={(e) => setRole(e.target.value)}
               required
             >

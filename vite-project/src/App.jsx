@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Home from "./components/common components/Home";
 import Login from "./components/common components/Login";
 import Submit from "./components/common components/Submit";
@@ -17,31 +22,92 @@ import PublishedPapersManagement from "./components/Admin Components/ManagePubli
 import UserHomePage from "./components/User Components/Home";
 
 function App() {
+  // Function to check if token exists in local storage
+  const isAuthenticated = () => {
+    return localStorage.getItem("authToken") !== null; // Check if token exists
+  };
+
   return (
     <Router>
       <Routes>
-        <Route path="/author-home" Component={Home} />
+        {/* Public Routes */}
         <Route path="/" Component={Login} />
-        <Route path="/login" Component={Login} />
-        <Route path="/submit" Component={Submit} />
-        <Route path="/reviewer-home" Component={ReviewHomePage} />
-        <Route path="/review" Component={Review} />
-        <Route path="/approved" Component={ApprovedPapersPage} />
-        <Route path="/rejected" Component={RejectedPapersPage} />
-        <Route path="/logout" Component={Logout} />
-        <Route path="/paperstatus" Component={PaperStatusPage} />
-        <Route path="/publishedpapers" Component={PublishedPapersPage} />
-        <Route path="/admin-home" Component={AdminHomePage} />
-        <Route path="/admin/usermanagement" Component={UserManagement} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/author-home"
+          element={isAuthenticated() ? <Home /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/submit"
+          element={isAuthenticated() ? <Submit /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/reviewer-home"
+          element={isAuthenticated() ? <ReviewHomePage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/review"
+          element={isAuthenticated() ? <Review /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/approved"
+          element={
+            isAuthenticated() ? <ApprovedPapersPage /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/rejected"
+          element={
+            isAuthenticated() ? <RejectedPapersPage /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/logout"
+          element={isAuthenticated() ? <Logout /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/paperstatus"
+          element={
+            isAuthenticated() ? <PaperStatusPage /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/publishedpapers"
+          element={
+            isAuthenticated() ? <PublishedPapersPage /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/user-home"
+          element={isAuthenticated() ? <UserHomePage /> : <Navigate to="/" />}
+        />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin-home"
+          element={isAuthenticated() ? <AdminHomePage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin/usermanagement"
+          element={isAuthenticated() ? <UserManagement /> : <Navigate to="/" />}
+        />
         <Route
           path="/admin/reviewermanagement"
-          Component={ReviewerManagement}
+          element={
+            isAuthenticated() ? <ReviewerManagement /> : <Navigate to="/" />
+          }
         />
         <Route
           path="/admin/managepublishedpapers"
-          Component={PublishedPapersManagement}
+          element={
+            isAuthenticated() ? (
+              <PublishedPapersManagement />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
-        <Route path="/user-home" Component={UserHomePage} />
       </Routes>
     </Router>
   );

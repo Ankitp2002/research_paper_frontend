@@ -1,30 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReviewerNavbar from "./Navbar";
 import ReviewerFooter from "./Footer";
 import "./Review.css";
+import { useNavigate } from "react-router";
+import { AuthorPaperEndPoint } from "../RequestModul/Endpoint";
+import { apiRequest } from "../RequestModul/requests";
+import { handleGetPaperB64 } from "../../utils/handleAuthor";
 
 const ReviewPage = () => {
   const [papers, setPapers] = useState([
-    {
-      id: 1,
-      title: "Paper Title 1",
-      author: "Author Name 1",
-      status: "Pending",
-      link: "https://www.nber.org/system/files/working_papers/w24449/w24449.pdf", // Link to the research paper
-    },
-    {
-      id: 2,
-      title: "Paper Title 2",
-      author: "Author Name 2",
-      status: "Pending",
-      link: "https://www.nber.org/system/files/working_papers/w24449/w24449.pdf",
-    },
+    // {
+    //   id: 1,
+    //   title: "Paper Title 1",
+    //   author: "Author Name 1",
+    //   status: "Pending",
+    //   link: "https://www.nber.org/system/files/working_papers/w24449/w24449.pdf", // Link to the research paper
+    // },
     // Add more papers as needed
   ]);
 
   const [selectedPaper, setSelectedPaper] = useState(null);
   const [comments, setComments] = useState("");
   const [isReviewed, setIsReviewed] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch the paper status data when the component mounts
+    const fetchPapers = async () => {
+      try {
+        const response = await apiRequest(
+          `${AuthorPaperEndPoint}/excluded`,
+          "GET"
+        ); // Adjust the endpoint URL as necessary
+        if (Array.isArray(response) && response.length > 0) {
+          setPapers(response); // Set the paper data to state
+        } else {
+          setError(`Error: ${response.status}`);
+        }
+      } catch (err) {
+        setError(`An error occurred: ${err.message}`);
+      }
+    };
+
+    fetchPapers();
+  }, [navigate]);
 
   const handleReview = (paper) => {
     setSelectedPaper(paper);
@@ -86,6 +106,7 @@ const ReviewPage = () => {
                     href={paper.link}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => handleGetPaperB64(paper.id)}
                   >
                     View Paper
                   </a>

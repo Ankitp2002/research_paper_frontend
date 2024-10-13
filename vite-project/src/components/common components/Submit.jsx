@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./Submit.css";
+import { tokenValidation } from "../RequestModul/requests"; // Import the apiRequest function
+import { CreateAuthorPaperEndPoint } from "../RequestModul/Endpoint";
+import { useNavigate } from "react-router";
 
 const Submit = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     authors: [{ name: "" }],
@@ -15,26 +19,30 @@ const Submit = () => {
     file: null,
     references: "",
   });
+  const [authorDetails, setAuthorDetails] = useState({});
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const fileInputRef = useRef(null);
+  useEffect(() => {
+    const fetchAuthorId = async () => {
+      debugger;
+      const token_Details = await tokenValidation(navigate);
+      if (token_Details) {
+        setAuthorDetails({
+          name: token_Details.username,
+          id: token_Details.user_id,
+        });
+      } else {
+        setError("Failed to fetch author details.");
+      }
+    };
+
+    fetchAuthorId(); // Call the function to fetch author ID
+  }, [navigate]);
 
   // Handle form changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Handle author name changes
-  const handleAuthorChange = (index, event) => {
-    const newAuthors = formData.authors.map((author, i) => {
-      if (i === index) {
-        return { name: event.target.value };
-      }
-      return author;
-    });
-    setFormData({ ...formData, authors: newAuthors });
-  };
-
-  // Add new author field
-  const addAuthorField = () => {
-    setFormData({ ...formData, authors: [...formData.authors, { name: "" }] });
   };
 
   // Handle file upload
@@ -43,11 +51,50 @@ const Submit = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submit logic here
-    console.log(formData);
-    alert("Paper Submitted Successfully!");
+
+    // Create FormData to handle file upload
+    const submissionData = new FormData();
+    submissionData.append("title", formData.title);
+    submissionData.append("file", formData.file);
+    submissionData.append("author_id", authorDetails.id);
+    submissionData.append("status", "submitted");
+
+    try {
+      // Make the API request
+      const response = await fetch(CreateAuthorPaperEndPoint, {
+        method: "POST",
+        body: submissionData,
+      });
+
+      if (response.ok) {
+        // Success: clear the form and show a success message
+        setFormData({
+          title: "",
+          authors: [{ name: "" }],
+          designation: "",
+          college: "",
+          abstract: "",
+          keywords: "",
+          introduction: "",
+          file: null,
+          references: "",
+        });
+        setSuccessMessage("Paper submitted successfully!");
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""; // Reset the file input using ref
+        }
+        setError("");
+      } else {
+        const errorData = await response.json();
+        setError(`Error: ${errorData.message}`);
+        setSuccessMessage("");
+      }
+    } catch (error) {
+      setError(`An error occurred: ${error.message}`);
+      setSuccessMessage("");
+    }
   };
 
   return (
@@ -55,6 +102,8 @@ const Submit = () => {
       <Navbar />
       <div className="submit-container">
         <h2>Submit Your Paper</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
         <form onSubmit={handleSubmit}>
           <label>Title:</label>
           <input
@@ -66,79 +115,23 @@ const Submit = () => {
           />
 
           <label>Authors:</label>
-          {formData.authors.map((author, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                value={author.name}
-                onChange={(e) => handleAuthorChange(index, e)}
-                placeholder={`Author ${index + 1}`}
-                required
-              />
-            </div>
-          ))}
-          <button type="button" onClick={addAuthorField}>
-            Add Author
-          </button>
+          <div>
+            <input
+              type="text"
+              value={authorDetails.name ?? ""}
+              readOnly // This makes the input non-editable
+            />
+          </div>
 
-          <label>Designation:</label>
-          <input
-            type="text"
-            name="designation"
-            value={formData.designation}
-            onChange={handleChange}
-            required
-          />
-
-          <label>College/University Name:</label>
-          <input
-            type="text"
-            name="college"
-            value={formData.college}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Abstract:</label>
-          <textarea
-            name="abstract"
-            value={formData.abstract}
-            onChange={handleChange}
-            required
-          ></textarea>
-
-          <label>Keywords:</label>
-          <input
-            type="text"
-            name="keywords"
-            value={formData.keywords}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Introduction:</label>
-          <textarea
-            name="introduction"
-            value={formData.introduction}
-            onChange={handleChange}
-            required
-          ></textarea>
-
-          <label>Paper (Word File):</label>
+          <label>Paper (PDF File):</label>
           <input
             type="file"
             name="file"
-            accept=".doc,.docx"
+            accept=".pdf"
             onChange={handleFileChange}
+            ref={fileInputRef}
             required
           />
-
-          <label>References/Citations:</label>
-          <textarea
-            name="references"
-            value={formData.references}
-            onChange={handleChange}
-          ></textarea>
 
           <button type="submit">Submit Paper</button>
         </form>
