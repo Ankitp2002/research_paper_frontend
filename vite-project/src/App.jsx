@@ -18,6 +18,8 @@ import PublishedPapersPage from "./components/common components/PublishedPapers"
 import AdminHomePage from "./components/Admin Components/Home";
 import UserManagement from "./components/Admin Components/UserManagement";
 import ReviewerManagement from "./components/Admin Components/ReviewerManagement";
+import AuthorManagement from "./components/Admin Components/AuthorManagement";
+import AdminRejectedPapers from "./components/Admin Components/RejectedPaper";
 import PublishedPapersManagement from "./components/Admin Components/ManagePublishedPapers";
 import UserHomePage from "./components/User Components/Home";
 
@@ -96,6 +98,18 @@ function App() {
           path="/admin/reviewermanagement"
           element={
             isAuthenticated() ? <ReviewerManagement /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/admin/authormanagement"
+          element={
+            isAuthenticated() ? <AuthorManagement /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/admin/rejectedpaper"
+          element={
+            isAuthenticated() ? <AdminRejectedPapers /> : <Navigate to="/" />
           }
         />
         <Route

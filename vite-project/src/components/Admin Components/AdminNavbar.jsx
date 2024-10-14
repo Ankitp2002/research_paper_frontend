@@ -13,6 +13,9 @@ const AdminNavbar = () => {
           <a href="/admin/usermanagement">User Management</a>
         </li>
         <li>
+          <a href="/admin/authormanagement">Auhor Management</a>
+        </li>
+        <li>
           <a href="/admin/reviewermanagement">Reviewer Management</a>
         </li>
         <li>

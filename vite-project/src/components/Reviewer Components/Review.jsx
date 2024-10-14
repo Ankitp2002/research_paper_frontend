@@ -153,19 +153,22 @@ const ReviewPage = () => {
                 Request Changes
               </button>
               <button
-                onClick={async () => {
-                  try {
-                    await apiRequest(
-                      `${AuthorPaperEndPoint}/${selectedPaper.id}`,
-                      "DELETE"
-                    );
-                    // Reload the window after the request is completed
-                    window.location.reload();
-                  } catch (error) {
-                    // Handle any errors that occurred during the API request
-                    console.error("Error deleting user:", error);
-                  }
-                }}
+                onClick={() =>
+                  submitReview("rejected", selectedPaper.id, comments)
+                }
+                // onClick={async () => {
+                //   try {
+                //     await apiRequest(
+                //       `${AuthorPaperEndPoint}/${selectedPaper.id}`,
+                //       "DELETE"
+                //     );
+                //     // Reload the window after the request is completed
+                //     window.location.reload();
+                //   } catch (error) {
+                //     // Handle any errors that occurred during the API request
+                //     console.error("Error deleting user:", error);
+                //   }
+                // }}
               >
                 Reject Paper
               </button>

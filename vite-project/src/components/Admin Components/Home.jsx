@@ -20,13 +20,13 @@ const AdminHomePage = () => {
               <a href="/admin/usermanagement">Manage Users</a>
             </li>
             <li>
-              <a href="/review-papers">Review Submitted Papers</a>
+              <a href="/review">Review Submitted Papers</a>
             </li>
             <li>
-              <a href="/published-papers">View Published Papers</a>
+              <a href="/admin/managepublishedpapers">View Published Papers</a>
             </li>
             <li>
-              <a href="/rejected-papers">View Rejected Papers</a>
+              <a href="/admin/rejectedpaper">View Rejected Papers</a>
             </li>
           </ul>
         </div>

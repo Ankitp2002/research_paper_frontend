@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import ReviewerNavbar from "./Navbar";
-import ReviewerFooter from "./Footer";
 import "./RejectedPaper.css";
 import { useNavigate } from "react-router";
 import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
+import AdminNavbar from "./AdminNavbar";
+import AdminFooter from "./AdminFooter";
 
 const RejectedPapersPage = () => {
   // const rejectedPapers = [
@@ -31,14 +31,10 @@ const RejectedPapersPage = () => {
     // Fetch the paper status data when the component mounts
     const fetchReviewerApprovePapers = async () => {
       try {
-        const token = sessionStorage.getItem("authToken");
         const response = await apiRequest(
           `${REVIEWEREndPoint}/rejected`,
           "GET",
-          {},
-          {
-            Authorization: `Bearer ${token}`,
-          }
+          {}
         );
 
         if (Array.isArray(response) && response.length > 0) {
@@ -56,7 +52,7 @@ const RejectedPapersPage = () => {
 
   return (
     <div className="rejected-papers-page">
-      <ReviewerNavbar />
+      <AdminNavbar />
       <div className="rejected-papers-container">
         <h1>Rejected Papers</h1>
         <table>
@@ -64,6 +60,7 @@ const RejectedPapersPage = () => {
             <tr>
               <th>Title</th>
               <th>Author</th>
+              <th>Reviewer</th>
               <th>Comments</th>
             </tr>
           </thead>
@@ -72,13 +69,14 @@ const RejectedPapersPage = () => {
               <tr key={paper.id}>
                 <td>{paper.title}</td>
                 <td>{paper?.User?.username}</td>
+                <td>{paper?.Reviewer[0]?.reviewer_name}</td>
                 <td>{paper.keywords}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <ReviewerFooter />
+      <AdminFooter />
     </div>
   );
 };
