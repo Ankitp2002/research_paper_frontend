@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ReviewerManagement.css";
 import AdminNavbar from "./AdminNavbar";
 import AdminFooter from "./AdminFooter";
-import { GetUsersEndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
+import { USEREndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const ReviewerManagement = () => {
@@ -20,10 +20,7 @@ const ReviewerManagement = () => {
   useEffect(() => {
     const fetchReviewers = async () => {
       try {
-        const response = await apiRequest(
-          `${GetUsersEndPoint}/reviewer`,
-          "GET"
-        ); // Fetch reviewers
+        const response = await apiRequest(`${USEREndPoint}/reviewer`, "GET"); // Fetch reviewers
         if (response && response.length > 0) {
           setReviewers(response); // Update state with fetched reviewers
         } else if (response.error) {
@@ -73,7 +70,7 @@ const ReviewerManagement = () => {
   // Delete a reviewer
   const handleDelete = async (id) => {
     try {
-      const response = await apiRequest(`${GetUsersEndPoint}/${id}`, "DELETE");
+      const response = await apiRequest(`${USEREndPoint}/${id}`, "DELETE");
       if (response) {
         setReviewers(reviewers.filter((reviewer) => reviewer.id !== id)); // Update state after delete
       } else {
@@ -95,7 +92,7 @@ const ReviewerManagement = () => {
 
       try {
         const response = await apiRequest(
-          `${GetUsersEndPoint}/${editReviewerId}`,
+          `${USEREndPoint}/${editReviewerId}`,
           "PUT",
           JSON.stringify(updatedReviewer)
         );

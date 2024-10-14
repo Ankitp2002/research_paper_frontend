@@ -27,7 +27,7 @@ const PaperStatusPage = () => {
 
     // Fetch the paper status data when the component mounts
     const fetchPapers = async () => {
-      const token = localStorage.getItem("authToken");
+      const token = sessionStorage.getItem("authToken");
       try {
         const response = await apiRequest(
           `${AuthorPaperEndPoint}/excluded`,

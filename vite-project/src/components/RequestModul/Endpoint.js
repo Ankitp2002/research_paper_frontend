@@ -1,22 +1,18 @@
 const BASE_URL = "http://localhost:3000/api"; // Adjust if necessary
 
 // Define your endpoints
-const USER = `${BASE_URL}/users`;
-export const LoginEndPoint = `${USER}/login`;
-export const RegisterEndPoint = `${USER}/register`;
-export const GetUsersEndPoint = `${USER}`;
-export const GetUserDetailsEndPoint = `${USER}/login_user_details`;
+export const USEREndPoint = `${BASE_URL}/users`;
+export const LoginEndPoint = `${USEREndPoint}/login`;
+export const RegisterEndPoint = `${USEREndPoint}/register`;
+export const GetUserDetailsEndPoint = `${USEREndPoint}/login_user_details`;
 
 // Author Paper
-const AUTHOR = `${BASE_URL}/author`;
-export const CreateAuthorPaperEndPoint = `${AUTHOR}/create`;
-export const AuthorPaperEndPoint = `${AUTHOR}/paper`; // for all author
-export const AuthorPaperBS4EndPoint = `${AUTHOR}/paper_b64`; // for all author
+export const AUTHOREndPoint = `${BASE_URL}/author`;
+export const CreateAuthorPaperEndPoint = `${AUTHOREndPoint}/create`;
+export const AuthorPaperEndPoint = `${AUTHOREndPoint}/paper`; // for all author
+export const AuthorPaperBS4EndPoint = `${AUTHOREndPoint}/paper_b64`; // for all author
 // export const AuthorPaper = `${BASE_URL}/author`;
 
-
 // Reviewers
-const REVIEWER = `${BASE_URL}/reviews`;
-export const ReviewAuthorPaper = `${REVIEWER}/paper_review`;
-
-
+export const REVIEWEREndPoint = `${BASE_URL}/reviews`;
+export const ReviewAuthorPaper = `${REVIEWEREndPoint}/paper_review`;

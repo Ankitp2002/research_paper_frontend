@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./UserManagement.css";
 import AdminNavbar from "./AdminNavbar";
 import AdminFooter from "./AdminFooter";
-import { GetUsersEndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
+import { USEREndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const UserManagement = () => {
@@ -20,7 +20,7 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await apiRequest(`${GetUsersEndPoint}/user`, "GET"); // Fetch users
+        const response = await apiRequest(`${USEREndPoint}/user`, "GET"); // Fetch users
         if (response && response.length > 0) {
           setUsers(response); // Update state with fetched users
         } else if (response.error) {
@@ -67,7 +67,7 @@ const UserManagement = () => {
   // Delete a user
   const handleDelete = async (id) => {
     try {
-      const response = await apiRequest(`${GetUsersEndPoint}/${id}`, "DELETE");
+      const response = await apiRequest(`${USEREndPoint}/${id}`, "DELETE");
       if (response) {
         setUsers(users.filter((user) => user.id !== id)); // Update state after delete
       } else {
@@ -89,7 +89,7 @@ const UserManagement = () => {
 
       try {
         const response = await apiRequest(
-          `${GetUsersEndPoint}/${editUserId}`,
+          `${USEREndPoint}/${editUserId}`,
           "PUT",
           JSON.stringify(updatedUser)
         );

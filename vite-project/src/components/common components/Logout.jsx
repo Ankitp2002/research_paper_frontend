@@ -5,7 +5,7 @@ const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     // Redirect to login after logging out
     navigate("/");
   }, [navigate]);

@@ -29,7 +29,7 @@ export const apiRequest = async (url, method, data = {}, headers = {}) => {
 
 export const tokenValidation = async (navigate) => {
   try {
-    const token = localStorage.getItem("authToken"); // Get token from localStorage
+    const token = sessionStorage.getItem("authToken"); // Get token from sessionStorage
     const user_details = await apiRequest(
       GetUserDetailsEndPoint,
       "POST",

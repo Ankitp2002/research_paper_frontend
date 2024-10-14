@@ -17,7 +17,7 @@ const AdminHomePage = () => {
           <h2>Quick Actions</h2>
           <ul>
             <li>
-              <a href="/user-management">Manage Users</a>
+              <a href="/admin/usermanagement">Manage Users</a>
             </li>
             <li>
               <a href="/review-papers">Review Submitted Papers</a>

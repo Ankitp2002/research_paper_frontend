@@ -29,7 +29,7 @@ const Login = () => {
 
       if (role == selectedRole) {
         if (token) {
-          localStorage.setItem("authToken", token);
+          sessionStorage.setItem("authToken", token);
           setToken(token); // Store token in state as well (optional)
         }
 

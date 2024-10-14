@@ -24,7 +24,7 @@ import UserHomePage from "./components/User Components/Home";
 function App() {
   // Function to check if token exists in local storage
   const isAuthenticated = () => {
-    return localStorage.getItem("authToken") !== null; // Check if token exists
+    return sessionStorage.getItem("authToken") !== null; // Check if token exists
   };
 
   return (

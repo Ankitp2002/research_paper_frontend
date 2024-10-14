@@ -1,12 +1,12 @@
 import {
   AuthorPaperEndPoint,
   AuthorPaperBS4EndPoint,
-  GetUsersEndPoint,
+  USEREndPoint,
 } from "../components/RequestModul/Endpoint";
 import { apiRequest } from "../components/RequestModul/requests";
 
 export const fetchAuthors = async () => {
-  const authorsResponse = await apiRequest(`${GetUsersEndPoint}/author`, "GET");
+  const authorsResponse = await apiRequest(`${USEREndPoint}/author`, "GET");
 
   if (Array.isArray(authorsResponse) && authorsResponse.length > 0) {
     const map = {};

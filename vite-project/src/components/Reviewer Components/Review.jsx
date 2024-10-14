@@ -5,7 +5,7 @@ import "./Review.css";
 import { useNavigate } from "react-router";
 import {
   AuthorPaperEndPoint,
-  GetUsersEndPoint,
+  USEREndPoint,
   ReviewAuthorPaper,
 } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
@@ -52,10 +52,14 @@ const ReviewPage = () => {
   };
 
   const submitReview = async (action, id, comment) => {
+    const token = sessionStorage.getItem("authToken");
     const response = await apiRequest(
       ReviewAuthorPaper,
       "POST",
-      JSON.stringify({ status: action, paper_id: id, comment: comment })
+      JSON.stringify({ status: action, paper_id: id, comment: comment }),
+      {
+        Authorization: `Bearer ${token}`,
+      }
     );
     if (response.message == "Review status updated successfully") {
       const updatedPapers = papers.map((paper) =>
