@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import Home from "./components/common components/Home";
 import Login from "./components/common components/Login";
@@ -23,12 +24,25 @@ import AdminRejectedPapers from "./components/Admin Components/RejectedPaper";
 import AdminReviewPapers from "./components/Admin Components/ReviewPaper";
 import PublishedPapersManagement from "./components/Admin Components/ManagePublishedPapers";
 import UserHomePage from "./components/User Components/Home";
+import { tokenValidation } from "./components/RequestModul/requests";
+import { useEffect, useState } from "react";
 
 function App() {
-  // Function to check if token exists in local storage
-  const isAuthenticated = () => {
-    return sessionStorage.getItem("authToken") !== null; // Check if token exists
-  };
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // null initially to indicate loading
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const token_Details = await tokenValidation();
+      setIsAuthenticated(token_Details ? true : false);
+    };
+
+    checkAuthentication();
+  }, []);
+
+  if (isAuthenticated === null) {
+    // Show a loading indicator while the authentication check is in progress
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>
@@ -39,90 +53,87 @@ function App() {
         {/* Protected Routes */}
         <Route
           path="/author-home"
-          element={isAuthenticated() ? <Home /> : <Navigate to="/" />}
+          element={isAuthenticated ? <Home /> : <Navigate to="/" />}
         />
         <Route
           path="/submit"
-          element={isAuthenticated() ? <Submit /> : <Navigate to="/" />}
+          element={isAuthenticated ? <Submit /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/paperstatus"
+          element={isAuthenticated ? <PaperStatusPage /> : <Navigate to="/" />}
         />
         <Route
           path="/reviewer-home"
-          element={isAuthenticated() ? <ReviewHomePage /> : <Navigate to="/" />}
+          element={isAuthenticated ? <ReviewHomePage /> : <Navigate to="/" />}
         />
         <Route
           path="/review"
-          element={isAuthenticated() ? <Review /> : <Navigate to="/" />}
+          element={isAuthenticated ? <Review /> : <Navigate to="/" />}
         />
         <Route
           path="/approved"
           element={
-            isAuthenticated() ? <ApprovedPapersPage /> : <Navigate to="/" />
+            isAuthenticated ? <ApprovedPapersPage /> : <Navigate to="/" />
           }
         />
         <Route
           path="/rejected"
           element={
-            isAuthenticated() ? <RejectedPapersPage /> : <Navigate to="/" />
+            isAuthenticated ? <RejectedPapersPage /> : <Navigate to="/" />
           }
         />
         <Route
           path="/logout"
-          element={isAuthenticated() ? <Logout /> : <Navigate to="/" />}
+          element={isAuthenticated ? <Logout /> : <Navigate to="/" />}
         />
-        <Route
-          path="/paperstatus"
-          element={
-            isAuthenticated() ? <PaperStatusPage /> : <Navigate to="/" />
-          }
-        />
+
         <Route
           path="/publishedpapers"
           element={
-            isAuthenticated() ? <PublishedPapersPage /> : <Navigate to="/" />
+            isAuthenticated ? <PublishedPapersPage /> : <Navigate to="/" />
           }
         />
         <Route
           path="/user-home"
-          element={isAuthenticated() ? <UserHomePage /> : <Navigate to="/" />}
+          element={isAuthenticated ? <UserHomePage /> : <Navigate to="/" />}
         />
 
         {/* Admin Routes */}
         <Route
           path="/admin-home"
-          element={isAuthenticated() ? <AdminHomePage /> : <Navigate to="/" />}
+          element={isAuthenticated ? <AdminHomePage /> : <Navigate to="/" />}
         />
         <Route
           path="/admin/usermanagement"
-          element={isAuthenticated() ? <UserManagement /> : <Navigate to="/" />}
+          element={isAuthenticated ? <UserManagement /> : <Navigate to="/" />}
         />
         <Route
           path="/admin/reviewermanagement"
           element={
-            isAuthenticated() ? <ReviewerManagement /> : <Navigate to="/" />
+            isAuthenticated ? <ReviewerManagement /> : <Navigate to="/" />
           }
         />
         <Route
           path="/admin/authormanagement"
-          element={
-            isAuthenticated() ? <AuthorManagement /> : <Navigate to="/" />
-          }
+          element={isAuthenticated ? <AuthorManagement /> : <Navigate to="/" />}
         />
         <Route
           path="/admin/rejectedpaper"
           element={
-            isAuthenticated() ? <AdminRejectedPapers /> : <Navigate to="/" />
+            isAuthenticated ? <AdminRejectedPapers /> : <Navigate to="/" />
           }
         />
         <Route
           path="/admin/reviewpaper"
           element={
-            isAuthenticated() ? <AdminReviewPapers /> : <Navigate to="/" />
+            isAuthenticated ? <AdminReviewPapers /> : <Navigate to="/" />
           }
         />
         <Route
           path="/admin/managepublishedpapers"
           element={
-            isAuthenticated() ? (
+            isAuthenticated ? (
               <PublishedPapersManagement />
             ) : (
               <Navigate to="/" />

@@ -7,7 +7,7 @@ const Header = () => {
       <div className="header-content">
         <h1>Welcome to ResearchHub</h1>
         <p>Submit and publish your papers with ease</p>
-        <a href="#submit" className="cta-button">
+        <a href="/submit" className="cta-button">
           Get Started
         </a>
       </div>

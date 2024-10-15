@@ -32,7 +32,7 @@ const UserHomePage = () => {
               <th style={{ color: "#666666" }}>Title</th>
               <th style={{ color: "#666666" }}>Link</th>
               <th style={{ color: "#666666" }}>Author Name</th>
-              <th style={{ color: "#666666" }}>Author ID</th>
+              {/* <th style={{ color: "#666666" }}>Author ID</th> */}
             </tr>
           </thead>
           <tbody>
@@ -50,7 +50,7 @@ const UserHomePage = () => {
                   </a>
                 </td>
                 <td>{paper.authorName}</td>
-                <td>{paper.authorId}</td>
+                {/* <td>{paper.authorId}</td> */}
               </tr>
             ))}
           </tbody>

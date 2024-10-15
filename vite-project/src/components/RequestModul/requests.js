@@ -41,11 +41,15 @@ export const tokenValidation = async (navigate) => {
     if (user_details && user_details != null) {
       return user_details.data; // Store the author_id in the state
     } else {
-      return "Failed to fetch author ID.";
+      return false;
     }
   } catch (error) {
     if (error.response?.status === 401) {
-      navigate("/"); // Redirect to login on unauthorized access
+      if (navigate) {
+        navigate("/");
+      } else {
+        return false;
+      } // Redirect to login on unauthorized access
     }
   }
 };
