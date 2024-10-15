@@ -20,7 +20,7 @@ const AdminHomePage = () => {
               <a href="/admin/usermanagement">Manage Users</a>
             </li>
             <li>
-              <a href="/review">Review Submitted Papers</a>
+              <a href="/admin/reviewpaper">Review Submitted Papers</a>
             </li>
             <li>
               <a href="/admin/managepublishedpapers">View Published Papers</a>

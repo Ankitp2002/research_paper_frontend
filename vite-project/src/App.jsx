@@ -20,6 +20,7 @@ import UserManagement from "./components/Admin Components/UserManagement";
 import ReviewerManagement from "./components/Admin Components/ReviewerManagement";
 import AuthorManagement from "./components/Admin Components/AuthorManagement";
 import AdminRejectedPapers from "./components/Admin Components/RejectedPaper";
+import AdminReviewPapers from "./components/Admin Components/ReviewPaper";
 import PublishedPapersManagement from "./components/Admin Components/ManagePublishedPapers";
 import UserHomePage from "./components/User Components/Home";
 
@@ -110,6 +111,12 @@ function App() {
           path="/admin/rejectedpaper"
           element={
             isAuthenticated() ? <AdminRejectedPapers /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/admin/reviewpaper"
+          element={
+            isAuthenticated() ? <AdminReviewPapers /> : <Navigate to="/" />
           }
         />
         <Route
