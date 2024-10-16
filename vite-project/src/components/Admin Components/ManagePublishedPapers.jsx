@@ -19,6 +19,9 @@ const PublishedPapersManagement = () => {
     title: "",
     file: null,
     authorId: "",
+    abstract: "",
+    other_authors: "",
+    references: "",
   });
   const [authors, setAuthors] = useState([]);
   const [authorMap, setAuthorMap] = useState({});
@@ -70,7 +73,8 @@ const PublishedPapersManagement = () => {
 
   const handleAddPaper = async (event) => {
     event.preventDefault();
-    const { title, file, authorId } = newPaper;
+    const { title, file, authorId, abstract, other_authors, references } =
+      newPaper;
 
     if (!title || !file || !authorId) {
       let errorMessage = "Please fill in all required fields.";
@@ -83,6 +87,9 @@ const PublishedPapersManagement = () => {
 
     const formData = new FormData();
     formData.append("title", title);
+    formData.append("abstract", abstract);
+    formData.append("other_authors", other_authors);
+    formData.append("referace", references);
     formData.append("file", file);
     formData.append("author_id", authorId);
     formData.append("submission_date", new Date().toISOString());
@@ -102,6 +109,9 @@ const PublishedPapersManagement = () => {
           {
             id: paperData.id,
             title: paperData.title,
+            abstract: paperData.abstract,
+            other_authors: paperData.other_authors,
+            referace: paperData.referace,
             link: paperData.file_path,
             status: paperData.status,
             authorId: paperData.author_id,
@@ -166,6 +176,33 @@ const PublishedPapersManagement = () => {
             onChange={handleInputChange}
           />
           <input
+            type="text"
+            name="abstract"
+            placeholder="Abstract"
+            value={newPaper?.abstract}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="other_authors"
+            placeholder="Other Authors"
+            value={newPaper?.other_authors}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="references"
+            placeholder="References"
+            value={newPaper?.references}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={handleInputChange}
+            required
+          />
+          <input
             type="file"
             name="file"
             accept=".pdf" //,.doc,.docx,.txt"
@@ -191,13 +228,18 @@ const PublishedPapersManagement = () => {
           <thead>
             <tr>
               <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Link</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Status</th>
               <th style={{ color: "#666666", textAlign: "center" }}>
-                Author Name
+                Abstract
               </th>
               <th style={{ color: "#666666", textAlign: "center" }}>
-                Author ID
+                Other Authors
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                References
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Link</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Author Name
               </th>
               <th style={{ color: "#666666", textAlign: "center" }}>Actions</th>
             </tr>
@@ -205,7 +247,10 @@ const PublishedPapersManagement = () => {
           <tbody>
             {publishedPapers.map((paper) => (
               <tr key={paper.id}>
-                <td style={{ textAlign: "center" }}>{paper.title}</td>
+                <td style={{ textAlign: "center" }}>{paper?.title}</td>
+                <td style={{ textAlign: "center" }}>{paper?.abstract}</td>
+                <td style={{ textAlign: "center" }}>{paper?.other_authors}</td>
+                <td style={{ textAlign: "center" }}>{paper?.referace}</td>
                 <td style={{ textAlign: "center" }}>
                   <a
                     href={paper.link}
@@ -216,11 +261,9 @@ const PublishedPapersManagement = () => {
                     View Paper
                   </a>
                 </td>
-                <td style={{ textAlign: "center" }}>{paper.status}</td>
                 <td style={{ textAlign: "center" }}>
                   {authorMap[paper.authorId]}
                 </td>
-                <td style={{ textAlign: "center" }}>{paper.authorId}</td>
                 <td style={{ textAlign: "center" }}>
                   <button
                     onClick={() => handleDeletePaper(paper.id)}
