@@ -1,17 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Navbar.css"; // Create a CSS file for user navbar styles
 
 const NavbarUser = () => {
   return (
-    <nav className="navbar">
-      <h1>User Panel</h1>
-      <ul>
+    <nav className="admin-navbar">
+      <div className="navbar-title">User Panel</div>
+      <ul className="navbar-links">
         <li>
-          <Link to="/user-home">Home</Link>
+          <a href="/user-home">Home</a>
         </li>
         <li>
-          <Link to="/logout">Logout</Link>
+          <a href="/logout">Logout</a>
         </li>
       </ul>
     </nav>

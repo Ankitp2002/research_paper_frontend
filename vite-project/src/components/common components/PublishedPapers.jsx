@@ -49,27 +49,41 @@ const PublishedPapersPage = () => {
   }, [navigate]);
 
   return (
-    <div className="published-papers-page">
+    <div className="management-page">
       <AuthorNavbar />
-      <div className="published-papers-container">
+      <div className="management-container">
         <h1>Published Papers</h1>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {/* {!error && publishedPapers.length === 0 && (
           <p>No published papers found.</p>
         )} */}
         {publishedPapers.length > -1 && (
-          <table>
+          <table className="papers-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Link</th>
+                <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
+                <th style={{ color: "#666666", textAlign: "center" }}>
+                  Abstract
+                </th>
+                <th style={{ color: "#666666", textAlign: "center" }}>
+                  Other Author
+                </th>
+                <th style={{ color: "#666666", textAlign: "center" }}>
+                  Referance
+                </th>
+                <th style={{ color: "#666666", textAlign: "center" }}>Link</th>
               </tr>
             </thead>
             <tbody>
               {publishedPapers.map((paper) => (
                 <tr key={paper.id}>
-                  <td>{paper.title}</td>
-                  <td>
+                  <td style={{ textAlign: "center" }}>{paper.title}</td>
+                  <td style={{ textAlign: "center" }}>{paper?.abstract}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {paper?.other_authors}
+                  </td>
+                  <td style={{ textAlign: "center" }}>{paper?.referace}</td>
+                  <td style={{ textAlign: "center" }}>
                     <a
                       href={paper.link}
                       target="_blank"

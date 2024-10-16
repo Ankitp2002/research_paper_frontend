@@ -29,6 +29,9 @@ export const fetchPaper = async () => {
       id: ele.id,
       status: ele.status,
       title: ele.title,
+      referace: ele.referace,
+      other_authors: ele.other_authors,
+      abstract: ele.abstract,
       authorId: ele.User ? ele.User.id : null,
       authorName: ele.User ? ele.User.username : null,
     }));

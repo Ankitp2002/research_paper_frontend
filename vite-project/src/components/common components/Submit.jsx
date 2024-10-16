@@ -10,12 +10,9 @@ const Submit = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
-    authors: [{ name: "" }],
-    designation: "",
-    college: "",
     abstract: "",
+    other_authors: "",
     keywords: "",
-    introduction: "",
     file: null,
     references: "",
   });
@@ -25,7 +22,6 @@ const Submit = () => {
   const fileInputRef = useRef(null);
   useEffect(() => {
     const fetchAuthorId = async () => {
-      debugger;
       const token_Details = await tokenValidation(navigate);
       if (token_Details) {
         setAuthorDetails({
@@ -57,6 +53,9 @@ const Submit = () => {
     // Create FormData to handle file upload
     const submissionData = new FormData();
     submissionData.append("title", formData.title);
+    submissionData.append("abstract", formData.abstract);
+    submissionData.append("other_authors", formData.other_authors);
+    submissionData.append("referace", formData.references);
     submissionData.append("file", formData.file);
     submissionData.append("author_id", authorDetails.id);
     submissionData.append("status", "submitted");
@@ -72,12 +71,9 @@ const Submit = () => {
         // Success: clear the form and show a success message
         setFormData({
           title: "",
-          authors: [{ name: "" }],
-          designation: "",
-          college: "",
+          other_authors: "",
           abstract: "",
           keywords: "",
-          introduction: "",
           file: null,
           references: "",
         });
@@ -102,23 +98,44 @@ const Submit = () => {
       <Navbar />
       <div className="submit-container">
         <h2>Submit Your Paper</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
         <form onSubmit={handleSubmit}>
           <label>Title:</label>
           <input
             type="text"
             name="title"
-            value={formData.title}
+            value={formData?.title}
             onChange={handleChange}
             required
           />
-
+          <label>abstract:</label>
+          <input
+            type="text"
+            name="abstract"
+            value={formData?.abstract}
+            onChange={handleChange}
+            required
+          />
+          <label>Other Authors:</label>
+          <input
+            type="text"
+            name="other_authors"
+            value={formData?.other_authors}
+            onChange={handleChange}
+            required
+          />
+          <label>References:</label>
+          <input
+            type="text"
+            name="references"
+            value={formData?.references}
+            onChange={handleChange}
+            required
+          />
           <label>Authors:</label>
           <div>
             <input
               type="text"
-              value={authorDetails.name ?? ""}
+              value={authorDetails?.name ?? ""}
               readOnly // This makes the input non-editable
             />
           </div>
@@ -135,6 +152,8 @@ const Submit = () => {
 
           <button type="submit">Submit Paper</button>
         </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </div>
       <Footer />
     </div>

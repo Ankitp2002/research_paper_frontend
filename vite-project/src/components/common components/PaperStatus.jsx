@@ -93,6 +93,9 @@ const PaperStatusPage = () => {
     // Create FormData for file upload
     const formData = new FormData();
     formData.append("title", updatedPaper.title);
+    formData.append("abstract", updatedPaper.abstract);
+    formData.append("other_authors", updatedPaper.other_authors);
+    formData.append("referace", updatedPaper.referace);
     formData.append("file", updatedPaper.file); // Append the file if a new one is selected
     formData.append("status", "submitted");
     try {
@@ -116,25 +119,87 @@ const PaperStatusPage = () => {
     <div className="paper-status-page">
       <AuthorNavbar />
       <div className="paper-status-container">
-        <h1>Check Paper Status</h1>
+        <h2>Check Paper Status</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {papers.length > 0 ? (
-          <table>
+          <table className="review-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Comments</th>
-                <th>Actions</th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Title
+                </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Abstract
+                </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Other Authors
+                </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Referace
+                </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Status
+                </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Comments
+                </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {papers.map((paper) => (
                 <tr key={paper.id}>
-                  <td>{paper.title}</td>
-                  <td>{paper.status}</td>
-                  <td>{paper.keywords}</td>
-                  <td>
+                  <td style={{ textAlign: "center" }}>{paper.title}</td>
+                  <td style={{ textAlign: "center" }}>{paper.abstract}</td>
+                  <td style={{ textAlign: "center" }}>{paper.other_authors}</td>
+                  <td style={{ textAlign: "center" }}>{paper.referace}</td>
+                  <td style={{ textAlign: "center" }}>{paper.status}</td>
+                  <td style={{ textAlign: "center" }}>{paper.keywords}</td>
+                  <td style={{ textAlign: "center" }}>
                     {/* Show Edit button if status is "Review" and comments are present */}
                     {paper.status === "reviewed" && paper.keywords && (
                       <button onClick={() => handleEditClick(paper)}>
@@ -160,7 +225,43 @@ const PaperStatusPage = () => {
                 <input
                   type="text"
                   name="title"
-                  value={updatedPaper.title}
+                  value={updatedPaper?.title}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Abstract:
+                <input
+                  type="text"
+                  name="abstract"
+                  value={updatedPaper?.abstract}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Other Authors:
+                <input
+                  type="text"
+                  name="other_authors"
+                  value={updatedPaper?.other_authors}
+                  onChange={handleInputChange}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Referace:
+                <input
+                  type="text"
+                  name="referace"
+                  value={updatedPaper?.referace}
                   onChange={handleInputChange}
                   required
                 />

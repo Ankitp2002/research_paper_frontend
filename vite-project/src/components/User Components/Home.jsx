@@ -11,7 +11,6 @@ const UserHomePage = () => {
     const fetchData = async () => {
       const paperData = await fetchPaper();
       if (typeof paperData === "object" && paperData !== null) {
-        debugger;
         setPublishedPapers(paperData);
       } else {
         setError(paperData); // paperData here could be an error message
@@ -30,6 +29,9 @@ const UserHomePage = () => {
           <thead>
             <tr>
               <th style={{ color: "#666666" }}>Title</th>
+              <th style={{ color: "#666666" }}>Abstract</th>
+              <th style={{ color: "#666666" }}>Other Authors</th>
+              <th style={{ color: "#666666" }}>References</th>
               <th style={{ color: "#666666" }}>Link</th>
               <th style={{ color: "#666666" }}>Author Name</th>
               {/* <th style={{ color: "#666666" }}>Author ID</th> */}
@@ -38,7 +40,10 @@ const UserHomePage = () => {
           <tbody>
             {publishPaper.map((paper) => (
               <tr key={paper.id}>
-                <td>{paper.title}</td>
+                <td>{paper?.title}</td>
+                <td>{paper?.abstract}</td>
+                <td>{paper?.other_authors}</td>
+                <td>{paper?.referace}</td>
                 <td>
                   <a
                     href={paper.link}

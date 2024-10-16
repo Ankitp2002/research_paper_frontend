@@ -7,11 +7,9 @@
 
 .submit-container {
     max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f5f5f5;
+    margin: 0px auto;
+    padding: 2px;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -70,4 +68,46 @@ button[type="button"] {
 
 button[type="button"]:hover {
     background-color: #218838;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+form label {
+    grid-column: span 1;
+    /* Each label will span one column */
+}
+
+form input {
+    grid-column: span 1;
+    /* Each input field will span one column */
+}
+
+form input[type="file"] {
+    grid-column: span 2;
+    /* The file input will span both columns */
+}
+
+form button {
+    grid-column: span 2;
+    /* The submit button will span both columns */
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+form div {
+    grid-column: span 2;
+    /* The author field will span both columns */
 }

@@ -4,11 +4,11 @@ import "./Footer.css";
 const ReviewerFooter = () => {
   return (
     <footer className="admin-footer">
-      <div className="footer-links">
-        <a href="/privacy-policy">Privacy Policy</a>
-        <a href="/terms-of-service">Terms of Service</a>
-        <p style={{ marginLeft: "55%" }}>
-          © 2024 ResearchHub Admin. All rights reserved.
+      <div className="footer-content">
+        <p>© 2024 ResearchHub. All rights reserved.</p>
+        <p>
+          <a href="/privacy-policy">Privacy Policy</a> |
+          <a href="/terms-of-service"> Terms of Service</a>
         </p>
       </div>
     </footer>

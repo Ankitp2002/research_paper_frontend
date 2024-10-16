@@ -36,16 +36,25 @@ const Login = () => {
         // Navigate to different home pages based on role
         switch (role) {
           case "admin":
-            navigate("/admin-home");
+            setTimeout(() => {
+              navigate("/admin-home");
+            }, 300);
             break;
+
           case "reviewer":
-            navigate("/reviewer-home");
+            setTimeout(() => {
+              navigate("/reviewer-home");
+            }, 300);
             break;
           case "author":
-            navigate("/author-home");
+            setTimeout(() => {
+              navigate("/author-home");
+            }, 300);
             break;
           case "user":
-            navigate("/user-home");
+            setTimeout(() => {
+              navigate("/user-home");
+            }, 300);
             break;
           default:
             setError("Invalid role");
