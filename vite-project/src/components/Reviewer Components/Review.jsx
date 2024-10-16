@@ -90,33 +90,86 @@ const ReviewPage = () => {
   return (
     <div className="review-page">
       <ReviewerNavbar />
-      <div className="review-page-container">
-        <h1>Review Papers</h1>
-        <table>
+      <div className="review-container">
+        <h2>Review Papers</h2>
+        <table className="review-table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Status</th>
-              <th>Action</th>
-              <th>View Paper</th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Title
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Author
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Status
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Action
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                View Paper
+              </th>
             </tr>
           </thead>
           <tbody>
             {papers.map((paper) => (
               <tr key={paper.id}>
-                <td>{paper.title}</td>
-                <td>{paper?.User?.username}</td>
-                <td>{paper.status}</td>
-                <td>
-                  <button onClick={() => handleReview(paper)}>Review</button>
+                <td style={{ textAlign: "center" }}>{paper.title}</td>
+                <td style={{ textAlign: "center" }}>{paper?.User?.username}</td>
+                <td style={{ textAlign: "center" }}>{paper.status}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => handleReview(paper)}
+                    style={{
+                      backgroundColor: "#3498DB",
+                      color: "#fff",
+                      marginRight: "10px",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Review
+                  </button>
                 </td>
-                <td>
+                <td style={{ textAlign: "center" }}>
                   <a
                     href={paper.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => handleGetPaperB64(paper.id)}
+                    style={{ color: "#3498DB" }}
                   >
                     View Paper
                   </a>
@@ -142,6 +195,14 @@ const ReviewPage = () => {
                 onClick={() =>
                   submitReview("published", selectedPaper.id, comments)
                 }
+                style={{
+                  backgroundColor: "#2ECC71",
+                  color: "#fff",
+                  padding: "8px 16px",
+                  border: "none",
+                  borderRadius: "4px",
+                  marginRight: "10px",
+                }}
               >
                 Approve Paper
               </button>
@@ -149,6 +210,14 @@ const ReviewPage = () => {
                 onClick={() =>
                   submitReview("reviewed", selectedPaper.id, comments)
                 }
+                style={{
+                  backgroundColor: "#F1C40F",
+                  color: "#fff",
+                  padding: "8px 16px",
+                  border: "none",
+                  borderRadius: "4px",
+                  marginRight: "10px",
+                }}
               >
                 Request Changes
               </button>
@@ -156,19 +225,13 @@ const ReviewPage = () => {
                 onClick={() =>
                   submitReview("rejected", selectedPaper.id, comments)
                 }
-                // onClick={async () => {
-                //   try {
-                //     await apiRequest(
-                //       `${AuthorPaperEndPoint}/${selectedPaper.id}`,
-                //       "DELETE"
-                //     );
-                //     // Reload the window after the request is completed
-                //     window.location.reload();
-                //   } catch (error) {
-                //     // Handle any errors that occurred during the API request
-                //     console.error("Error deleting user:", error);
-                //   }
-                // }}
+                style={{
+                  backgroundColor: "#E74C3C",
+                  color: "#fff",
+                  padding: "8px 16px",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
               >
                 Reject Paper
               </button>
@@ -179,11 +242,11 @@ const ReviewPage = () => {
         {isReviewed && (
           <div className="review-status">
             <h3>
-              {selectedPaper && selectedPaper.status === "Approved"
+              {selectedPaper && selectedPaper.status === "published"
                 ? "The paper has been approved."
-                : selectedPaper && selectedPaper.status === "Changes Required"
+                : selectedPaper && selectedPaper.status === "reviewed"
                 ? "Changes are required for the paper."
-                : selectedPaper && selectedPaper.status === "Rejected"
+                : selectedPaper && selectedPaper.status === "rejected"
                 ? "The paper has been rejected."
                 : ""}
             </h3>

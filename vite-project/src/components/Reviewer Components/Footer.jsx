@@ -3,16 +3,14 @@ import "./Footer.css";
 
 const ReviewerFooter = () => {
   return (
-    <footer className="reviewer-footer">
-      <p>&copy; 2024 ResearchHub. All rights reserved.</p>
-      <ul className="footer-links">
-        <li>
-          <a href="/privacy">Privacy Policy</a>
-        </li>
-        <li>
-          <a href="/terms">Terms of Service</a>
-        </li>
-      </ul>
+    <footer className="admin-footer">
+      <div className="footer-links">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms-of-service">Terms of Service</a>
+        <p style={{ marginLeft: "55%" }}>
+          © 2024 ResearchHub Admin. All rights reserved.
+        </p>
+      </div>
     </footer>
   );
 };

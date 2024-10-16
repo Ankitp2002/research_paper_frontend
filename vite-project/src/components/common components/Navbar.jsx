@@ -3,8 +3,8 @@ import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <div className="logo">ResearchHub</div>
+    <nav className="admin-navbar">
+      <div className="navbar-title">ResearchHub</div>
       <ul className="nav-links">
         <li>
           <a href="/author-home">Home</a>

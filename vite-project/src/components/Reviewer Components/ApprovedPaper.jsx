@@ -7,21 +7,6 @@ import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const ApprovedPapersPage = () => {
-  // const approvedPapers = [
-  //   {
-  //     id: 1,
-  //     title: "Approved Paper Title 1",
-  //     author: "Author Name 1",
-  //     link: "http://example.com/paper1",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Approved Paper Title 2",
-  //     author: "Author Name 2",
-  //     link: "http://example.com/paper2",
-  //   },
-  //   // Add more approved papers as needed
-  // ];
   const [approvedPapers, setapprovedPapers] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -57,21 +42,25 @@ const ApprovedPapersPage = () => {
     <div className="approved-papers-page">
       <ReviewerNavbar />
       <div className="approved-papers-container">
-        <h1>Approved Papers</h1>
-        <table>
+        <h2>Approved Papers</h2>
+        <table className="papers-table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Link</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Author</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Link</th>
             </tr>
           </thead>
           <tbody>
             {approvedPapers.map((paper) => (
               <tr key={paper.id}>
-                <td>{paper.title}</td>
-                <td>{paper?.User?.username}</td>
-                <td>
+                <td style={{ color: "#666666", textAlign: "center" }}>
+                  {paper.title}
+                </td>
+                <td style={{ color: "#666666", textAlign: "center" }}>
+                  {paper?.User?.username}
+                </td>
+                <td style={{ color: "#666666", textAlign: "center" }}>
                   <a
                     href={paper.link}
                     target="_blank"

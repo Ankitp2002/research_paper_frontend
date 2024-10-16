@@ -39,7 +39,6 @@ const Login = () => {
             navigate("/admin-home");
             break;
           case "reviewer":
-            debugger;
             navigate("/reviewer-home");
             break;
           case "author":

@@ -1,27 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const ReviewerNavbar = () => {
   return (
-    <nav className="reviewer-navbar">
-      <div className="nav-logo">
-        <h1>
-          <Link to="/reviewer-home">Reviewer Dashboard</Link>
-        </h1>
-      </div>
-      <ul className="nav-links">
+    <nav className="admin-navbar">
+      <div className="navbar-title">Reviewer Dashboard</div>
+      <ul className="navbar-links">
         <li>
-          <Link to="/review">Review Papers</Link>
+          <a href="/reviewer-home">Home</a>
         </li>
         <li>
-          <Link to="/approved">Approved Papers</Link>
+          <a href="/review">Review Papers</a>
         </li>
         <li>
-          <Link to="/rejected">Rejected Papers</Link>
+          <a href="/approved">Approved Papers</a>
         </li>
         <li>
-          <Link to="/logout">Logout</Link>
+          <a href="/rejected">Rejected Papers</a>
+        </li>
+        <li>
+          <a href="/logout">Logout</a>
         </li>
       </ul>
     </nav>

@@ -7,22 +7,6 @@ import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const RejectedPapersPage = () => {
-  // const rejectedPapers = [
-  // {
-  //   id: 1,
-  //   title: "Rejected Paper Title 1",
-  //   author: "Author Name 1",
-  //   comments: "Needs more research on the methodology.",
-  // },
-  // {
-  //   id: 2,
-  //   title: "Rejected Paper Title 2",
-  //   author: "Author Name 2",
-  //   comments: "The results are inconclusive.",
-  // },
-  // Add more rejected papers as needed
-  // ];
-
   const [rejectedPapers, setrejectedPapers] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -55,24 +39,26 @@ const RejectedPapersPage = () => {
   }, [navigate]);
 
   return (
-    <div className="rejected-papers-page">
+    <div className="reject-page">
       <ReviewerNavbar />
-      <div className="rejected-papers-container">
-        <h1>Rejected Papers</h1>
-        <table>
+      <div className="reject-container">
+        <h2>Rejected Papers</h2>
+        <table className="papers-table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Comments</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Author</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Comments
+              </th>
             </tr>
           </thead>
           <tbody>
             {rejectedPapers.map((paper) => (
               <tr key={paper.id}>
-                <td>{paper.title}</td>
-                <td>{paper?.User?.username}</td>
-                <td>{paper.keywords}</td>
+                <td style={{ textAlign: "center" }}>{paper.title}</td>
+                <td style={{ textAlign: "center" }}>{paper?.User?.username}</td>
+                <td style={{ textAlign: "center" }}>{paper.keywords}</td>
               </tr>
             ))}
           </tbody>
