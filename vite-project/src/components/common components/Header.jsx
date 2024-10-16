@@ -6,7 +6,9 @@ const Header = () => {
     <header className="header">
       <div className="header-content">
         <h1>Welcome to ResearchHub</h1>
-        <p>Submit and publish your papers with ease</p>
+        <p style={{ color: "#666666", textAlign: "center" }}>
+          Submit and publish your papers with ease
+        </p>
         <a href="/submit" className="cta-button">
           Get Started
         </a>
