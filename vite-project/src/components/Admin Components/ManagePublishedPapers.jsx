@@ -190,19 +190,23 @@ const PublishedPapersManagement = () => {
         <table className="papers-table">
           <thead>
             <tr>
-              <th style={{ color: "#666666" }}>Title</th>
-              <th style={{ color: "#666666" }}>Link</th>
-              <th style={{ color: "#666666" }}>Status</th>
-              <th style={{ color: "#666666" }}>Author Name</th>
-              <th style={{ color: "#666666" }}>Author ID</th>
-              <th style={{ color: "#666666" }}>Actions</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Link</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Status</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Author Name
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Author ID
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {publishedPapers.map((paper) => (
               <tr key={paper.id}>
-                <td>{paper.title}</td>
-                <td>
+                <td style={{ textAlign: "center" }}>{paper.title}</td>
+                <td style={{ textAlign: "center" }}>
                   <a
                     href={paper.link}
                     target="_blank"
@@ -212,11 +216,22 @@ const PublishedPapersManagement = () => {
                     View Paper
                   </a>
                 </td>
-                <td>{paper.status}</td>
-                <td>{authorMap[paper.authorId]}</td>
-                <td>{paper.authorId}</td>
-                <td>
-                  <button onClick={() => handleDeletePaper(paper.id)}>
+                <td style={{ textAlign: "center" }}>{paper.status}</td>
+                <td style={{ textAlign: "center" }}>
+                  {authorMap[paper.authorId]}
+                </td>
+                <td style={{ textAlign: "center" }}>{paper.authorId}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => handleDeletePaper(paper.id)}
+                    style={{
+                      backgroundColor: "#E74C3C",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
                     Delete
                   </button>
                 </td>

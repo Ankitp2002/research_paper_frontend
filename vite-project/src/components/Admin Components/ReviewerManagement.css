@@ -1,66 +1,75 @@
-.management-page {
+.reviewer-page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure full height */
+    min-height: 100vh;
+    /* Ensure full height */
 }
 
-.management-container {
-    flex: 1; /* Allow this to grow and fill space between navbar and footer */
+.reviewer-container {
+    flex: 1;
+    /* Allow this to grow and fill space between navbar and footer */
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    justify-content: flex-start; /* Align items at the start vertically */
-    width: 100%; /* Full width */
+    align-items: center;
+    /* Center items horizontally */
+    justify-content: flex-start;
+    /* Align items at the start vertically */
+    width: 100%;
+    /* Full width */
 }
 
-.reviewer-management {
-    width: 100%; /* Full width */
-    padding: 20px; /* Add some padding */
-}
-
-.reviewer-form {
+.add-paper-form {
     margin-bottom: 20px;
     display: flex;
-    justify-content: space-between; /* Space between inputs */
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 10px;
+    /* Space between inputs and button */
+    width: 100%;
+    /* Full width */
 }
 
-.reviewer-form input {
+.add-paper-form input {
     padding: 10px;
-    margin-right: 10px;
-    background-color: #f0f0f0; /* Grey background */
+    background-color: #f0f0f0;
+    /* Grey background */
     border: 1px solid #ccc;
     border-radius: 4px;
-    flex: 1; /* Allow inputs to grow */
-    min-width: 200px; /* Minimum width for inputs */
+    flex: 1;
+    /* Allow inputs to grow */
 }
 
-.reviewer-table {
+.papers-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.reviewer-table th,
-.reviewer-table td {
+.papers-table th,
+.papers-table td {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-.reviewer-table th {
+.papers-table th {
     background-color: #f2f2f2;
     text-align: left;
 }
 
 button {
-    background-color: #007bff; /* Blue background */
-    color: white; /* White text */
-    border: none; /* No border */
-    padding: 5px 10px; /* Padding for button */
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 4px; /* Rounded corners */
+    background-color: #007bff;
+    /* Blue background */
+    color: white;
+    /* White text */
+    border: none;
+    /* No border */
+    padding: 5px 10px;
+    /* Padding for button */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    border-radius: 4px;
+    /* Rounded corners */
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
+    /* Darker blue on hover */
 }

@@ -132,75 +132,133 @@ const AuthorManagement = () => {
   };
 
   return (
-    <div className="reviewer-management">
+    <div className="author-page">
       <AdminNavbar />
+      <div className="author-container">
+        <h2>Author Management</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <h2>Author Management</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <div className="add-paper-form">
+          <input
+            type="text"
+            placeholder="Name"
+            value={newAuthor.name}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewAuthor({ ...newAuthor, name: e.target.value })
+            }
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={newAuthor.email}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewAuthor({ ...newAuthor, email: e.target.value })
+            }
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={newAuthor.password}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewAuthor({ ...newAuthor, password: e.target.value })
+            }
+          />
+          {/* Conditionally show Add or Update buttons */}
+          {editAuthorId ? (
+            <>
+              <button onClick={handleUpdateAuthor}>Update Author</button>
+              <button onClick={() => setEditAuthorId(null)}>Cancel</button>
+            </>
+          ) : (
+            <button onClick={handleAddAuthor}>Add Author</button>
+          )}
+        </div>
 
-      <div className="reviewer-form">
-        <input
-          type="text"
-          placeholder="Name"
-          value={newAuthor.name}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) => setNewAuthor({ ...newAuthor, name: e.target.value })}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={newAuthor.email}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) =>
-            setNewAuthor({ ...newAuthor, email: e.target.value })
-          }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={newAuthor.password}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) =>
-            setNewAuthor({ ...newAuthor, password: e.target.value })
-          }
-        />
-        {/* Conditionally show Add or Update buttons */}
-        {editAuthorId ? (
-          <>
-            <button onClick={handleUpdateAuthor}>Update Author</button>
-            <button onClick={() => setEditAuthorId(null)}>Cancel</button>
-          </>
-        ) : (
-          <button onClick={handleAddAuthor}>Add Author</button>
-        )}
-      </div>
-
-      <table className="reviewer-table">
-        <thead>
-          <tr>
-            <th style={{ color: "#666666" }}>ID</th>
-            <th style={{ color: "#666666" }}>Name</th>
-            <th style={{ color: "#666666" }}>Email</th>
-            <th style={{ color: "#666666" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reviewers.map((reviewer) => (
-            <tr key={reviewer.id} style={{ color: "#666666" }}>
-              <td>{reviewer.id}</td>
-              <td>{reviewer.username}</td>
-              <td>{reviewer.email}</td>
-              <td>
-                <button onClick={() => handleEdit(reviewer)}>Edit</button>
-                <button onClick={() => handleDelete(reviewer.id)}>
-                  Delete
-                </button>
-              </td>
+        <table className="author-table">
+          <thead>
+            <tr>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                ID
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Name
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Email
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
+          </thead>
+          <tbody>
+            {reviewers.map((reviewer) => (
+              <tr
+                key={reviewer.id}
+                style={{ color: "#666666", textAlign: "center" }}
+              >
+                <td style={{ textAlign: "center" }}>{reviewer.id}</td>
+                <td style={{ textAlign: "center" }}>{reviewer.username}</td>
+                <td style={{ textAlign: "center" }}>{reviewer.email}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => handleEdit(reviewer)}
+                    style={{
+                      backgroundColor: "#3498DB",
+                      color: "#fff",
+                      marginRight: "10px",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(reviewer.id)}
+                    style={{
+                      backgroundColor: "#E74C3C",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AdminFooter />
     </div>
   );

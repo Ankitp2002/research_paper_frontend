@@ -130,70 +130,136 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="user-management">
+    <div className="user-page">
       <AdminNavbar />
+      <div className="user-container">
+        <h2>User Management</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <h2>User Management</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <div className="add-paper-form">
+          <input
+            type="text"
+            placeholder="Name"
+            value={newUser.name}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={newUser.email}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={newUser.password}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewUser({ ...newUser, password: e.target.value })
+            }
+          />
 
-      <div className="user-form">
-        <input
-          type="text"
-          placeholder="Name"
-          value={newUser.name}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={newUser.email}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={newUser.password}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-        />
+          {/* Conditionally show Add or Update buttons */}
+          {editUserId ? (
+            <>
+              <button onClick={handleUpdateUser}>Update User</button>
+              <button onClick={() => setEditUserId(null)}>Cancel</button>
+            </>
+          ) : (
+            <button onClick={handleAddUser}>Add User</button>
+          )}
+        </div>
 
-        {/* Conditionally show Add or Update buttons */}
-        {editUserId ? (
-          <>
-            <button onClick={handleUpdateUser}>Update User</button>
-            <button onClick={() => setEditUserId(null)}>Cancel</button>
-          </>
-        ) : (
-          <button onClick={handleAddUser}>Add User</button>
-        )}
-      </div>
-
-      <table className="user-table">
-        <thead>
-          <tr>
-            <th style={{ color: "#666666" }}>ID</th>
-            <th style={{ color: "#666666" }}>Name</th>
-            <th style={{ color: "#666666" }}>Email</th>
-            <th style={{ color: "#666666" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id} style={{ color: "#666666" }}>
-              <td style={{ color: "#666666" }}>{user.id}</td>
-              <td style={{ color: "#666666" }}>{user.username}</td>
-              <td style={{ color: "#666666" }}>{user.email}</td>
-              <td>
-                <button onClick={() => handleEdit(user)}>Edit</button>
-                <button onClick={() => handleDelete(user.id)}>Delete</button>
-              </td>
+        <table className="user-table">
+          <thead>
+            <tr>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                ID
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  backgroundColor: "#fdfffe",
+                  textAlign: "center",
+                }}
+              >
+                Name
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  backgroundColor: "#fdfffe",
+                  textAlign: "center",
+                }}
+              >
+                Email
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  backgroundColor: "#fdfffe",
+                  textAlign: "center",
+                }}
+              >
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr
+                key={user.id}
+                style={{ color: "#666666", textAlign: "center" }}
+              >
+                <td style={{ color: "#666666", textAlign: "center" }}>
+                  {user.id}
+                </td>
+                <td style={{ color: "#666666", textAlign: "center" }}>
+                  {user.username}
+                </td>
+                <td style={{ color: "#666666", textAlign: "center" }}>
+                  {user.email}
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => handleEdit(user)}
+                    style={{
+                      backgroundColor: "#3498DB",
+                      color: "#fff",
+                      marginRight: "10px",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    style={{
+                      backgroundColor: "#E74C3C",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AdminFooter />
     </div>
   );

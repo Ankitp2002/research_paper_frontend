@@ -132,77 +132,133 @@ const ReviewerManagement = () => {
   };
 
   return (
-    <div className="reviewer-management">
+    <div className="reviewer-page">
       <AdminNavbar />
+      <div className="reviewer-container">
+        <h2>Reviewer Management</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <h2>Reviewer Management</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <div className="add-paper-form">
+          <input
+            type="text"
+            placeholder="Name"
+            value={newReviewer.name}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewReviewer({ ...newReviewer, name: e.target.value })
+            }
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={newReviewer.email}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewReviewer({ ...newReviewer, email: e.target.value })
+            }
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={newReviewer.password}
+            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
+            onChange={(e) =>
+              setNewReviewer({ ...newReviewer, password: e.target.value })
+            }
+          />
+          {/* Conditionally show Add or Update buttons */}
+          {editReviewerId ? (
+            <>
+              <button onClick={handleUpdateReviewer}>Update Reviewer</button>
+              <button onClick={() => setEditReviewerId(null)}>Cancel</button>
+            </>
+          ) : (
+            <button onClick={handleAddReviewer}>Add Reviewer</button>
+          )}
+        </div>
 
-      <div className="reviewer-form">
-        <input
-          type="text"
-          placeholder="Name"
-          value={newReviewer.name}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) =>
-            setNewReviewer({ ...newReviewer, name: e.target.value })
-          }
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={newReviewer.email}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) =>
-            setNewReviewer({ ...newReviewer, email: e.target.value })
-          }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={newReviewer.password}
-          style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-          onChange={(e) =>
-            setNewReviewer({ ...newReviewer, password: e.target.value })
-          }
-        />
-        {/* Conditionally show Add or Update buttons */}
-        {editReviewerId ? (
-          <>
-            <button onClick={handleUpdateReviewer}>Update Reviewer</button>
-            <button onClick={() => setEditReviewerId(null)}>Cancel</button>
-          </>
-        ) : (
-          <button onClick={handleAddReviewer}>Add Reviewer</button>
-        )}
-      </div>
-
-      <table className="reviewer-table">
-        <thead>
-          <tr>
-            <th style={{ color: "#666666" }}>ID</th>
-            <th style={{ color: "#666666" }}>Name</th>
-            <th style={{ color: "#666666" }}>Email</th>
-            <th style={{ color: "#666666" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reviewers.map((reviewer) => (
-            <tr key={reviewer.id} style={{ color: "#666666" }}>
-              <td>{reviewer.id}</td>
-              <td>{reviewer.username}</td>
-              <td>{reviewer.email}</td>
-              <td>
-                <button onClick={() => handleEdit(reviewer)}>Edit</button>
-                <button onClick={() => handleDelete(reviewer.id)}>
-                  Delete
-                </button>
-              </td>
+        <table className="reviewer-table">
+          <thead>
+            <tr>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                ID
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Name
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Email
+              </th>
+              <th
+                style={{
+                  color: "#666666",
+                  textAlign: "center",
+                  backgroundColor: "#fdfffe",
+                }}
+              >
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
+          </thead>
+          <tbody>
+            {reviewers.map((reviewer) => (
+              <tr
+                key={reviewer.id}
+                style={{ color: "#666666", textAlign: "center" }}
+              >
+                <td style={{ textAlign: "center" }}>{reviewer.id}</td>
+                <td style={{ textAlign: "center" }}>{reviewer.username}</td>
+                <td style={{ textAlign: "center" }}>{reviewer.email}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => handleEdit(reviewer)}
+                    style={{
+                      backgroundColor: "#3498DB",
+                      color: "#fff",
+                      marginRight: "10px",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(reviewer.id)}
+                    style={{
+                      backgroundColor: "#E74C3C",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AdminFooter />
     </div>
   );

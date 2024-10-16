@@ -1,84 +1,75 @@
 .review-page {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     min-height: 100vh;
+    /* Ensure full height */
 }
 
-.review-page-container {
-    max-width: 900px;
-    margin: 50px auto;
+.review-container {
+    flex: 1;
+    /* Allow this to grow and fill space between navbar and footer */
     padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items horizontally */
+    justify-content: flex-start;
+    /* Align items at the start vertically */
+    width: 100%;
+    /* Full width */
 }
 
-h1 {
-    text-align: center;
+.add-paper-form {
     margin-bottom: 20px;
-    font-size: 2rem;
+    display: flex;
+    gap: 10px;
+    /* Space between inputs and button */
+    width: 100%;
+    /* Full width */
 }
 
-table {
+.add-paper-form input {
+    padding: 10px;
+    background-color: #f0f0f0;
+    /* Grey background */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1;
+    /* Allow inputs to grow */
+}
+
+.review-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
-th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
+.review-table th,
+.review-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
-th {
-    background-color: #333;
-    color: #fff;
+.review-table th {
+    background-color: #f2f2f2;
+    text-align: left;
 }
 
 button {
-    padding: 8px 15px;
     background-color: #007bff;
+    /* Blue background */
     color: white;
+    /* White text */
     border: none;
-    border-radius: 5px;
+    /* No border */
+    padding: 5px 10px;
+    /* Padding for button */
     cursor: pointer;
+    /* Pointer cursor on hover */
+    border-radius: 4px;
+    /* Rounded corners */
 }
 
 button:hover {
     background-color: #0056b3;
-}
-
-.review-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
-}
-
-.review-form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-}
-
-.review-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.review-status h3 {
-    text-align: center;
-    color: green;
-    font-size: 1.5rem;
+    /* Darker blue on hover */
 }
