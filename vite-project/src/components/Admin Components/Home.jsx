@@ -9,24 +9,26 @@ const AdminHomePage = () => {
       <AdminNavbar />
       <div className="admin-home-container">
         <h1>Welcome to the Admin Dashboard</h1>
-        <p>
-          As an admin, you can manage users, review submitted papers, and
-          monitor the status of published papers.
-        </p>
+        <h3 style={{ marginLeft: 50 }}>
+          The Admin role oversees and manages the entire platform. This role
+          includes the ability to monitor users, authors, and reviewers, and
+          make decisions regarding content approval, statistics, and platform
+          updates.
+        </h3>
         <div className="admin-home-actions">
           <h2>Quick Actions</h2>
           <ul>
             <li>
-              <a href="/admin/usermanagement">Manage Users</a>
+              <a href="/admin/usermanagement">User Management</a>
             </li>
             <li>
-              <a href="/admin/reviewpaper">Review Submitted Papers</a>
+              <a href="/admin/reviewpaper">Review Submitted Thesis</a>
             </li>
             <li>
-              <a href="/admin/managepublishedpapers">View Published Papers</a>
+              <a href="/admin/managepublishedpapers">View Published Thesis</a>
             </li>
             <li>
-              <a href="/admin/rejectedpaper">View Rejected Papers</a>
+              <a href="/admin/rejectedpaper">View Rejected Thesis</a>
             </li>
           </ul>
         </div>

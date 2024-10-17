@@ -19,7 +19,7 @@ const AdminNavbar = () => {
           <a href="/admin/reviewermanagement">Reviewer Management</a>
         </li>
         <li>
-          <a href="/admin/managepublishedpapers">Manage Published Papers</a>
+          <a href="/admin/managepublishedpapers">Manage Published Thesis</a>
         </li>
         <li>
           <a href="/logout">Logout</a>
