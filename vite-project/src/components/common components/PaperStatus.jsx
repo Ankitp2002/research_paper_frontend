@@ -10,7 +10,45 @@ import {
 import { useNavigate } from "react-router";
 
 const PaperStatusPage = () => {
-  const [papers, setPapers] = useState([]);
+  const papers = [
+    {
+      title: "Efficient Data Structures",
+      abstract:
+        "An in-depth look at modern data structures and their applications.",
+      authors: "John Doe, Jane Smith",
+      references: "Doe et al., 2020",
+      keywords: "Data Structures, Algorithms",
+      status: "Under Review",
+      comments: ["Great paper!", "Needs more detail in section 3."],
+    },
+    {
+      title: "AI in Healthcare",
+      abstract: "A comprehensive study on the role of AI in modern healthcare.",
+      authors: "Alice Johnson, Bob Brown",
+      references: "Johnson et al., 2021",
+      keywords: "Artificial Intelligence, Healthcare",
+      status: "Approved",
+      comments: ["Excellent research.", "Could improve conclusion."],
+    },
+    {
+      title: "Blockchain Technology",
+      abstract: "The future of decentralized systems and blockchain.",
+      authors: "Mike Davis, Sarah Lee",
+      references: "Davis et al., 2019",
+      keywords: "Blockchain, Decentralization",
+      status: "Rejected",
+      comments: ["Needs more references.", "The argument is not clear."],
+    },
+  ];
+  const [commentView, setCommentView] = useState(null);
+  const toggleComments = (index) => {
+    if (commentView === index) {
+      setCommentView(null); // Hide comments if clicked again
+    } else {
+      setCommentView(index); // Show comments for the selected row
+    }
+  };
+  // const [papers, setPapers] = useState([]);
   const [error, setError] = useState(null);
   const [authorDetails, setAuthorDetails] = useState({});
   const [editingPaper, setEditingPaper] = useState(null); // Track the paper being edited
@@ -150,7 +188,7 @@ const PaperStatusPage = () => {
                     backgroundColor: "#fdfffe",
                   }}
                 >
-                  Other Authors
+                  Contributor Authors
                 </th>
                 <th
                   style={{
@@ -168,7 +206,7 @@ const PaperStatusPage = () => {
                     backgroundColor: "#fdfffe",
                   }}
                 >
-                  Status
+                  Keyword
                 </th>
                 <th
                   style={{
@@ -177,8 +215,9 @@ const PaperStatusPage = () => {
                     backgroundColor: "#fdfffe",
                   }}
                 >
-                  Comments
+                  Status
                 </th>
+
                 <th
                   style={{
                     color: "#666666",
@@ -191,20 +230,84 @@ const PaperStatusPage = () => {
               </tr>
             </thead>
             <tbody>
-              {papers.map((paper) => (
-                <tr key={paper.id}>
-                  <td style={{ textAlign: "center" }}>{paper.title}</td>
-                  <td style={{ textAlign: "center" }}>{paper.abstract}</td>
-                  <td style={{ textAlign: "center" }}>{paper.other_authors}</td>
-                  <td style={{ textAlign: "center" }}>{paper.referace}</td>
-                  <td style={{ textAlign: "center" }}>{paper.status}</td>
-                  <td style={{ textAlign: "center" }}>{paper.keywords}</td>
-                  <td style={{ textAlign: "center" }}>
-                    {/* Show Edit button if status is "Review" and comments are present */}
-                    {paper.status === "reviewed" && paper.keywords && (
-                      <button onClick={() => handleEditClick(paper)}>
-                        Edit & Resubmit
-                      </button>
+              {papers.map((thesis, index) => (
+                <tr key={index}>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis.title}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis.abstract}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis.authors}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis.references}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis.keywords}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis.status}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    <button
+                      onClick={() => alert("Delete action for " + thesis.title)}
+                      style={{
+                        backgroundColor: "#E74C3C",
+                        color: "#fff",
+                        padding: "8px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                        marginBottom: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Delete
+                    </button>
+                    <br />
+                    <button
+                      onClick={() => toggleComments(index)}
+                      style={{
+                        backgroundColor: "#F1C40F",
+                        color: "#fff",
+                        padding: "8px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Comments
+                    </button>
+                    {commentView === index && (
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          textAlign: "left",
+                          border: "1px solid #ccc",
+                          padding: "10px",
+                        }}
+                      >
+                        <strong>Comments:</strong>
+                        <ul>
+                          {thesis.comments.map((comment, i) => (
+                            <li key={i}>
+                              <strong>User</strong> :{comment}
+                            </li>
+                          ))}
+                        </ul>
+                        {/* <input
+                        type="text"
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Othercomment..."
+                        style={{ width: "80%" }}
+                        readOnly
+                      />
+                      <button onClick={() => handleAddComment(index)}>
+                        Add Comment
+                      </button> */}
+                      </div>
                     )}
                   </td>
                 </tr>

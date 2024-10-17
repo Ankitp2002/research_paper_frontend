@@ -357,7 +357,7 @@ const PublishedPapersManagement = () => {
                     <button
                       onClick={() => alert("Delete action for " + thesis.title)}
                       style={{
-                        backgroundColor: "#2ECC71",
+                        backgroundColor: "#E74C3C",
                         color: "#fff",
                         padding: "8px 16px",
                         border: "none",
@@ -397,19 +397,22 @@ const PublishedPapersManagement = () => {
                       <strong>Comments:</strong>
                       <ul>
                         {thesis.comments.map((comment, i) => (
-                          <li key={i}>User :{comment}</li>
+                          <li key={i}>
+                            <strong>User</strong> :{comment}
+                          </li>
                         ))}
                       </ul>
-                      <input
+                      {/* <input
                         type="text"
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Add a comment..."
+                        placeholder="Othercomment..."
                         style={{ width: "80%" }}
+                        readOnly
                       />
                       <button onClick={() => handleAddComment(index)}>
                         Add Comment
-                      </button>
+                      </button> */}
                     </div>
                   )}
                 </td>

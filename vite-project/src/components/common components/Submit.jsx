@@ -15,6 +15,7 @@ const Submit = () => {
     keywords: "",
     file: null,
     references: "",
+    keyword: "",
   });
   const [authorDetails, setAuthorDetails] = useState({});
   const [error, setError] = useState("");
@@ -58,6 +59,7 @@ const Submit = () => {
     submissionData.append("referace", formData.references);
     submissionData.append("file", formData.file);
     submissionData.append("author_id", authorDetails.id);
+    submissionData.append("keyword", formData.keyword);
     submissionData.append("status", "submitted");
 
     try {
@@ -115,7 +117,7 @@ const Submit = () => {
             onChange={handleChange}
             required
           />
-          <label>Other Authors:</label>
+          <label>Contributor Authors:</label>
           <input
             type="text"
             name="other_authors"
@@ -131,14 +133,20 @@ const Submit = () => {
             onChange={handleChange}
             required
           />
-          <label>Authors:</label>
-          <div>
-            <input
-              type="text"
-              value={authorDetails?.name ?? ""}
-              readOnly // This makes the input non-editable
-            />
-          </div>
+          <label>Keyword:</label>
+          <input
+            type="text"
+            name="keyword"
+            value={formData?.keyword ?? ""}
+            onChange={handleChange}
+            required // This makes the input non-editable
+          />
+          <label>Author:</label>
+          <input
+            type="text"
+            value={authorDetails?.name ?? "Author"}
+            readOnly // This makes the input non-editable
+          />
 
           <label>Paper (PDF File):</label>
           <input
