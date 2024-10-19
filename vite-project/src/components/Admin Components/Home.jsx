@@ -10,10 +10,10 @@ const AdminHomePage = () => {
       <div className="admin-home-container">
         <h1>Welcome to the Admin Dashboard</h1>
         <h3 style={{ marginLeft: 50 }}>
-          The Admin role oversees and manages the entire platform. This role
-          includes the ability to monitor users, authors, and reviewers, and
-          make decisions regarding content approval, statistics, and platform
-          updates.
+          The Admin Role Oversees And Manages The Entire Platform. This Role
+          Includes The Ability To Monitor Users, Authors, And Reviewers, And
+          Make Decisions Regarding Content Approval, Statistics, And Platform
+          Updates.
         </h3>
         <div className="admin-home-actions">
           <h2>Quick Actions</h2>

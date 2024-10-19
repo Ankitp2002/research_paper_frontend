@@ -175,7 +175,7 @@ const ReviewPage = () => {
                     onClick={() => handleGetPaperB64(paper.id)}
                     style={{ color: "#3498DB" }}
                   >
-                    View Paper
+                    View Thesis
                   </a>
                 </td>
                 <td style={{ textAlign: "center" }}>
@@ -223,7 +223,7 @@ const ReviewPage = () => {
                   marginRight: "10px",
                 }}
               >
-                Approve Paper
+                Approve Thesis
               </button>
               <button
                 onClick={() =>
@@ -252,7 +252,7 @@ const ReviewPage = () => {
                   borderRadius: "4px",
                 }}
               >
-                Reject Paper
+                Reject Thesis
               </button>
               <button
                 onClick={() => cancelReview()} // This function will close the popup
