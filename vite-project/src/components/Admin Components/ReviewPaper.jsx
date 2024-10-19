@@ -130,7 +130,7 @@ const ReviewPage = () => {
     <div className="review-page">
       <AdminNavbar />
       <div className="review-container">
-        <h2>Review Papers</h2>
+        <h2>Review Thesis</h2>
         <table className="review-table">
           <thead>
             <tr>
