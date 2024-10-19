@@ -99,7 +99,7 @@ const Submit = () => {
     <div className="submit-page">
       <Navbar />
       <div className="submit-container">
-        <h2>Submit Your Paper</h2>
+        <h2>Submit Your Thesis</h2>
         <form onSubmit={handleSubmit}>
           <label>Title:</label>
           <input
@@ -148,7 +148,7 @@ const Submit = () => {
             readOnly // This makes the input non-editable
           />
 
-          <label>Paper (PDF File):</label>
+          <label>Thesis (PDF File):</label>
           <input
             type="file"
             name="file"
@@ -158,10 +158,10 @@ const Submit = () => {
             required
           />
 
-          <button type="submit">Submit Paper</button>
+          <button type="submit">Submit Thesis</button>
         </form>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+        {/* {successMessage && <p style={{ color: "green" }}>{successMessage}</p>} */}
       </div>
       <Footer />
     </div>
