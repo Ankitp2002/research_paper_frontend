@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css"; // Create a CSS file for user navbar styles
+import ProfileModal from "./UserProfile";
 
 const NavbarUser = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <nav className="admin-navbar">
       <div className="navbar-title">User Panel</div>
@@ -38,6 +48,10 @@ const NavbarUser = () => {
             }}
           />
         </li>
+        <li>
+          <a href="/user-profile">Profile</a>
+        </li>
+        {/* Modal */}
       </ul>
     </nav>
   );

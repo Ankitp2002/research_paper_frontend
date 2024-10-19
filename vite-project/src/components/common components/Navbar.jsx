@@ -10,13 +10,13 @@ const Navbar = () => {
           <a href="/author-home">Home</a>
         </li>
         <li>
-          <a href="/submit">Submit Theses</a>
+          <a href="/submit">Submit Thesis</a>
         </li>
         <li>
-          <a href="/paperstatus">Theses Status</a>
+          <a href="/paperstatus">Thesis Status</a>
         </li>
         <li>
-          <a href="/publishedpapers">Published Theses</a>
+          <a href="/publishedpapers">Published Thesis</a>
         </li>
         <li>
           <a href="/logout">Logout</a>

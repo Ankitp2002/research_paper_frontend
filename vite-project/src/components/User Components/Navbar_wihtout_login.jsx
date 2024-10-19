@@ -13,6 +13,18 @@ const NavbarWithOutLogin = () => {
           <a href="/">Publish Thesis</a>
         </li>
         <li>
+          <a href="/without_login_contact_us">Contact Us</a>
+        </li>
+        <li>
+          <a href="/without_login_about_us">About Us</a>
+        </li>
+        <li>
+          <a href="/without_login_FAQ">FAQ</a>
+        </li>
+        <li>
+          <a href="/without_login_support">Support</a>
+        </li>
+        <li>
           <a href="/login">Login</a>
         </li>
       </ul>

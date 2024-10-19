@@ -7,7 +7,7 @@ const Header = () => {
       <div className="header-content">
         <h1>Welcome To Author Dashboard</h1>
         <p style={{ color: "#666666", textAlign: "center" }}>
-          Manage Your Theses And Submissions With Ease.
+          Manage Your Thesis And Submissions With Ease.
         </p>
         <p style={{ color: "#666666", textAlign: "center" }}>
           Authors Play A Key Role In Submitting Theses And Managing Their

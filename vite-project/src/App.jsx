@@ -33,6 +33,11 @@ import ContactUs from "./components/User Components/Contact";
 import AboutUs from "./components/User Components/About";
 import FAQ from "./components/User Components/FAQ";
 import Support from "./components/User Components/Support";
+import FAQ_wihout_login from "./components/User Components/FAQ_wihout_login";
+import Support_without_login from "./components/User Components/Support_without_login";
+import ContactUs_without_login from "./components/User Components/Contact_Without_Login";
+import Basic from "./components/User Components/UserProfile";
+import AboutUs_wihout_login from "./components/User Components/About_without_login";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // null initially to indicate loading
@@ -138,6 +143,32 @@ function App() {
           element={
             isAuthenticated ? <UserHomePageWithoutLogin /> : <Navigate to="/" />
           }
+        />
+        <Route
+          path="/without_login_contact_us"
+          element={
+            isAuthenticated ? <ContactUs_without_login /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/without_login_support"
+          element={
+            isAuthenticated ? <Support_without_login /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/without_login_FAQ"
+          element={isAuthenticated ? <FAQ_wihout_login /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/without_login_about_us"
+          element={
+            isAuthenticated ? <AboutUs_wihout_login /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/user-profile"
+          element={isAuthenticated ? <Basic /> : <Navigate to="/" />}
         />
         {/* Admin Routes */}
         <Route
