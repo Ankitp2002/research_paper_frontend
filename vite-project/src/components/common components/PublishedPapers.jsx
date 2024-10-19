@@ -98,8 +98,8 @@ const PublishedPapersPage = () => {
     <div className="management-page">
       <AuthorNavbar />
       <div className="management-container">
-        <h1>Published Papers</h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <h2>Published Theses</h2>
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
         {/* {!error && publishedPapers.length === 0 && (
           <p>No published papers found.</p>
         )} */}

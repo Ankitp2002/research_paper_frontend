@@ -4,19 +4,19 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <nav className="admin-navbar">
-      <div className="navbar-title">ResearchHub</div>
+      <div className="navbar-title">Author Dashboard</div>
       <ul className="nav-links">
         <li>
           <a href="/author-home">Home</a>
         </li>
         <li>
-          <a href="/submit">Submit Paper</a>
+          <a href="/submit">Submit Theses</a>
         </li>
         <li>
-          <a href="/paperstatus">Paper Status</a>
+          <a href="/paperstatus">Theses Status</a>
         </li>
         <li>
-          <a href="/publishedpapers">Published Papers</a>
+          <a href="/publishedpapers">Published Theses</a>
         </li>
         <li>
           <a href="/logout">Logout</a>

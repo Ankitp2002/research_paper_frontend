@@ -157,8 +157,8 @@ const PaperStatusPage = () => {
     <div className="paper-status-page">
       <AuthorNavbar />
       <div className="paper-status-container">
-        <h2>Check Paper Status</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <h2>Check Theses Status</h2>
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
         {papers.length > 0 ? (
           <table className="review-table">
             <thead>

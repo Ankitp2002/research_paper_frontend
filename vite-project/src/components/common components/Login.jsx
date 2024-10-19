@@ -16,51 +16,51 @@ const Login = () => {
     e.preventDefault();
     try {
       let response;
-      try {
-        const params = { username, password };
-        response = await apiRequest(LoginEndPoint, "POST", params, {});
-        console.log("Login successful:", response);
-        // Handle successful login (e.g., store token, redirect, etc.)
-      } catch (error) {
-        console.error("Login failed:", error);
-        // Handle login error (e.g., show error message)
+      // try {
+      //   const params = { username, password };
+      //   // response = await apiRequest(LoginEndPoint, "POST", params, {});
+      //   console.log("Login successful:", response);
+      //   // Handle successful login (e.g., store token, redirect, etc.)
+      // } catch (error) {
+      //   console.error("Login failed:", error);
+      //   // Handle login error (e.g., show error message)
+      // }
+      // const { role, token } = response;
+
+      // if (role == selectedRole) {
+      //   if (token) {
+      //     sessionStorage.setItem("authToken", token);
+      //     setToken(token); // Store token in state as well (optional)
+      //   }
+
+      // Navigate to different home pages based on role
+      switch (selectedRole) {
+        case "admin":
+          setTimeout(() => {
+            navigate("/admin-home");
+          }, 300);
+          break;
+
+        case "reviewer":
+          setTimeout(() => {
+            navigate("/reviewer-home");
+          }, 300);
+          break;
+        case "author":
+          setTimeout(() => {
+            navigate("/author-home");
+          }, 300);
+          break;
+        case "user":
+          setTimeout(() => {
+            navigate("/user-home");
+          }, 300);
+          break;
+        default:
+          setError("Invalid role");
       }
-      const { role, token } = response;
-
-      if (role == selectedRole) {
-        if (token) {
-          sessionStorage.setItem("authToken", token);
-          setToken(token); // Store token in state as well (optional)
-        }
-
-        // Navigate to different home pages based on role
-        switch (role) {
-          case "admin":
-            setTimeout(() => {
-              navigate("/admin-home");
-            }, 300);
-            break;
-
-          case "reviewer":
-            setTimeout(() => {
-              navigate("/reviewer-home");
-            }, 300);
-            break;
-          case "author":
-            setTimeout(() => {
-              navigate("/author-home");
-            }, 300);
-            break;
-          case "user":
-            setTimeout(() => {
-              navigate("/user-home");
-            }, 300);
-            break;
-          default:
-            setError("Invalid role");
-        }
-      }
-      setError("Invalid Selected Role");
+      // }
+      //   setError("Invalid Selected Role");
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message || "Login failed");
