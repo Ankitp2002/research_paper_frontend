@@ -23,7 +23,10 @@ import AuthorManagement from "./components/Admin Components/AuthorManagement";
 import AdminRejectedPapers from "./components/Admin Components/RejectedPaper";
 import AdminReviewPapers from "./components/Admin Components/ReviewPaper";
 import PublishedPapersManagement from "./components/Admin Components/ManagePublishedPapers";
-import UserHomePage from "./components/User Components/Home";
+import HomePage from "./components/User Components/Home";
+import UserPublishPaperPage from "./components/User Components/UserHome";
+import UserHomePage from "./components/User Components/UserHomePage";
+import UserHomePageWithoutLogin from "./components/User Components/UserHomePageWithoutLogin";
 import { tokenValidation } from "./components/RequestModul/requests";
 import { useEffect, useState } from "react";
 
@@ -50,7 +53,7 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" Component={Login} />
+        <Route path="/login" Component={Login} />
 
         {/* Protected Routes */}
         <Route
@@ -97,10 +100,25 @@ function App() {
           }
         />
         <Route
-          path="/user-home"
+          path="/"
+          element={isAuthenticated ? <HomePage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/user-published-thesis"
+          element={
+            isAuthenticated ? <UserPublishPaperPage /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/user-home-page"
           element={isAuthenticated ? <UserHomePage /> : <Navigate to="/" />}
         />
-
+        <Route
+          path="/user-home"
+          element={
+            isAuthenticated ? <UserHomePageWithoutLogin /> : <Navigate to="/" />
+          }
+        />
         {/* Admin Routes */}
         <Route
           path="/admin-home"

@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import "./Home.css";
 import { fetchPaper, handleGetPaperB64 } from "../../utils/handleAuthor";
 import NavbarWithOutLogin from "./Navbar_wihtout_login";
-const UserHomePage = () => {
+const UserPublishPaperPage = () => {
   const [publishPaper, setPublishedPapers] = useState([]);
   const [error, setError] = useState("");
 
@@ -18,11 +18,11 @@ const UserHomePage = () => {
       }
     };
     fetchData();
-  }, []); 
+  }, []);
 
   return (
     <div className="user-home-page">
-      <NavbarWithOutLogin />
+      <NavbarUser />
       <div className="home-container">
         <h2>Published Papers</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
@@ -67,4 +67,4 @@ const UserHomePage = () => {
   );
 };
 
-export default UserHomePage;
+export default UserPublishPaperPage;

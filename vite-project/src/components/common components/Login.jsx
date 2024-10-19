@@ -53,7 +53,7 @@ const Login = () => {
           break;
         case "user":
           setTimeout(() => {
-            navigate("/user-home");
+            navigate("/user-home-page");
           }, 300);
           break;
         default:
