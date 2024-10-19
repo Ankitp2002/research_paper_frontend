@@ -7,7 +7,35 @@ import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const ApprovedPapersPage = () => {
-  const [approvedPapers, setapprovedPapers] = useState([]);
+  const initialThesisData = [
+    {
+      title: "Energy Efficient Cloud Computing",
+      abstract:
+        "This thesis focuses on reducing energy consumption in data centers...",
+      contributorAuthors: "John Doe, Alice Smith",
+      references: "Paper A, Paper B, Paper C",
+      publishYear: 2023,
+      keyword: "Cloud Computing, Energy Efficiency",
+      document: "Thesis1.pdf",
+      authorName: "Ankit Kumar",
+      comments: ["Great thesis!", "Needs more data on VM migration."],
+    },
+    {
+      title: "AI and Machine Learning in Healthcare",
+      abstract: "An overview of the impact of AI in medical diagnostics...",
+      contributorAuthors: "Emily Johnson, Mark Lee",
+      references: "Paper X, Paper Y",
+      publishYear: 2022,
+      keyword: "AI, Healthcare",
+      document: "Thesis2.pdf",
+      authorName: "Jane Doe",
+      comments: ["Innovative approach.", "Consider additional case studies."],
+    },
+  ];
+
+  const [approvedPapers, setThesisData] = useState(initialThesisData);
+
+  // const [approvedPapers, setapprovedPapers] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
@@ -47,26 +75,42 @@ const ApprovedPapersPage = () => {
           <thead>
             <tr>
               <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Author</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Link</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Abstract
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Contributor Authors
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                References
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Publish Year
+              </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Document
+              </th>
             </tr>
           </thead>
           <tbody>
             {approvedPapers.map((paper) => (
               <tr key={paper.id}>
-                <td style={{ color: "#666666", textAlign: "center" }}>
-                  {paper.title}
+                <td style={{ textAlign: "center" }}>{paper.title}</td>
+                <td style={{ textAlign: "center" }}>{paper.abstract}</td>
+                <td style={{ textAlign: "center" }}>
+                  {paper.contributorAuthors}
                 </td>
-                <td style={{ color: "#666666", textAlign: "center" }}>
-                  {paper?.User?.username}
-                </td>
-                <td style={{ color: "#666666", textAlign: "center" }}>
+                <td style={{ textAlign: "center" }}>{paper.references}</td>
+                <td style={{ textAlign: "center" }}>{paper.publishYear}</td>
+                <td style={{ textAlign: "center" }}>{paper.keyword}</td>
+                <td style={{ textAlign: "center" }}>
                   <a
-                    href={paper.link}
+                    href={`/${paper.document}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    View Paper
+                    {paper.document}
                   </a>
                 </td>
               </tr>

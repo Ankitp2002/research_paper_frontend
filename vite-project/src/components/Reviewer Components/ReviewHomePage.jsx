@@ -10,27 +10,27 @@ const ReviewerHomePage = () => {
       <div className="home-content">
         <h1>Welcome to the Reviewer Dashboard</h1>
         <p>
-          As a reviewer, you play a crucial role in maintaining the quality of
-          published papers. Your feedback is invaluable in ensuring that authors
-          can improve their work and contribute to the academic community.
+          As A Reviewer, You Play A Crucial Role In Maintaining The Quality Of
+          Published Thesis. Your Feedback Is Invaluable In Ensuring That Authors
+          Can Improve Their Work And Contribute To The Academic Community.
         </p>
         <h2>Available Actions</h2>
         <ul>
           <li>
-            <strong>Review Papers:</strong> Check the list of papers awaiting
-            your review.
+            <strong>Review Thesis:</strong> Check The List Of Thesis Awaiting
+            Your Review.
           </li>
           <li>
-            <strong>Approved Papers:</strong> View the papers you have approved
-            for publication.
+            <strong>Approved Thesis:</strong> View The Thesis You Have Approved
+            For Publication.
           </li>
           <li>
-            <strong>Rejected Papers:</strong> Check the papers that were not
-            approved.
+            <strong>Rejected Thesis:</strong> Check The Thesis That Were Not
+            Approved.
           </li>
         </ul>
         <h2>Next Steps</h2>
-        <p>Click on "Review Papers" to begin reviewing submissions.</p>
+        <p>Click On "Review Thesis" To Begin Reviewing Submissions.</p>
       </div>
       <ReviewerFooter />
     </div>
