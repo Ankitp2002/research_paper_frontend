@@ -20,16 +20,12 @@ export default function Basic() {
         <h2>Profile Page</h2>
         <div className="profile-info">
           {/* Name Display */}
-          <div className="info-group">
-            <label>Name:</label>
-            <p>Parth</p>
-          </div>
+          <label>Name:</label>
+          <p>Parth</p>
 
           {/* Number Display */}
-          <div className="info-group">
-            <label>Phone Number:</label>
-            <p>987654321</p>
-          </div>
+          <label>Phone Number:</label>
+          <p>987654321</p>
 
           {/* Forgot Password */}
           <div className="info-group forgot-password">
