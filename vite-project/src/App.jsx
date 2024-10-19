@@ -29,6 +29,10 @@ import UserHomePage from "./components/User Components/UserHomePage";
 import UserHomePageWithoutLogin from "./components/User Components/UserHomePageWithoutLogin";
 import { tokenValidation } from "./components/RequestModul/requests";
 import { useEffect, useState } from "react";
+import ContactUs from "./components/User Components/Contact";
+import AboutUs from "./components/User Components/About";
+import FAQ from "./components/User Components/FAQ";
+import Support from "./components/User Components/Support";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // null initially to indicate loading
@@ -108,6 +112,22 @@ function App() {
           element={
             isAuthenticated ? <UserPublishPaperPage /> : <Navigate to="/" />
           }
+        />
+        <Route
+          path="/contact-us"
+          element={isAuthenticated ? <ContactUs /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/about-us"
+          element={isAuthenticated ? <AboutUs /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/faq"
+          element={isAuthenticated ? <FAQ /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/support"
+          element={isAuthenticated ? <Support /> : <Navigate to="/" />}
         />
         <Route
           path="/user-home-page"

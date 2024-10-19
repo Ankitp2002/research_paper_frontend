@@ -7,11 +7,18 @@ const Header = () => {
       <div className="header-content">
         <h1>Welcome To User Dashboard</h1>
         <p style={{ color: "#666666", textAlign: "center" }}>
-          Manage Your Theses And Submissions With Ease.
+          This Is Your Central Hub For Managing And Publishing Your Theses.
+          Explore The Repository, Browse Various Topics, And Discover Valuable
+          Resources.
         </p>
         <p style={{ color: "#666666", textAlign: "center" }}>
-          Authors Play A Key Role In Submitting Theses And Managing Their
-          Personal Content.
+          You Can Access Sections Such As About Us, Support, FAQ, And A Search
+          Bar To Easily Navigate The Content.
+        </p>
+        <p style={{ color: "#666666", textAlign: "center" }}>
+          You Are Already Logged In. Feel Free To Explore The Thesis Repository!
+          Please Log In To Access Your Account And Start Exploring The
+          Repository!
         </p>
       </div>
     </header>

@@ -217,16 +217,6 @@ const PaperStatusPage = () => {
                 >
                   Status
                 </th>
-
-                <th
-                  style={{
-                    color: "#666666",
-                    textAlign: "center",
-                    backgroundColor: "#fdfffe",
-                  }}
-                >
-                  Actions
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -249,66 +239,6 @@ const PaperStatusPage = () => {
                   </td>
                   <td style={{ textAlign: "center", padding: "10px" }}>
                     {thesis.status}
-                  </td>
-                  <td style={{ textAlign: "center", padding: "10px" }}>
-                    <button
-                      onClick={() => alert("Delete action for " + thesis.title)}
-                      style={{
-                        backgroundColor: "#E74C3C",
-                        color: "#fff",
-                        padding: "8px 16px",
-                        border: "none",
-                        borderRadius: "4px",
-                        marginBottom: "5px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Delete
-                    </button>
-                    <br />
-                    <button
-                      onClick={() => toggleComments(index)}
-                      style={{
-                        backgroundColor: "#F1C40F",
-                        color: "#fff",
-                        padding: "8px 16px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Comments
-                    </button>
-                    {commentView === index && (
-                      <div
-                        style={{
-                          marginTop: "10px",
-                          textAlign: "left",
-                          border: "1px solid #ccc",
-                          padding: "10px",
-                        }}
-                      >
-                        <strong>Comments:</strong>
-                        <ul>
-                          {thesis.comments.map((comment, i) => (
-                            <li key={i}>
-                              <strong>User</strong> :{comment}
-                            </li>
-                          ))}
-                        </ul>
-                        {/* <input
-                        type="text"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Othercomment..."
-                        style={{ width: "80%" }}
-                        readOnly
-                      />
-                      <button onClick={() => handleAddComment(index)}>
-                        Add Comment
-                      </button> */}
-                      </div>
-                    )}
                   </td>
                 </tr>
               ))}
