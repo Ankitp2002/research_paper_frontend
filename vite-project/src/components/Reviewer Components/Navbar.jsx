@@ -10,13 +10,13 @@ const ReviewerNavbar = () => {
           <a href="/reviewer-home">Home</a>
         </li>
         <li>
-          <a href="/review">Review Papers</a>
+          <a href="/review">Review Thesis</a>
         </li>
         <li>
-          <a href="/approved">Approved Papers</a>
+          <a href="/approved">Approved Thesis</a>
         </li>
         <li>
-          <a href="/rejected">Rejected Papers</a>
+          <a href="/rejected">Rejected Thesis</a>
         </li>
         <li>
           <a href="/logout">Logout</a>

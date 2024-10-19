@@ -12,7 +12,48 @@ import { apiRequest } from "../RequestModul/requests";
 import { handleGetPaperB64 } from "../../utils/handleAuthor";
 
 const ReviewPage = () => {
-  const [papers, setPapers] = useState([]);
+  const initialThesisData = [
+    {
+      title: "Energy Efficient Cloud Computing",
+      abstract:
+        "This thesis focuses on reducing energy consumption in data centers...",
+      contributorAuthors: "John Doe, Alice Smith",
+      references: "Paper A, Paper B, Paper C",
+      publishYear: 2023,
+      keyword: "Cloud Computing, Energy Efficiency",
+      document: "Thesis1.pdf",
+      authorName: "Ankit Kumar",
+      comments: ["Great thesis!", "Needs more data on VM migration."],
+    },
+    {
+      title: "AI and Machine Learning in Healthcare",
+      abstract: "An overview of the impact of AI in medical diagnostics...",
+      contributorAuthors: "Emily Johnson, Mark Lee",
+      references: "Paper X, Paper Y",
+      publishYear: 2022,
+      keyword: "AI, Healthcare",
+      document: "Thesis2.pdf",
+      authorName: "Jane Doe",
+      comments: ["Innovative approach.", "Consider additional case studies."],
+    },
+  ];
+
+  const [papers, setThesisData] = useState(initialThesisData);
+  const [commentView, setCommentView] = useState(null); // Track which row is showing comments
+  const [newComment, setNewComment] = useState(""); // Track new comment input
+
+  // Function to toggle comment view
+  const toggleComments = (index) => {
+    setCommentView(commentView === index ? null : index);
+    setNewComment(""); // Reset the comment input when switching rows
+  };
+  const cancelReview = () => {
+    setSelectedPaper(null); // This will hide the review form
+    setComments(""); // Clear any entered comments
+    setIsReviewed(false); // Reset review state if necessary
+  };
+
+  // const [papers, setPapers] = useState([]);
 
   const [selectedPaper, setSelectedPaper] = useState(null);
   const [comments, setComments] = useState("");
@@ -91,63 +132,52 @@ const ReviewPage = () => {
     <div className="review-page">
       <ReviewerNavbar />
       <div className="review-container">
-        <h2>Review Papers</h2>
+        <h2>Review Thesis</h2>
         <table className="review-table">
           <thead>
             <tr>
-              <th
-                style={{
-                  color: "#666666",
-                  textAlign: "center",
-                  backgroundColor: "#fdfffe",
-                }}
-              >
-                Title
+              <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Abstract
               </th>
-              <th
-                style={{
-                  color: "#666666",
-                  textAlign: "center",
-                  backgroundColor: "#fdfffe",
-                }}
-              >
-                Author
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Contributor Authors
               </th>
-              <th
-                style={{
-                  color: "#666666",
-                  textAlign: "center",
-                  backgroundColor: "#fdfffe",
-                }}
-              >
-                Status
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                References
               </th>
-              <th
-                style={{
-                  color: "#666666",
-                  textAlign: "center",
-                  backgroundColor: "#fdfffe",
-                }}
-              >
-                Action
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Publish Year
               </th>
-              <th
-                style={{
-                  color: "#666666",
-                  textAlign: "center",
-                  backgroundColor: "#fdfffe",
-                }}
-              >
-                View Paper
+              <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
+              <th style={{ color: "#666666", textAlign: "center" }}>
+                Document
               </th>
+              <th style={{ color: "#666666", textAlign: "center" }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {papers.map((paper) => (
               <tr key={paper.id}>
                 <td style={{ textAlign: "center" }}>{paper.title}</td>
-                <td style={{ textAlign: "center" }}>{paper?.User?.username}</td>
-                <td style={{ textAlign: "center" }}>{paper.status}</td>
+                <td style={{ textAlign: "center" }}>{paper.abstract}</td>
+                <td style={{ textAlign: "center" }}>
+                  {paper.contributorAuthors}
+                </td>
+                <td style={{ textAlign: "center" }}>{paper.references}</td>
+                <td style={{ textAlign: "center" }}>{paper.publishYear}</td>
+                <td style={{ textAlign: "center" }}>{paper.keyword}</td>
+                <td style={{ textAlign: "center" }}>
+                  <a
+                    href={paper.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => handleGetPaperB64(paper.id)}
+                    style={{ color: "#3498DB" }}
+                  >
+                    View Paper
+                  </a>
+                </td>
                 <td style={{ textAlign: "center" }}>
                   <button
                     onClick={() => handleReview(paper)}
@@ -162,17 +192,6 @@ const ReviewPage = () => {
                   >
                     Review
                   </button>
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  <a
-                    href={paper.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => handleGetPaperB64(paper.id)}
-                    style={{ color: "#3498DB" }}
-                  >
-                    View Paper
-                  </a>
                 </td>
               </tr>
             ))}
@@ -234,6 +253,19 @@ const ReviewPage = () => {
                 }}
               >
                 Reject Paper
+              </button>
+              <button
+                onClick={() => cancelReview()} // This function will close the popup
+                style={{
+                  backgroundColor: "#95A5A6",
+                  color: "#fff",
+                  padding: "8px 16px",
+                  border: "none",
+                  borderRadius: "4px",
+                  marginLeft: "10px",
+                }}
+              >
+                Cancel
               </button>
             </div>
           </div>
