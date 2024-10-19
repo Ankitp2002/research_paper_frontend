@@ -13,7 +13,7 @@ const ApprovedPapersPage = () => {
       abstract:
         "This thesis focuses on reducing energy consumption in data centers...",
       contributorAuthors: "John Doe, Alice Smith",
-      references: "Paper A, Paper B, Paper C",
+      references: "Thesis A, Thesis B, Thesis C",
       publishYear: 2023,
       keyword: "Cloud Computing, Energy Efficiency",
       document: "Thesis1.pdf",
@@ -24,7 +24,7 @@ const ApprovedPapersPage = () => {
       title: "AI and Machine Learning in Healthcare",
       abstract: "An overview of the impact of AI in medical diagnostics...",
       contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Paper X, Paper Y",
+      references: "Thesis X, Thesis Y",
       publishYear: 2022,
       keyword: "AI, Healthcare",
       document: "Thesis2.pdf",
@@ -70,7 +70,7 @@ const ApprovedPapersPage = () => {
     <div className="approved-papers-page">
       <ReviewerNavbar />
       <div className="approved-papers-container">
-        <h2>Approved Papers</h2>
+        <h2>Approved Thesis</h2>
         <table className="papers-table">
           <thead>
             <tr>
