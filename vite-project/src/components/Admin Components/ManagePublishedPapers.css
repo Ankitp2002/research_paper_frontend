@@ -57,3 +57,83 @@ button {
 button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+
+.papers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Reduce space between the cards */
+  justify-content: space-between;
+}
+
+.paper-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Reduce the card width slightly */
+  margin-bottom: 10px; /* Reduce the bottom margin */
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.paper-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* Reduced modal width */
+  max-height: 70vh; /* Smaller height */
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.add-comment-section {
+  margin-top: 10px;
+}
+
+.add-comment-section textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.add-comment-section button {
+  background-color: #f1c40f;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

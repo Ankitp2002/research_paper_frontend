@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css"; // Create a CSS file for user navbar styles
-import userIcon from "./icons8-user-16.png";
+import userIcon from "../../favIcon/icons8-user-16.png"
 const NavbarUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

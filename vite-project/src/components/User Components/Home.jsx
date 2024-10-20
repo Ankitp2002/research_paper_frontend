@@ -30,7 +30,28 @@ const UserPublishPaperPage = () => {
       comments: ["Innovative approach.", "Consider additional case studies."],
     },
   ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentComments, setCurrentComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [currentPaperTitle, setCurrentPaperTitle] = useState("");
 
+  const openModal = (comments, title) => {
+    setCurrentComments(comments);
+    setCurrentPaperTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentComments([]);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      setCurrentComments([...currentComments, newComment]);
+      setNewComment(""); // Clear input field after adding comment
+    }
+  };
   const [publishPaper, setThesisData] = useState(initialThesisData);
 
   // const [publishPaper, setPublishedPapers] = useState([]);
@@ -54,52 +75,65 @@ const UserPublishPaperPage = () => {
       <div className="home-container">
         <h2>Published Thesis</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <table className="papers-table">
-          <thead>
-            <tr>
-              <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Abstract
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Contributor Authors
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                References
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Publish Year
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Document
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {publishPaper.map((paper) => (
-              <tr key={paper.id}>
-                <td style={{ textAlign: "center" }}>{paper.title}</td>
-                <td style={{ textAlign: "center" }}>{paper.abstract}</td>
-                <td style={{ textAlign: "center" }}>
-                  {paper.contributorAuthors}
-                </td>
-                <td style={{ textAlign: "center" }}>{paper.references}</td>
-                <td style={{ textAlign: "center" }}>{paper.publishYear}</td>
-                <td style={{ textAlign: "center" }}>{paper.keyword}</td>
-                <td style={{ textAlign: "center" }}>
-                  <a
-                    href={`/${paper.document}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {paper.document}
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div>
+        <div className="papers-grid">
+        {publishPaper.map((paper) => (
+          <div className="paper-card" key={paper.id}>
+            <h3 className="paper-title">{paper.title}</h3>
+            <p className="paper-abstract"> <strong>Abstract:</strong>{paper.abstract}</p>
+            <p className="paper-contributor">
+              <strong>Contributor Authors:</strong> {paper.contributorAuthors}
+            </p>
+            <p className="paper-references">
+              <strong>References:</strong> {paper.references}
+            </p>
+            <p className="paper-year">
+              <strong>Publish Year:</strong> {paper.publishYear}
+            </p>
+            <p className="paper-keyword">
+              <strong>Keyword:</strong> {paper.keyword}
+            </p>
+            <a href={`/${paper.document}`} target="_blank" rel="noopener noreferrer">
+              {paper.document}
+            </a>
+           
+          </div>
+        ))}
+      </div>
+
+      {/* Modal Component */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={closeModal}>
+              X
+            </button>
+            <h2>Comments for {currentPaperTitle}</h2>
+            <ul>
+              {currentComments.length > 0 ? (
+                currentComments.map((comment, i) => (
+                  <li key={i}>
+                    <strong>User:</strong> {comment}
+                  </li>
+                ))
+              ) : (
+                <p>No comments available</p>
+              )}
+            </ul>
+
+            {/* Add Comment Section */}
+            <div className="add-comment-section">
+              <textarea
+                placeholder="Add a comment"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <button onClick={handleAddComment}>Submit</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
       </div>
       <Footer />
     </div>

@@ -13,6 +13,9 @@ import {
   handleGetPaperB64,
 } from "../../utils/handleAuthor";
 
+import deleteIcon from "../../favIcon/delete.png"
+import commentIcon from "../../favIcon/comment.png"
+
 const PublishedPapersManagement = () => {
   const initialThesisData = [
     {
@@ -39,10 +42,31 @@ const PublishedPapersManagement = () => {
       comments: ["Innovative approach.", "Consider additional case studies."],
     },
   ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentComments, setCurrentComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [currentPaperTitle, setCurrentPaperTitle] = useState("");
 
+  const openModal = (comments, title) => {
+    setCurrentComments(comments);
+    setCurrentPaperTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentComments([]);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      setCurrentComments([...currentComments, newComment]);
+      setNewComment(""); // Clear input field after adding comment
+    }
+  };
   const [thesisData, setThesisData] = useState(initialThesisData);
   const [commentView, setCommentView] = useState(null); // Track which row is showing comments
-  const [newComment, setNewComment] = useState(""); // Track new comment input
+  // const [newComment, setNewComment] = useState(""); // Track new comment input
 
   // Function to toggle comment view
   const toggleComments = (index) => {
@@ -50,15 +74,15 @@ const PublishedPapersManagement = () => {
     setNewComment(""); // Reset the comment input when switching rows
   };
 
-  // Function to handle adding a new comment
-  const handleAddComment = (index) => {
-    if (newComment.trim()) {
-      const updatedThesisData = [...thesisData];
-      updatedThesisData[index].comments.push(newComment);
-      setThesisData(updatedThesisData);
-      setNewComment(""); // Clear the input after adding the comment
-    }
-  };
+  // // Function to handle adding a new comment
+  // const handleAddComment = (index) => {
+  //   if (newComment.trim()) {
+  //     const updatedThesisData = [...thesisData];
+  //     updatedThesisData[index].comments.push(newComment);
+  //     setThesisData(updatedThesisData);
+  //     setNewComment(""); // Clear the input after adding the comment
+  //   }
+  // };
 
   const [publishedPapers, setPublishedPapers] = useState([]);
   const [newPaper, setNewPaper] = useState({
@@ -270,156 +294,90 @@ const PublishedPapersManagement = () => {
           </select>
           <button onClick={handleAddPaper}>Add Paper</button>
         </div> */}
-        <table className="papers-table">
-          <thead>
-            <tr>
-              <th style={{ color: "#666666", textAlign: "center" }}>Title</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Abstract
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Contributor Authors
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                References
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Publish Year
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Document
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Author Name
-              </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* {publishedPapers.map((paper) => (
-              <tr key={paper.id}>
-                <td style={{ textAlign: "center" }}>{paper?.title}</td>
-                <td style={{ textAlign: "center" }}>{paper?.abstract}</td>
-                <td style={{ textAlign: "center" }}>{paper?.other_authors}</td>
-                <td style={{ textAlign: "center" }}>{paper?.referace}</td>
-                <td style={{ textAlign: "center" }}>
-                  <a
-                    href={paper.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => handleGetPaperB64(paper.id)}
-                  >
-                    View Paper
-                  </a>
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {authorMap[paper.authorId]}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  <button
-                    onClick={() => handleDeletePaper(paper.id)}
-                    style={{
-                      backgroundColor: "#E74C3C",
-                      color: "#fff",
-                      padding: "8px 16px",
-                      border: "none",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))} */}
-            {thesisData.map((thesis, index) => (
-              <tr key={index}>
-                <td style={{ textAlign: "center" }}>{thesis.title}</td>
-                <td style={{ textAlign: "center" }}>{thesis.abstract}</td>
-                <td style={{ textAlign: "center" }}>
-                  {thesis.contributorAuthors}
-                </td>
-                <td style={{ textAlign: "center" }}>{thesis.references}</td>
-                <td style={{ textAlign: "center" }}>{thesis.publishYear}</td>
-                <td style={{ textAlign: "center" }}>{thesis.keyword}</td>
-                <td style={{ textAlign: "center" }}>
-                  <a
-                    href={`/${thesis.document}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {thesis.document}
-                  </a>
-                </td>
-                <td style={{ textAlign: "center" }}>{thesis.authorName}</td>
-                <td style={{ textAlign: "center" }}>
-                  <div style={{ marginBottom: "10px" }}>
-                    <button
-                      onClick={() => alert("Delete action for " + thesis.title)}
-                      style={{
-                        backgroundColor: "#E74C3C",
-                        color: "#fff",
-                        padding: "8px 16px",
-                        border: "none",
-                        borderRadius: "4px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
+        <div className="papers-grid">
+        {thesisData.map((paper) => (
+          <div className="paper-card" key={paper.id}>
+            <h3 className="paper-title">{paper.title}</h3>
+            <p className="paper-abstract"> <strong>Abstract:</strong>{paper.abstract}</p>
+            <p className="paper-contributor">
+              <strong>Contributor Authors:</strong> {paper.contributorAuthors}
+            </p>
+            <p className="paper-references">
+              <strong>References:</strong> {paper.references}
+            </p>
+            <p className="paper-year">
+              <strong>Publish Year:</strong> {paper.publishYear}
+            </p>
+            <p className="paper-keyword">
+              <strong>Keyword:</strong> {paper.keyword}
+            </p>
+            <a href={`/${paper.document}`} target="_blank" rel="noopener noreferrer">
+              {paper.document}
+            </a>
+            <div className="actions" style={{ display: "flex", gap: "10px" }}>
+  <button
+    onClick={() => window.alert("Delete")}
+    style={{
+      backgroundColor: "#F1C40F",
+      color: "#fff",
+      padding: "8px 16px",
+      border: "none",
+      borderRadius: "4px",
+      marginTop: "10px",
+    }}
+  >
+    <img src={deleteIcon} alt="delete_icon" style={{ height: 20 }} />
+  </button>
 
-                  <div style={{ marginBottom: "10px" }}>
-                    <button
-                      onClick={() => toggleComments(index)}
-                      style={{
-                        backgroundColor: "#F1C40F",
-                        color: "#fff",
-                        padding: "8px 16px",
-                        border: "none",
-                        borderRadius: "4px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      Comment
-                    </button>
-                  </div>
+  <button
+    onClick={() => openModal(paper.comments, paper.title)}
+    style={{
+      backgroundColor: "#F1C40F",
+      color: "#fff",
+      padding: "8px 16px",
+      border: "none",
+      borderRadius: "4px",
+      marginTop: "10px",
+    }}
+  >
+    <img src={commentIcon} alt="comment_icon" style={{ height: 20,marginTop:5 }} />
+  </button>
+</div>
 
-                  {commentView === index && (
-                    <div
-                      style={{
-                        marginTop: "10px",
-                        textAlign: "left",
-                        border: "1px solid #ccc",
-                        padding: "10px",
-                      }}
-                    >
-                      <strong>Comments:</strong>
-                      <ul>
-                        {thesis.comments.map((comment, i) => (
-                          <li key={i}>
-                            <strong>User</strong> :{comment}
-                          </li>
-                        ))}
-                      </ul>
-                      {/* <input
-                        type="text"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Othercomment..."
-                        style={{ width: "80%" }}
-                        readOnly
-                      />
-                      <button onClick={() => handleAddComment(index)}>
-                        Add Comment
-                      </button> */}
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          </div>
+        ))}
+      </div>
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={closeModal}>
+              X
+            </button>
+            <h2>Comments for {currentPaperTitle}</h2>
+            <ul>
+              {currentComments.length > 0 ? (
+                currentComments.map((comment, i) => (
+                  <li key={i}>
+                    <strong>User:</strong> {comment}
+                  </li>
+                ))
+              ) : (
+                <p>No comments available</p>
+              )}
+            </ul>
+
+            {/* Add Comment Section */}
+            <div className="add-comment-section">
+              <textarea
+                placeholder="Add a comment"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <button onClick={handleAddComment}>Submit</button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
       <Footer />
     </div>
