@@ -74,7 +74,7 @@ const UserPublishPaperPage = () => {
       <NavbarWithOutLogin />
       <div className="home-container">
         <h2>Published Thesis</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
         <div>
           <div className="papers-grid">
             {publishPaper.map((paper) => (

@@ -150,7 +150,7 @@ const UserManagement = () => {
       <AdminNavbar />
       <div className="user-container">
         <h2>User Management</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
 
         <div className="add-paper-form">
           <input

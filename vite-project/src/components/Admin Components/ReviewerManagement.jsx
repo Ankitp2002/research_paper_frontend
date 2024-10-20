@@ -152,7 +152,7 @@ const ReviewerManagement = () => {
       <AdminNavbar />
       <div className="reviewer-container">
         <h2>Reviewer Management</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
 
         <div className="add-paper-form">
           <input

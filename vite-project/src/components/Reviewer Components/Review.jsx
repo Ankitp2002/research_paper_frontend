@@ -10,6 +10,7 @@ import {
 } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 import { handleGetPaperB64 } from "../../utils/handleAuthor";
+import reviewIcon from "../../favIcon/feedback.png";
 
 const ReviewPage = () => {
   const initialThesisData = [
@@ -182,14 +183,21 @@ const ReviewPage = () => {
                   <button
                     onClick={() => handleReview(paper)}
                     style={{
-                      backgroundColor: "#3498DB",
+                      backgroundColor: "#3498DB", // Changed to a blue color for Edit
                       color: "#fff",
-                      marginRight: "10px",
                       padding: "8px 16px",
                       border: "none",
                       borderRadius: "4px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
+                    <img
+                      src={reviewIcon} // Add your edit icon source here
+                      alt="review_icon"
+                      style={{ height: 20, marginRight: "8px" }}
+                    />
                     Review
                   </button>
                 </td>

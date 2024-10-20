@@ -236,7 +236,7 @@ const PublishedPapersManagement = () => {
       <NavbarAdmin />
       <div className="management-container">
         <h2>Manage Published Papers</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
         {/* <div className="add-paper-form">
           <input
             type="text"

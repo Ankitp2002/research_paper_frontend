@@ -75,7 +75,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-form">
         <h2>Login</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
         <form onSubmit={handleLogin}>
           <div>
             <label>Role:</label>
