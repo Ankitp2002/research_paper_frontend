@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 import NavbarUser from "./Navbar";
 import Footer from "./Footer";
-
+import "./UserProfile.css";
 export default function Basic() {
-  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-  const openForgotPasswordModal = () => {
-    setIsForgotPasswordOpen(true);
+  const openForgotPasswordModal = () => setForgotPasswordOpen(true);
+  const closeForgotPasswordModal = () => setForgotPasswordOpen(false);
+  const openChangePasswordModal = () => setChangePasswordOpen(true);
+  const closeChangePasswordModal = () => setChangePasswordOpen(false);
+
+  const sendForgotPasswordEmail = () => {
+    console.log(`Sending reset password email to ${email}`);
+    closeForgotPasswordModal();
   };
 
-  const closeForgotPasswordModal = () => {
-    setIsForgotPasswordOpen(false);
+  const updatePassword = () => {
+    if (newPassword === confirmNewPassword) {
+      console.log("Password updated successfully");
+      closeChangePasswordModal();
+    } else {
+      console.log("Passwords do not match");
+    }
   };
 
   return (
@@ -19,67 +35,108 @@ export default function Basic() {
       <div className="home-container">
         <h2>Profile Page</h2>
         <div className="profile-info">
-          {/* Name Display */}
           <label>Name:</label>
           <p>Parth</p>
 
-          {/* Number Display */}
+          <label>Email:</label>
+          <p>parth@example.com</p>
+
           <label>Phone Number:</label>
           <p>987654321</p>
 
-          {/* Forgot Password */}
+          <div className="info-group change-password">
+            <a href="#" onClick={openChangePasswordModal}>
+              Change Password
+            </a>
+          </div>
+
           <div className="info-group forgot-password">
             <a href="#" onClick={openForgotPasswordModal}>
               Forgot Password?
             </a>
           </div>
         </div>
-        {/* Forgot Password Modal */}
+
         {isForgotPasswordOpen && (
           <div className="modal-overlay">
             <div className="forgot-password-modal">
               <h2>Forgot Password</h2>
-              <p
-                style={{
-                  fontSize: "20px", // Increase the font size for better readability
-                }}
-              >
-                Enter your email to reset your password
-              </p>
-              <label>Email: </label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                style={{
-                  width: "300px", // Adjust the width as needed
-                  padding: "10px", // Padding for a better look
-                  fontSize: "16px", // Increase the font size for better readability
-                  borderRadius: "5px", // Rounded corners for aesthetic
-                  border: "1px solid #ccc", // Light border
-                  backgroundColor: "white", // Background color
-                  color: "black",
-                }}
-              />
-              <br></br>
-              <button
-                className="reset-btn"
-                style={{ marginTop: 5, height: 35 }}
-              >
-                Reset Password
-              </button>
-              <br></br>
-              <button
-                className="close-btn"
-                onClick={closeForgotPasswordModal}
-                style={{ marginTop: 10, height: 35 }}
-              >
+              <p>Enter your email to reset your password</p>
+              <div className="form-group">
+                <label>Email:</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <button onClick={sendForgotPasswordEmail}>Send Reset Link</button>
+              <button className="close-btn" onClick={closeForgotPasswordModal}>
                 Close
               </button>
             </div>
           </div>
         )}
-      </div>
 
+        {isChangePasswordOpen && (
+          <div className="modal-overlay">
+            <div className="change-password-modal">
+              <h2>Change Password</h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updatePassword();
+                }}
+              >
+                <div className="form-group">
+                  <label>Current Password:</label>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder="Enter current password"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>New Password:</label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Confirm New Password:</label>
+                  <input
+                    type="password"
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                  />
+                </div>
+                <div className="modal-actions">
+                  <button className="update-btn" type="submit">
+                    Update Password
+                  </button>
+                  <button
+                    className="close-btn"
+                    type="button"
+                    onClick={closeChangePasswordModal}
+                  >
+                    Close
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
       <Footer />
     </div>
   );
