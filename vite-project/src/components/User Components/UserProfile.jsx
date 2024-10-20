@@ -31,29 +31,68 @@ export default function Basic() {
   return (
     <div className="user-home-page">
       <NavbarUser />
-      <div className="home-container">
+      <div className="submit-container">
         <h2>Profile Page</h2>
+        <br></br>
         <div className="profile-info">
-          <label>Name:</label>
-          <p>Parth</p>
-
-          <label>Email:</label>
-          <p>parth@example.com</p>
-
-          <label>Phone Number:</label>
-          <p>987654321</p>
-
+          <form>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value="Parth Patel"
+              style={{ color: "black" }}
+              readOnly
+            />
+            <label>Email:</label>
+            <input
+              type="Text"
+              name="email"
+              value="Parth@gmail.com"
+              style={{
+                color: "black",
+                backgroundColor: "#d3d3d3",
+                borderColor: "#d3d3d3",
+              }}
+              readOnly
+            />
+            <label>Phone Number:</label>
+            <input
+              type="Text"
+              name="number"
+              value="987654321"
+              style={{
+                color: "black",
+                backgroundColor: "#d3d3d3",
+                borderColor: "#d3d3d3",
+              }}
+              readOnly
+            />
+          </form>
           <div className="info-group change-password">
-            <a href="#" onClick={openChangePasswordModal}>
+            <button
+              onClick={openChangePasswordModal}
+              style={{
+                backgroundColor: "#007bff",
+                color: "white",
+                padding: "10px",
+                border: "none",
+                borderRadius: "5px",
+                fontSize: "16px",
+                cursor: "pointer",
+                marginTop: "10px",
+              }}
+            >
               Change Password
-            </a>
+            </button>
           </div>
 
-          <div className="info-group forgot-password">
-            <a href="#" onClick={openForgotPasswordModal}>
-              Forgot Password?
-            </a>
-          </div>
+          {/* Uncomment if needed */}
+          {/* <div className="info-group forgot-password">
+      <a href="#" onClick={openForgotPasswordModal}>
+        Forgot Password?
+      </a>
+    </div> */}
         </div>
 
         {isForgotPasswordOpen && (
