@@ -6,6 +6,7 @@ import { apiRequest, tokenValidation } from "../RequestModul/requests"; // Adjus
 import { useNavigate } from "react-router";
 import { AuthorPaperEndPoint } from "../RequestModul/Endpoint";
 import { handleGetPaperB64 } from "../../utils/handleAuthor";
+import deleteIcon from "../../favIcon/delete.png";
 
 const PublishedPapersPage = () => {
   const initialThesisData = [
@@ -172,70 +173,39 @@ const PublishedPapersPage = () => {
                     </a>
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    <div style={{ marginBottom: "10px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
                       <button
-                        onClick={() =>
-                          alert("Delete action for " + thesis.title)
-                        }
+                        onClick={() => window.alert("delete Author")}
                         style={{
-                          backgroundColor: "#E74C3C",
-                          color: "#fff",
+                          backgroundColor: "#E74C3C", // Red background
+                          color: "#fff", // White text
                           padding: "8px 16px",
                           border: "none",
                           borderRadius: "4px",
-                          marginRight: "10px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
+                        <img
+                          src={deleteIcon} // Add your delete icon source here
+                          alt="delete_icon"
+                          style={{
+                            height: 20,
+                            marginRight: "8px",
+                            filter: "brightness(0) invert(1)",
+                          }} // Makes the icon white
+                        />
                         Delete
                       </button>
                     </div>
-
-                    <div style={{ marginBottom: "10px" }}>
-                      <button
-                        onClick={() => toggleComments(index)}
-                        style={{
-                          backgroundColor: "#F1C40F",
-                          color: "#fff",
-                          padding: "8px 16px",
-                          border: "none",
-                          borderRadius: "4px",
-                          marginRight: "10px",
-                        }}
-                      >
-                        Comment
-                      </button>
-                    </div>
-
-                    {commentView === index && (
-                      <div
-                        style={{
-                          marginTop: "10px",
-                          textAlign: "left",
-                          border: "1px solid #ccc",
-                          padding: "10px",
-                        }}
-                      >
-                        <strong>Comments:</strong>
-                        <ul>
-                          {thesis.comments.map((comment, i) => (
-                            <li key={i}>
-                              <strong>User</strong> :{comment}
-                            </li>
-                          ))}
-                        </ul>
-                        {/* <input
-                        type="text"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Othercomment..."
-                        style={{ width: "80%" }}
-                        readOnly
-                      />
-                      <button onClick={() => handleAddComment(index)}>
-                        Add Comment
-                      </button> */}
-                      </div>
-                    )}
                   </td>
                 </tr>
               ))}
