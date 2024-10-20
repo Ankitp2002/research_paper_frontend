@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NavbarUser from "./Navbar";
 import Footer from "./Footer";
-import "./UserProfile.css";
 export default function Basic() {
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
@@ -58,22 +57,103 @@ export default function Basic() {
         </div>
 
         {isForgotPasswordOpen && (
-          <div className="modal-overlay">
-            <div className="forgot-password-modal">
-              <h2>Forgot Password</h2>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 999,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "8px",
+                width: "400px",
+                maxWidth: "90%",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <h2
+                style={{
+                  marginBottom: "15px",
+                  fontSize: "22px",
+                  color: "#333",
+                }}
+              >
+                Forgot Password
+              </h2>
               <p>Enter your email to reset your password</p>
-              <div className="form-group">
-                <label>Email:</label>
+              <div
+                style={{
+                  marginBottom: "15px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <label
+                  style={{
+                    marginBottom: "5px",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                >
+                  Email:
+                </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
+                  style={{
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    fontSize: "14px",
+                    width: "100%",
+                    boxSizing: "border-box",
+                  }}
                 />
               </div>
-              <button onClick={sendForgotPasswordEmail}>Send Reset Link</button>
-              <button className="close-btn" onClick={closeForgotPasswordModal}>
+              <button
+                onClick={sendForgotPasswordEmail}
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  padding: "10px",
+                  border: "none",
+                  borderRadius: "5px",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  width: "100%",
+                }}
+              >
+                Send Reset Link
+              </button>
+              <button
+                className="close-btn"
+                onClick={closeForgotPasswordModal}
+                style={{
+                  backgroundColor: "#dc3545",
+                  color: "white",
+                  padding: "10px",
+                  border: "none",
+                  borderRadius: "5px",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  width: "100%",
+                }}
+              >
                 Close
               </button>
             </div>
@@ -81,53 +161,176 @@ export default function Basic() {
         )}
 
         {isChangePasswordOpen && (
-          <div className="modal-overlay">
-            <div className="change-password-modal">
-              <h2>Change Password</h2>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 999,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "8px",
+                width: "400px",
+                maxWidth: "90%",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <h2
+                style={{
+                  marginBottom: "15px",
+                  fontSize: "22px",
+                  color: "#333",
+                }}
+              >
+                Change Password
+              </h2>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   updatePassword();
                 }}
               >
-                <div className="form-group">
-                  <label>Current Password:</label>
+                <div
+                  style={{
+                    marginBottom: "15px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label
+                    style={{
+                      marginBottom: "5px",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Current Password:
+                  </label>
                   <input
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                     placeholder="Enter current password"
                     required
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      width: "100%",
+                      boxSizing: "border-box",
+                    }}
                   />
                 </div>
-                <div className="form-group">
-                  <label>New Password:</label>
+                <div
+                  style={{
+                    marginBottom: "15px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label
+                    style={{
+                      marginBottom: "5px",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                    }}
+                  >
+                    New Password:
+                  </label>
                   <input
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Enter new password"
                     required
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      width: "100%",
+                      boxSizing: "border-box",
+                    }}
                   />
                 </div>
-                <div className="form-group">
-                  <label>Confirm New Password:</label>
+                <div
+                  style={{
+                    marginBottom: "15px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label
+                    style={{
+                      marginBottom: "5px",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Confirm New Password:
+                  </label>
                   <input
                     type="password"
                     value={confirmNewPassword}
                     onChange={(e) => setConfirmNewPassword(e.target.value)}
                     placeholder="Confirm new password"
                     required
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      width: "100%",
+                      boxSizing: "border-box",
+                    }}
                   />
                 </div>
-                <div className="modal-actions">
-                  <button className="update-btn" type="submit">
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <button
+                    className="update-btn"
+                    type="submit"
+                    style={{
+                      backgroundColor: "#007bff",
+                      color: "white",
+                      padding: "10px",
+                      border: "none",
+                      borderRadius: "5px",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                  >
                     Update Password
                   </button>
                   <button
                     className="close-btn"
                     type="button"
                     onClick={closeChangePasswordModal}
+                    style={{
+                      backgroundColor: "#dc3545",
+                      color: "white",
+                      padding: "10px",
+                      border: "none",
+                      borderRadius: "5px",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
                   >
                     Close
                   </button>
@@ -137,6 +340,7 @@ export default function Basic() {
           </div>
         )}
       </div>
+
       <Footer />
     </div>
   );
