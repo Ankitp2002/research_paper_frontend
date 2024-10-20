@@ -4,6 +4,8 @@ import AdminNavbar from "./AdminNavbar";
 import AdminFooter from "./AdminFooter";
 import { USEREndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
+import deleteIcon from "../../favIcon/delete.png";
+import editIcon from "../../favIcon/icons8-edit-50.png";
 
 const ReviewerManagement = () => {
   const data = [
@@ -242,32 +244,60 @@ const ReviewerManagement = () => {
                 <td style={{ textAlign: "center" }}>{reviewer.username}</td>
                 <td style={{ textAlign: "center" }}>{reviewer.email}</td>
                 <td style={{ textAlign: "center" }}>
-                  <button
-                    onClick={() => handleEdit(reviewer)}
+                  <div
                     style={{
-                      backgroundColor: "#3498DB",
-                      color: "#fff",
-                      marginRight: "10px",
-                      padding: "8px 16px",
-                      border: "none",
-                      borderRadius: "4px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: "10px",
                     }}
                   >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => window.alert("delete Author")}
-                    // onClick={() => handleDelete(reviewer.id)}
-                    style={{
-                      backgroundColor: "#E74C3C",
-                      color: "#fff",
-                      padding: "8px 16px",
-                      border: "none",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    Delete
-                  </button>
+                    <button
+                      onClick={() => handleEdit(reviewer)}
+                      style={{
+                        backgroundColor: "#3498DB", // Changed to a blue color for Edit
+                        color: "#fff",
+                        padding: "8px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <img
+                        src={editIcon} // Add your edit icon source here
+                        alt="edit_icon"
+                        style={{ height: 20, marginRight: "8px" }}
+                      />
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => window.alert("delete Author")}
+                      style={{
+                        backgroundColor: "#E74C3C", // Red background
+                        color: "#fff", // White text
+                        padding: "8px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <img
+                        src={deleteIcon} // Add your delete icon source here
+                        alt="delete_icon"
+                        style={{
+                          height: 20,
+                          marginRight: "8px",
+                          filter: "brightness(0) invert(1)",
+                        }} // Makes the icon white
+                      />
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
