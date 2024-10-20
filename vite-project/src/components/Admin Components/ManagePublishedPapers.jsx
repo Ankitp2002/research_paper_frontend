@@ -13,8 +13,9 @@ import {
   handleGetPaperB64,
 } from "../../utils/handleAuthor";
 
-import deleteIcon from "../../favIcon/delete.png"
-import commentIcon from "../../favIcon/comment.png"
+import deleteIcon from "../../favIcon/delete.png";
+import commentIcon from "../../favIcon/comment.png";
+import viewIcon from "../../favIcon/view.png";
 
 const PublishedPapersManagement = () => {
   const initialThesisData = [
@@ -295,89 +296,140 @@ const PublishedPapersManagement = () => {
           <button onClick={handleAddPaper}>Add Paper</button>
         </div> */}
         <div className="papers-grid">
-        {thesisData.map((paper) => (
-          <div className="paper-card" key={paper.id}>
-            <h3 className="paper-title">{paper.title}</h3>
-            <p className="paper-abstract"> <strong>Abstract:</strong>{paper.abstract}</p>
-            <p className="paper-contributor">
-              <strong>Contributor Authors:</strong> {paper.contributorAuthors}
-            </p>
-            <p className="paper-references">
-              <strong>References:</strong> {paper.references}
-            </p>
-            <p className="paper-year">
-              <strong>Publish Year:</strong> {paper.publishYear}
-            </p>
-            <p className="paper-keyword">
-              <strong>Keyword:</strong> {paper.keyword}
-            </p>
-            <a href={`/${paper.document}`} target="_blank" rel="noopener noreferrer">
-              {paper.document}
-            </a>
-            <div className="actions" style={{ display: "flex", gap: "10px" }}>
-  <button
-    onClick={() => window.alert("Delete")}
-    style={{
-      backgroundColor: "#F1C40F",
-      color: "#fff",
-      padding: "8px 16px",
-      border: "none",
-      borderRadius: "4px",
-      marginTop: "10px",
-    }}
-  >
-    <img src={deleteIcon} alt="delete_icon" style={{ height: 20 }} />
-  </button>
+          {thesisData.map((paper) => (
+            <div className="paper-card" key={paper.id}>
+              <h3 className="paper-title">{paper.title}</h3>
+              <p className="paper-abstract">
+                {" "}
+                <strong>Abstract:</strong>
+                {paper.abstract}
+              </p>
+              <p className="paper-contributor">
+                <strong>Contributor Authors:</strong> {paper.contributorAuthors}
+              </p>
+              <p className="paper-references">
+                <strong>References:</strong> {paper.references}
+              </p>
+              <p className="paper-year">
+                <strong>Publish Year:</strong> {paper.publishYear}
+              </p>
+              <p className="paper-keyword">
+                <strong>Keyword:</strong> {paper.keyword}
+              </p>
+              <a
+                href={`/${paper.document}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {paper.document}
+              </a>
+              <div
+                className="actions"
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "10px",
+                }}
+              >
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button
+                    onClick={() => window.alert("Delete")}
+                    style={{
+                      backgroundColor: "#F1C40F",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <img
+                      src={deleteIcon}
+                      alt="delete_icon"
+                      style={{ height: 20 }}
+                    />
+                  </button>
 
-  <button
-    onClick={() => openModal(paper.comments, paper.title)}
-    style={{
-      backgroundColor: "#F1C40F",
-      color: "#fff",
-      padding: "8px 16px",
-      border: "none",
-      borderRadius: "4px",
-      marginTop: "10px",
-    }}
-  >
-    <img src={commentIcon} alt="comment_icon" style={{ height: 20,marginTop:5 }} />
-  </button>
-</div>
+                  <button
+                    onClick={() => openModal(paper.comments, paper.title)}
+                    style={{
+                      backgroundColor: "#F1C40F",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <img
+                      src={commentIcon}
+                      alt="comment_icon"
+                      style={{ height: 20 }}
+                    />
+                  </button>
+                </div>
 
-          </div>
-        ))}
-      </div>
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={closeModal}>
-              X
-            </button>
-            <h2>Comments for {currentPaperTitle}</h2>
-            <ul>
-              {currentComments.length > 0 ? (
-                currentComments.map((comment, i) => (
-                  <li key={i}>
-                    <strong>User:</strong> {comment}
-                  </li>
-                ))
-              ) : (
-                <p>No comments available</p>
-              )}
-            </ul>
+                <button
+                  onClick={() => openViewModal(paper.id)} // Replace with your view function
+                  style={{
+                    backgroundColor: "#3498DB",
+                    color: "#fff",
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: "4px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={viewIcon}
+                    alt="view_icon"
+                    style={{ height: 20, marginRight: "8px" }}
+                  />
+                  <span>Views (123)</span> {/* Dummy count for views */}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        {isModalOpen && (
+          <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <button className="close-button" onClick={closeModal}>
+                X
+              </button>
+              <h2>Comments for {currentPaperTitle}</h2>
+              <ul>
+                {currentComments.length > 0 ? (
+                  currentComments.map((comment, i) => (
+                    <li key={i}>
+                      <strong>User:</strong> {comment}
+                    </li>
+                  ))
+                ) : (
+                  <p>No comments available</p>
+                )}
+              </ul>
 
-            {/* Add Comment Section */}
-            <div className="add-comment-section">
-              <textarea
-                placeholder="Add a comment"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <button onClick={handleAddComment}>Submit</button>
+              {/* Add Comment Section */}
+              <div className="add-comment-section">
+                <textarea
+                  placeholder="Add a comment"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
+                <button onClick={handleAddComment}>Submit</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
       <Footer />
     </div>

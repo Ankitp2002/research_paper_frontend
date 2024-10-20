@@ -6,7 +6,22 @@ import { USEREndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
+  //give dummy data for users
+  const data = [
+    {
+      id: 1,
+      username: "John Doe",
+      email: "john.doe@example.com",
+      password: "password123",
+    },
+    {
+      id: 2,
+      username: "Jane Smith",
+      email: "jane.smith@example.com",
+      password: "password456",
+    },
+  ];
+  const [users, setUsers] = useState(data);
   const [error, setError] = useState("");
   const [newUser, setNewUser] = useState({
     id: "",
@@ -243,7 +258,8 @@ const UserManagement = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(user.id)}
+                    onClick={() => window.alert("delete user.")}
+                    // onClick={() => handleDelete(user.id)}
                     style={{
                       backgroundColor: "#E74C3C",
                       color: "#fff",

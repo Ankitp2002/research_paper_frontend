@@ -6,7 +6,21 @@ import { USEREndPoint, RegisterEndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const ReviewerManagement = () => {
-  const [reviewers, setReviewers] = useState([]);
+  const data = [
+    {
+      id: 1,
+      username: "John Doe",
+      email: "john.doe@example.com",
+      password: "password123",
+    },
+    {
+      id: 2,
+      username: "Jane Smith",
+      email: "jane.smith@example.com",
+      password: "password456",
+    },
+  ];
+  const [reviewers, setReviewers] = useState(data);
   const [error, setError] = useState("");
   const [newReviewer, setNewReviewer] = useState({
     id: "",
@@ -242,7 +256,8 @@ const ReviewerManagement = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(reviewer.id)}
+                    onClick={() => window.alert("delete Author")}
+                    // onClick={() => handleDelete(reviewer.id)}
                     style={{
                       backgroundColor: "#E74C3C",
                       color: "#fff",
