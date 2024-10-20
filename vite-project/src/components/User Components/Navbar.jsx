@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css"; // Create a CSS file for user navbar styles
-import userIcon from "../../favIcon/icons8-user-16.png"
+import userIcon from "../../favIcon/icons8-user-16.png";
 const NavbarUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -53,6 +53,9 @@ const NavbarUser = () => {
               <img src={userIcon} alt="Profile Image" style={{ height: 30 }} />
             </a>
           </div>
+        </li>
+        <li>
+          <a href="/logout">Logout</a>
         </li>
         {/* Modal */}
       </ul>
