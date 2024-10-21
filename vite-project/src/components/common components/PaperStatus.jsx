@@ -237,7 +237,20 @@ const PaperStatusPage = () => {
                   <td style={{ textAlign: "center", padding: "10px" }}>
                     {thesis.keywords}
                   </td>
-                  <td style={{ textAlign: "center", padding: "10px" }}>
+                  <td
+                    style={{
+                      textAlign: "center",
+                      padding: "10px",
+                      color:
+                        thesis.status === "Under Review"
+                          ? "orange"
+                          : thesis.status === "Approved"
+                          ? "green"
+                          : thesis.status === "Rejected"
+                          ? "red"
+                          : "black", // default color for other statuses
+                    }}
+                  >
                     {thesis.status}
                   </td>
                 </tr>
