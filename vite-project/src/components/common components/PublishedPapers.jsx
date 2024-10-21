@@ -182,7 +182,7 @@ const PublishedPapersPage = () => {
                       }}
                     >
                       <button
-                        onClick={() => window.alert("delete Author")}
+                        onClick={() => window.alert("delete Thesis...")}
                         style={{
                           backgroundColor: "#E74C3C", // Red background
                           color: "#fff", // White text

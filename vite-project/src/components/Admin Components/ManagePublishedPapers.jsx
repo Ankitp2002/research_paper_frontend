@@ -335,7 +335,7 @@ const PublishedPapersManagement = () => {
               >
                 <div style={{ display: "flex", gap: "10px" }}>
                   <button
-                    onClick={() => window.alert("Delete")}
+                    onClick={() => window.alert("Delete Thessis...")}
                     style={{
                       backgroundColor: "#F1C40F",
                       color: "#fff",
