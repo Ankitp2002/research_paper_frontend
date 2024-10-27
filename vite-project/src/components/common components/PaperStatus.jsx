@@ -64,7 +64,7 @@ const PaperStatusPage = () => {
   useEffect(() => {
     const fetchAuthorId = async () => {
       const token_Details = await tokenValidation(navigate);
-      if (token_Details) {
+      if (!token_Details.name) {
         setAuthorDetails({
           name: token_Details.username,
           id: token_Details.user_id,
@@ -158,7 +158,7 @@ const PaperStatusPage = () => {
       <AuthorNavbar />
       <div className="paper-status-container">
         <h2>Check Theses Status</h2>
-        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         {papers.length > 0 ? (
           <table className="review-table">
             <thead>
@@ -246,7 +246,7 @@ const PaperStatusPage = () => {
                           ? "orange"
                           : thesis.status === "reviewed"
                           ? "green"
-                          : thesis.status === "Rejected"
+                          : thesis.status === "rejected"
                           ? "red"
                           : "black", // default color for other statuses
                     }}

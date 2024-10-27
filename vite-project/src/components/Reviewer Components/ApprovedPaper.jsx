@@ -7,35 +7,7 @@ import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const ApprovedPapersPage = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Thesis A, Thesis B, Thesis C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Thesis X, Thesis Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
-
-  const [approvedPapers, setThesisData] = useState(initialThesisData);
-
-  // const [approvedPapers, setapprovedPapers] = useState([]);
+  const [approvedPapers, setapprovedPapers] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
@@ -45,7 +17,7 @@ const ApprovedPapersPage = () => {
       try {
         const token = sessionStorage.getItem("authToken");
         const response = await apiRequest(
-          `${REVIEWEREndPoint}/published`,
+          `${REVIEWEREndPoint}?status=published`,
           "GET",
           {},
           {

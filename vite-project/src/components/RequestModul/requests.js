@@ -38,17 +38,17 @@ export const tokenValidation = async (navigate) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    if (user_details && user_details != null) {
+    if (!user_details.name && user_details != null) {
       return user_details; // Store the author_id in the state
     } else {
-      return false;
+      navigate("/");
     }
   } catch (error) {
     if (error.response?.status === 401) {
       if (navigate) {
         navigate("/");
       } else {
-        return false;
+        navigate("/");
       } // Redirect to login on unauthorized access
     }
   }

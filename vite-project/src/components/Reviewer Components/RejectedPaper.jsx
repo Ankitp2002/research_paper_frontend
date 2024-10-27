@@ -7,40 +7,7 @@ import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const RejectedPapersPage = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Thesis A, Thesis B, Thesis C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Thesis X, Thesis Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
-
-  const [rejectedPapers, setThesisData] = useState(initialThesisData);
-
-  // Function to toggle comment view
-  const toggleComments = (index) => {
-    setCommentView(commentView === index ? null : index);
-    setNewComment(""); // Reset the comment input when switching rows
-  };
-  // const [rejectedPapers, setrejectedPapers] = useState([]);
+  const [rejectedPapers, setrejectedPapers] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
@@ -50,7 +17,7 @@ const RejectedPapersPage = () => {
       try {
         const token = sessionStorage.getItem("authToken");
         const response = await apiRequest(
-          `${REVIEWEREndPoint}/rejected`,
+          `${REVIEWEREndPoint}?status=rejected`,
           "GET",
           {},
           {
@@ -119,7 +86,9 @@ const RejectedPapersPage = () => {
                     {paper.document}
                   </a>
                 </td>
-                <td style={{ textAlign: "center" }}>xyz...Comment</td>
+                <td style={{ textAlign: "center" }}>
+                  {paper.comments[0].comment}
+                </td>
               </tr>
             ))}
           </tbody>

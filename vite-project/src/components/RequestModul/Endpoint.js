@@ -14,5 +14,5 @@ export const AuthorPaperBS4EndPoint = `${AUTHOREndPoint}/paper_b64`; // for all 
 // export const AuthorPaper = `${BASE_URL}/author`;
 
 // Reviewers
-export const REVIEWEREndPoint = `${BASE_URL}/reviews`;
+export const REVIEWEREndPoint = `${AUTHOREndPoint}`;
 export const ReviewAuthorPaper = `${AUTHOREndPoint}`;
