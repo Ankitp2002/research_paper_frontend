@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:3000/api"; // Adjust if necessary
 export const USEREndPoint = `${BASE_URL}/users`;
 export const LoginEndPoint = `${BASE_URL}/login`;
 export const RegisterEndPoint = `${USEREndPoint}/register`;
-export const GetUserDetailsEndPoint = `${USEREndPoint}/login_user_details`;
+export const GetUserDetailsEndPoint = `${BASE_URL}/users`;
 
 // Author Paper
 export const AUTHOREndPoint = `${BASE_URL}/thesis`;

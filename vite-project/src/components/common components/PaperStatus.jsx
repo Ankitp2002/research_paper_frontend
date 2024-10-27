@@ -10,36 +10,36 @@ import {
 import { useNavigate } from "react-router";
 
 const PaperStatusPage = () => {
-  const papers = [
-    {
-      title: "Efficient Data Structures",
-      abstract:
-        "An in-depth look at modern data structures and their applications.",
-      authors: "John Doe, Jane Smith",
-      references: "Doe et al., 2020",
-      keywords: "Data Structures, Algorithms",
-      status: "Under Review",
-      comments: ["Great paper!", "Needs more detail in section 3."],
-    },
-    {
-      title: "AI in Healthcare",
-      abstract: "A comprehensive study on the role of AI in modern healthcare.",
-      authors: "Alice Johnson, Bob Brown",
-      references: "Johnson et al., 2021",
-      keywords: "Artificial Intelligence, Healthcare",
-      status: "Approved",
-      comments: ["Excellent research.", "Could improve conclusion."],
-    },
-    {
-      title: "Blockchain Technology",
-      abstract: "The future of decentralized systems and blockchain.",
-      authors: "Mike Davis, Sarah Lee",
-      references: "Davis et al., 2019",
-      keywords: "Blockchain, Decentralization",
-      status: "Rejected",
-      comments: ["Needs more references.", "The argument is not clear."],
-    },
-  ];
+  // const papers = [
+  //   {
+  //     title: "Efficient Data Structures",
+  //     abstract:
+  //       "An in-depth look at modern data structures and their applications.",
+  //     authors: "John Doe, Jane Smith",
+  //     references: "Doe et al., 2020",
+  //     keywords: "Data Structures, Algorithms",
+  //     status: "Under Review",
+  //     comments: ["Great paper!", "Needs more detail in section 3."],
+  //   },
+  //   {
+  //     title: "AI in Healthcare",
+  //     abstract: "A comprehensive study on the role of AI in modern healthcare.",
+  //     authors: "Alice Johnson, Bob Brown",
+  //     references: "Johnson et al., 2021",
+  //     keywords: "Artificial Intelligence, Healthcare",
+  //     status: "Approved",
+  //     comments: ["Excellent research.", "Could improve conclusion."],
+  //   },
+  //   {
+  //     title: "Blockchain Technology",
+  //     abstract: "The future of decentralized systems and blockchain.",
+  //     authors: "Mike Davis, Sarah Lee",
+  //     references: "Davis et al., 2019",
+  //     keywords: "Blockchain, Decentralization",
+  //     status: "Rejected",
+  //     comments: ["Needs more references.", "The argument is not clear."],
+  //   },
+  // ];
   const [commentView, setCommentView] = useState(null);
   const toggleComments = (index) => {
     if (commentView === index) {
@@ -48,7 +48,7 @@ const PaperStatusPage = () => {
       setCommentView(index); // Show comments for the selected row
     }
   };
-  // const [papers, setPapers] = useState([]);
+  const [papers, setPapers] = useState([]);
   const [error, setError] = useState(null);
   const [authorDetails, setAuthorDetails] = useState({});
   const [editingPaper, setEditingPaper] = useState(null); // Track the paper being edited
@@ -63,7 +63,6 @@ const PaperStatusPage = () => {
   // Fetch author details and paper data on mount
   useEffect(() => {
     const fetchAuthorId = async () => {
-      debugger;
       const token_Details = await tokenValidation(navigate);
       if (token_Details) {
         setAuthorDetails({
@@ -79,7 +78,7 @@ const PaperStatusPage = () => {
       const token = sessionStorage.getItem("authToken");
       try {
         const response = await apiRequest(
-          `${AuthorPaperEndPoint}/excluded`,
+          `${AuthorPaperEndPoint}?status=excluded`,
           "GET",
           {},
           {
@@ -230,20 +229,20 @@ const PaperStatusPage = () => {
                     {thesis.abstract}
                   </td>
                   <td style={{ textAlign: "center", padding: "10px" }}>
-                    {thesis.authors}
+                    {thesis.contributorAuthors}
                   </td>
                   <td style={{ textAlign: "center", padding: "10px" }}>
                     {thesis.references}
                   </td>
                   <td style={{ textAlign: "center", padding: "10px" }}>
-                    {thesis.keywords}
+                    {thesis.keyword}
                   </td>
                   <td
                     style={{
                       textAlign: "center",
                       padding: "10px",
                       color:
-                        thesis.status === "Under Review"
+                        thesis.status === "submitted"
                           ? "orange"
                           : thesis.status === "Approved"
                           ? "green"

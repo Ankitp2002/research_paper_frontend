@@ -26,10 +26,10 @@ const Login = () => {
         // Handle login error (e.g., show error message)
       }
       const { role, token } = response;
+      debugger;
 
       if (role == selectedRole) {
         if (token) {
-          debugger;
           sessionStorage.setItem("authToken", token);
           setToken(token); // Store token in state as well (optional)
         }

@@ -22,21 +22,22 @@ const Submit = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const fileInputRef = useRef(null);
 
-  // useEffect(() => {
-  //   const fetchAuthorId = async () => {
-  //     const token_Details = await tokenValidation(navigate);
-  //     if (token_Details) {
-  //       setAuthorDetails({
-  //         name: token_Details.username,
-  //         id: token_Details.user_id,
-  //       });
-  //     } else {
-  //       setError("Failed to fetch author details.");
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchAuthorId = async () => {
+      const token_Details = await tokenValidation(navigate);
+      debugger;
+      if (token_Details) {
+        setAuthorDetails({
+          name: token_Details.username,
+          id: token_Details.user_id,
+        });
+      } else {
+        setError("Failed to fetch author details.");
+      }
+    };
 
-  //   fetchAuthorId(); // Call the function to fetch author ID
-  // }, [navigate]);
+    fetchAuthorId(); // Call the function to fetch author ID
+  }, [navigate]);
 
   // Handle form changes
   const handleChange = (e) => {
@@ -166,7 +167,7 @@ const Submit = () => {
           <label>Author:</label>
           <input
             type="text"
-            value={authorDetails?.name ?? "Author"}
+            value={authorDetails?.name ?? "1212"}
             readOnly // This makes the input non-editable
           />
 
