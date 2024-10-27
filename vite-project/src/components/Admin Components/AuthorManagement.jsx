@@ -8,21 +8,7 @@ import deleteIcon from "../../favIcon/delete.png";
 import editIcon from "../../favIcon/icons8-edit-50.png";
 
 const AuthorManagement = () => {
-  const data = [
-    {
-      id: 1,
-      username: "John Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-    },
-    {
-      id: 2,
-      username: "Jane Smith",
-      email: "jane.smith@example.com",
-      password: "password456",
-    },
-  ];
-  const [reviewers, setAuthors] = useState(data);
+  const [reviewers, setAuthors] = useState([]);
   const [error, setError] = useState("");
   const [newAuthor, setNewAuthor] = useState({
     id: "",
@@ -36,7 +22,7 @@ const AuthorManagement = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await apiRequest(`${USEREndPoint}/author`, "GET"); // Fetch reviewers
+        const response = await apiRequest(`${USEREndPoint}?role=author`, "GET"); // Fetch reviewers
         if (response && response.length > 0) {
           setAuthors(response); // Update state with fetched reviewers
         } else if (response.error) {
@@ -54,7 +40,7 @@ const AuthorManagement = () => {
   const handleAddAuthor = async () => {
     if (newAuthor.name && newAuthor.email) {
       const reviewerToAdd = {
-        username: newAuthor.name,
+        name: newAuthor.name,
         password: newAuthor.password,
         email: newAuthor.email,
         role: "author",
@@ -67,11 +53,8 @@ const AuthorManagement = () => {
           JSON.stringify(reviewerToAdd)
         );
 
-        if (response.user) {
-          setAuthors([
-            ...reviewers,
-            { id: response.user.id, ...reviewerToAdd },
-          ]);
+        if (response) {
+          setAuthors([...reviewers, { id: response.id, ...reviewerToAdd }]);
           setNewAuthor({ id: "", name: "", email: "", password: "" }); // Clear input fields
         } else {
           setError(`Error: ${response.error?.parent?.sqlMessage}`);
@@ -86,7 +69,7 @@ const AuthorManagement = () => {
   // Delete a reviewer
   const handleDelete = async (id) => {
     try {
-      const response = await apiRequest(`${USEREndPoint}/${id}`, "DELETE");
+      const response = await apiRequest(`${USEREndPoint}?id=${id}`, "DELETE");
       if (response) {
         setAuthors(reviewers.filter((reviewer) => reviewer.id !== id)); // Update state after delete
       } else {
@@ -101,25 +84,25 @@ const AuthorManagement = () => {
   const handleUpdateAuthor = async () => {
     if (editAuthorId !== null) {
       const updatedAuthor = {
-        username: newAuthor.name,
+        name: newAuthor.name,
         email: newAuthor.email,
         password: newAuthor.password,
       };
 
       try {
         const response = await apiRequest(
-          `${USEREndPoint}/${editAuthorId}`,
+          `${USEREndPoint}?id=${editAuthorId}`,
           "PUT",
           JSON.stringify(updatedAuthor)
         );
 
-        if (response.user) {
+        if (response) {
           setAuthors(
             reviewers.map((reviewer) =>
               reviewer.id === editAuthorId
                 ? {
                     ...reviewer,
-                    username: newAuthor.name,
+                    name: newAuthor.name,
                     email: newAuthor.email,
                     password: newAuthor.password,
                   }
@@ -141,7 +124,7 @@ const AuthorManagement = () => {
   const handleEdit = (reviewer) => {
     setEditAuthorId(reviewer.id);
     setNewAuthor({
-      name: reviewer.username,
+      name: reviewer.name,
       email: reviewer.email,
       password: reviewer.password,
     });
@@ -241,7 +224,7 @@ const AuthorManagement = () => {
                 style={{ color: "#666666", textAlign: "center" }}
               >
                 <td style={{ textAlign: "center" }}>{reviewer.id}</td>
-                <td style={{ textAlign: "center" }}>{reviewer.username}</td>
+                <td style={{ textAlign: "center" }}>{reviewer.name}</td>
                 <td style={{ textAlign: "center" }}>{reviewer.email}</td>
                 <td style={{ textAlign: "center" }}>
                   <div
@@ -274,7 +257,7 @@ const AuthorManagement = () => {
                     </button>
 
                     <button
-                      onClick={() => window.alert("delete Author")}
+                      onClick={() => handleDelete(reviewer.id)}
                       style={{
                         backgroundColor: "#E74C3C", // Red background
                         color: "#fff", // White text

@@ -8,21 +8,7 @@ import deleteIcon from "../../favIcon/delete.png";
 import editIcon from "../../favIcon/icons8-edit-50.png";
 
 const ReviewerManagement = () => {
-  const data = [
-    {
-      id: 1,
-      username: "John Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-    },
-    {
-      id: 2,
-      username: "Jane Smith",
-      email: "jane.smith@example.com",
-      password: "password456",
-    },
-  ];
-  const [reviewers, setReviewers] = useState(data);
+  const [reviewers, setReviewers] = useState([]);
   const [error, setError] = useState("");
   const [newReviewer, setNewReviewer] = useState({
     id: "",
@@ -36,7 +22,10 @@ const ReviewerManagement = () => {
   useEffect(() => {
     const fetchReviewers = async () => {
       try {
-        const response = await apiRequest(`${USEREndPoint}/reviewer`, "GET"); // Fetch reviewers
+        const response = await apiRequest(
+          `${USEREndPoint}?role=reviewer`,
+          "GET"
+        ); // Fetch reviewers
         if (response && response.length > 0) {
           setReviewers(response); // Update state with fetched reviewers
         } else if (response.error) {
@@ -54,7 +43,7 @@ const ReviewerManagement = () => {
   const handleAddReviewer = async () => {
     if (newReviewer.name && newReviewer.email) {
       const reviewerToAdd = {
-        username: newReviewer.name,
+        name: newReviewer.name,
         password: newReviewer.password,
         email: newReviewer.email,
         role: "reviewer",
@@ -67,11 +56,8 @@ const ReviewerManagement = () => {
           JSON.stringify(reviewerToAdd)
         );
 
-        if (response.user) {
-          setReviewers([
-            ...reviewers,
-            { id: response.user.id, ...reviewerToAdd },
-          ]);
+        if (response) {
+          setReviewers([...reviewers, { id: response.id, ...reviewerToAdd }]);
           setNewReviewer({ id: "", name: "", email: "", password: "" }); // Clear input fields
         } else {
           setError(`Error: ${response.error?.parent?.sqlMessage}`);
@@ -86,7 +72,7 @@ const ReviewerManagement = () => {
   // Delete a reviewer
   const handleDelete = async (id) => {
     try {
-      const response = await apiRequest(`${USEREndPoint}/${id}`, "DELETE");
+      const response = await apiRequest(`${USEREndPoint}?id=${id}`, "DELETE");
       if (response) {
         setReviewers(reviewers.filter((reviewer) => reviewer.id !== id)); // Update state after delete
       } else {
@@ -101,25 +87,25 @@ const ReviewerManagement = () => {
   const handleUpdateReviewer = async () => {
     if (editReviewerId !== null) {
       const updatedReviewer = {
-        username: newReviewer.name,
+        name: newReviewer.name,
         email: newReviewer.email,
         password: newReviewer.password,
       };
 
       try {
         const response = await apiRequest(
-          `${USEREndPoint}/${editReviewerId}`,
+          `${USEREndPoint}?id=${editReviewerId}`,
           "PUT",
           JSON.stringify(updatedReviewer)
         );
 
-        if (response.user) {
+        if (response) {
           setReviewers(
             reviewers.map((reviewer) =>
               reviewer.id === editReviewerId
                 ? {
                     ...reviewer,
-                    username: newReviewer.name,
+                    name: newReviewer.name,
                     email: newReviewer.email,
                     password: newReviewer.password,
                   }
@@ -141,7 +127,7 @@ const ReviewerManagement = () => {
   const handleEdit = (reviewer) => {
     setEditReviewerId(reviewer.id);
     setNewReviewer({
-      name: reviewer.username,
+      name: reviewer.name,
       email: reviewer.email,
       password: reviewer.password,
     });
@@ -241,7 +227,7 @@ const ReviewerManagement = () => {
                 style={{ color: "#666666", textAlign: "center" }}
               >
                 <td style={{ textAlign: "center" }}>{reviewer.id}</td>
-                <td style={{ textAlign: "center" }}>{reviewer.username}</td>
+                <td style={{ textAlign: "center" }}>{reviewer.name}</td>
                 <td style={{ textAlign: "center" }}>{reviewer.email}</td>
                 <td style={{ textAlign: "center" }}>
                   <div
@@ -274,7 +260,7 @@ const ReviewerManagement = () => {
                     </button>
 
                     <button
-                      onClick={() => window.alert("delete Author")}
+                      onClick={() => handleDelete(reviewer.id)}
                       style={{
                         backgroundColor: "#E74C3C", // Red background
                         color: "#fff", // White text
