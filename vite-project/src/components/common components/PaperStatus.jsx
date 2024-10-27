@@ -63,6 +63,7 @@ const PaperStatusPage = () => {
   // Fetch author details and paper data on mount
   useEffect(() => {
     const fetchAuthorId = async () => {
+      debugger;
       const token_Details = await tokenValidation(navigate);
       if (token_Details) {
         setAuthorDetails({

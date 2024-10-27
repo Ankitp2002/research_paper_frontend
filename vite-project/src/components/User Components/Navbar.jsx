@@ -28,6 +28,9 @@ const NavbarUser = () => {
           <a href="/about-us">About Us</a>
         </li>
         <li>
+          <a href="https://mxk3702.uta.cloud/blog/">Blog</a>
+        </li>
+        <li>
           <a href="/faq">FAQ</a>
         </li>
         <li>

@@ -25,6 +25,9 @@ const NavbarWithOutLogin = () => {
           <a href="/without_login_support">Support</a>
         </li>
         <li>
+          <a href="https://mxk3702.uta.cloud/blog/">Blog</a>
+        </li>
+        <li>
           <a href="/login">Login</a>
         </li>
       </ul>

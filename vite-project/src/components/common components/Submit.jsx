@@ -21,21 +21,22 @@ const Submit = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const fileInputRef = useRef(null);
-  useEffect(() => {
-    const fetchAuthorId = async () => {
-      const token_Details = await tokenValidation(navigate);
-      if (token_Details) {
-        setAuthorDetails({
-          name: token_Details.username,
-          id: token_Details.user_id,
-        });
-      } else {
-        setError("Failed to fetch author details.");
-      }
-    };
 
-    fetchAuthorId(); // Call the function to fetch author ID
-  }, [navigate]);
+  // useEffect(() => {
+  //   const fetchAuthorId = async () => {
+  //     const token_Details = await tokenValidation(navigate);
+  //     if (token_Details) {
+  //       setAuthorDetails({
+  //         name: token_Details.username,
+  //         id: token_Details.user_id,
+  //       });
+  //     } else {
+  //       setError("Failed to fetch author details.");
+  //     }
+  //   };
+
+  //   fetchAuthorId(); // Call the function to fetch author ID
+  // }, [navigate]);
 
   // Handle form changes
   const handleChange = (e) => {
@@ -44,7 +45,28 @@ const Submit = () => {
 
   // Handle file upload
   const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
+    const file = e.target.files[0];
+    const filename = file.name;
+    if (file) {
+      const reader = new FileReader();
+
+      // Read the file as a data URL (Base64)
+      reader.readAsDataURL(file);
+
+      // When the file is read successfully
+      reader.onloadend = () => {
+        // Remove the prefix 'data:<mime-type>;base64,' from the result
+        const base64String = reader.result.split(",")[1];
+
+        // Update your formData with the Base64 string
+        setFormData({ ...formData, file: base64String, filename: filename });
+      };
+
+      // Handle errors if any
+      reader.onerror = (error) => {
+        console.error("Error reading file:", error);
+      };
+    }
   };
 
   // Handle form submission
@@ -55,10 +77,11 @@ const Submit = () => {
     const submissionData = new FormData();
     submissionData.append("title", formData.title);
     submissionData.append("abstract", formData.abstract);
-    submissionData.append("other_authors", formData.other_authors);
-    submissionData.append("referace", formData.references);
+    submissionData.append("contributorAuthors", formData.other_authors);
+    submissionData.append("references", formData.references);
     submissionData.append("file", formData.file);
-    submissionData.append("author_id", authorDetails.id);
+    submissionData.append("filename", formData.filename);
+    submissionData.append("authorId", authorDetails.id);
     submissionData.append("keyword", formData.keyword);
     submissionData.append("status", "submitted");
 
@@ -68,7 +91,6 @@ const Submit = () => {
         method: "POST",
         body: submissionData,
       });
-
       if (response.ok) {
         // Success: clear the form and show a success message
         setFormData({
@@ -160,8 +182,8 @@ const Submit = () => {
 
           <button type="submit">Submit Thesis</button>
         </form>
-        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
-        {/* {successMessage && <p style={{ color: "green" }}>{successMessage}</p>} */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </div>
       <Footer />
     </div>

@@ -29,6 +29,7 @@ export const apiRequest = async (url, method, data = {}, headers = {}) => {
 
 export const tokenValidation = async (navigate) => {
   try {
+    debugger;
     const token = sessionStorage.getItem("authToken"); // Get token from sessionStorage
     const user_details = await apiRequest(
       GetUserDetailsEndPoint,

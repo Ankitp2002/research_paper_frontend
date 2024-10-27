@@ -16,23 +16,24 @@ const Login = () => {
     e.preventDefault();
     try {
       let response;
-      // try {
-      //   const params = { username, password };
-      //   // response = await apiRequest(LoginEndPoint, "POST", params, {});
-      //   console.log("Login successful:", response);
-      //   // Handle successful login (e.g., store token, redirect, etc.)
-      // } catch (error) {
-      //   console.error("Login failed:", error);
-      //   // Handle login error (e.g., show error message)
-      // }
-      // const { role, token } = response;
+      try {
+        const params = { username, password };
+        response = await apiRequest(LoginEndPoint, "POST", params, {});
+        console.log("Login successful:", response);
+        // Handle successful login (e.g., store token, redirect, etc.)
+      } catch (error) {
+        console.error("Login failed:", error);
+        // Handle login error (e.g., show error message)
+      }
+      const { role, token } = response;
 
-      // if (role == selectedRole) {
-      //   if (token) {
-      //     sessionStorage.setItem("authToken", token);
-      //     setToken(token); // Store token in state as well (optional)
-      //   }
-
+      if (role == selectedRole) {
+        if (token) {
+          debugger;
+          sessionStorage.setItem("authToken", token);
+          setToken(token); // Store token in state as well (optional)
+        }
+      }
       // Navigate to different home pages based on role
       switch (selectedRole) {
         case "admin":
@@ -75,7 +76,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-form">
         <h2>Login</h2>
-        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleLogin}>
           <div>
             <label>Role:</label>
