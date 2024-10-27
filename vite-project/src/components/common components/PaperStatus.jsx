@@ -244,7 +244,7 @@ const PaperStatusPage = () => {
                       color:
                         thesis.status === "submitted"
                           ? "orange"
-                          : thesis.status === "Approved"
+                          : thesis.status === "reviewed"
                           ? "green"
                           : thesis.status === "Rejected"
                           ? "red"

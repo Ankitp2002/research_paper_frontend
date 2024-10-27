@@ -13,33 +13,6 @@ import { handleGetPaperB64 } from "../../utils/handleAuthor";
 import reviewIcon from "../../favIcon/feedback.png";
 
 const ReviewPage = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Thesis A, Thesis B, Thesis C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Thesis X, Thesis Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
-
-  const [papers, setThesisData] = useState(initialThesisData);
   const [commentView, setCommentView] = useState(null); // Track which row is showing comments
   const [newComment, setNewComment] = useState(""); // Track new comment input
 
@@ -54,8 +27,7 @@ const ReviewPage = () => {
     setIsReviewed(false); // Reset review state if necessary
   };
 
-  // const [papers, setPapers] = useState([]);
-
+  const [papers, setPapers] = useState([]);
   const [selectedPaper, setSelectedPaper] = useState(null);
   const [comments, setComments] = useState("");
   const [isReviewed, setIsReviewed] = useState(false);
@@ -67,7 +39,7 @@ const ReviewPage = () => {
     const fetchPapers = async () => {
       try {
         const response = await apiRequest(
-          `${AuthorPaperEndPoint}/excluded`,
+          `${AuthorPaperEndPoint}?status=excluded`,
           "GET"
         ); // Adjust the endpoint URL as necessary
         if (Array.isArray(response) && response.length > 0) {
@@ -96,9 +68,9 @@ const ReviewPage = () => {
   const submitReview = async (action, id, comment) => {
     const token = sessionStorage.getItem("authToken");
     const response = await apiRequest(
-      ReviewAuthorPaper,
-      "POST",
-      JSON.stringify({ status: action, paper_id: id, comment: comment }),
+      `${ReviewAuthorPaper}?id=${id}`,
+      "PUT",
+      JSON.stringify({ status: action, comment: comment }),
       {
         Authorization: `Bearer ${token}`,
       }
@@ -117,7 +89,6 @@ const ReviewPage = () => {
             }
           : paper
       );
-
       setPapers(updatedPapers); // Update the papers state with the new status
       setIsReviewed(true); // Set the review status
       setSelectedPaper(null); // Clear the selected paper after review
@@ -147,9 +118,6 @@ const ReviewPage = () => {
               <th style={{ color: "#666666", textAlign: "center" }}>
                 References
               </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Publish Year
-              </th>
               <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
               <th style={{ color: "#666666", textAlign: "center" }}>
                 Document
@@ -166,7 +134,6 @@ const ReviewPage = () => {
                   {paper.contributorAuthors}
                 </td>
                 <td style={{ textAlign: "center" }}>{paper.references}</td>
-                <td style={{ textAlign: "center" }}>{paper.publishYear}</td>
                 <td style={{ textAlign: "center" }}>{paper.keyword}</td>
                 <td style={{ textAlign: "center" }}>
                   <a
@@ -179,7 +146,13 @@ const ReviewPage = () => {
                     View Thesis
                   </a>
                 </td>
-                <td style={{ textAlign: "center" }}>
+                <td
+                  style={{
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
                   <button
                     onClick={() => handleReview(paper)}
                     style={{
