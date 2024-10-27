@@ -29,7 +29,6 @@ export const apiRequest = async (url, method, data = {}, headers = {}) => {
 
 export const tokenValidation = async (navigate) => {
   try {
-    debugger;
     const token = sessionStorage.getItem("authToken"); // Get token from sessionStorage
     const user_details = await apiRequest(
       GetUserDetailsEndPoint,
@@ -40,7 +39,7 @@ export const tokenValidation = async (navigate) => {
       }
     );
     if (user_details && user_details != null) {
-      return user_details.data; // Store the author_id in the state
+      return user_details; // Store the author_id in the state
     } else {
       return false;
     }

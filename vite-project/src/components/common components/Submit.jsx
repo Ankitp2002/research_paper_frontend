@@ -25,7 +25,6 @@ const Submit = () => {
   useEffect(() => {
     const fetchAuthorId = async () => {
       const token_Details = await tokenValidation(navigate);
-      debugger;
       if (token_Details) {
         setAuthorDetails({
           name: token_Details.username,
