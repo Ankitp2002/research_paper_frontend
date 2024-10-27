@@ -8,21 +8,7 @@ import deleteIcon from "../../favIcon/delete.png";
 import editIcon from "../../favIcon/icons8-edit-50.png";
 const UserManagement = () => {
   //give dummy data for users
-  const data = [
-    {
-      id: 1,
-      username: "John Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-    },
-    {
-      id: 2,
-      username: "Jane Smith",
-      email: "jane.smith@example.com",
-      password: "password456",
-    },
-  ];
-  const [users, setUsers] = useState(data);
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [newUser, setNewUser] = useState({
     id: "",
@@ -36,7 +22,7 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await apiRequest(`${USEREndPoint}/user`, "GET"); // Fetch users
+        const response = await apiRequest(`${USEREndPoint}?role=user`, "GET"); // Fetch users
         if (response && response.length > 0) {
           setUsers(response); // Update state with fetched users
         } else if (response.error) {
@@ -54,7 +40,7 @@ const UserManagement = () => {
   const handleAddUser = async () => {
     if (newUser.name && newUser.email && newUser.password) {
       const userToAdd = {
-        username: newUser.name,
+        name: newUser.name,
         password: newUser.password,
         email: newUser.email,
         role: "user", // Set role dynamically as fixed "user"
@@ -66,9 +52,8 @@ const UserManagement = () => {
           "POST",
           JSON.stringify(userToAdd)
         );
-
-        if (response.user) {
-          setUsers([...users, { id: response.user.id, ...userToAdd }]);
+        if (response) {
+          setUsers([...users, { id: response.id, ...userToAdd }]);
           setNewUser({ id: "", name: "", email: "", password: "" });
         } else {
           setError(`Error: ${response.error?.parent?.sqlMessage}`);
@@ -83,7 +68,7 @@ const UserManagement = () => {
   // Delete a user
   const handleDelete = async (id) => {
     try {
-      const response = await apiRequest(`${USEREndPoint}/${id}`, "DELETE");
+      const response = await apiRequest(`${USEREndPoint}?id=${id}`, "DELETE");
       if (response) {
         setUsers(users.filter((user) => user.id !== id)); // Update state after delete
       } else {
@@ -98,26 +83,25 @@ const UserManagement = () => {
   const handleUpdateUser = async () => {
     if (editUserId !== null) {
       const updatedUser = {
-        username: newUser.name,
+        name: newUser.name,
         email: newUser.email,
         password: newUser.password, // Include password if updating it
       };
 
       try {
         const response = await apiRequest(
-          `${USEREndPoint}/${editUserId}`,
+          `${USEREndPoint}?id=${editUserId}`,
           "PUT",
           JSON.stringify(updatedUser)
         );
 
-        if (response.user) {
-          debugger;
+        if (response) {
           setUsers(
             users.map((user) =>
               user.id === editUserId
                 ? {
                     ...user,
-                    username: newUser.name,
+                    name: newUser.name,
                     email: newUser.email,
                     password: newUser.password,
                   }
@@ -139,7 +123,7 @@ const UserManagement = () => {
   const handleEdit = (user) => {
     setEditUserId(user.id);
     setNewUser({
-      name: user.username,
+      name: user.name,
       email: user.email,
       password: user.password,
     });
@@ -239,7 +223,7 @@ const UserManagement = () => {
                   {user.id}
                 </td>
                 <td style={{ color: "#666666", textAlign: "center" }}>
-                  {user.username}
+                  {user.name}
                 </td>
                 <td style={{ color: "#666666", textAlign: "center" }}>
                   {user.email}
@@ -254,7 +238,7 @@ const UserManagement = () => {
                     }}
                   >
                     <button
-                      onClick={() => handleEdit(reviewer)}
+                      onClick={() => handleEdit(user)}
                       style={{
                         backgroundColor: "#3498DB", // Changed to a blue color for Edit
                         color: "#fff",
@@ -275,7 +259,7 @@ const UserManagement = () => {
                     </button>
 
                     <button
-                      onClick={() => window.alert("delete Author")}
+                      onClick={() => handleDelete(user.id)}
                       style={{
                         backgroundColor: "#E74C3C", // Red background
                         color: "#fff", // White text
