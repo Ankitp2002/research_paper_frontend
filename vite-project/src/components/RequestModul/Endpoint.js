@@ -16,3 +16,6 @@ export const AuthorPaperBS4EndPoint = `${AUTHOREndPoint}/paper_b64`; // for all 
 // Reviewers
 export const REVIEWEREndPoint = `${AUTHOREndPoint}`;
 export const ReviewAuthorPaper = `${AUTHOREndPoint}`;
+
+//comments
+export const AddComments = `${BASE_URL}/comment`;

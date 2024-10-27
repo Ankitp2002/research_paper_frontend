@@ -4,8 +4,10 @@ import Footer from "./AdminFooter";
 import "./ManagePublishedPapers.css";
 import { apiRequest } from "../RequestModul/requests";
 import {
+  AddComments,
   AuthorPaperEndPoint,
   CreateAuthorPaperEndPoint,
+  REVIEWEREndPoint,
 } from "../RequestModul/Endpoint";
 import {
   fetchAuthors,
@@ -18,54 +20,40 @@ import commentIcon from "../../favIcon/comment.png";
 import viewIcon from "../../favIcon/view.png";
 
 const PublishedPapersManagement = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Paper A, Paper B, Paper C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Paper X, Paper Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentComments, setCurrentComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [currentPaperTitle, setCurrentPaperTitle] = useState("");
+  const [currentPaper, setCurrentPaper] = useState({});
 
-  const openModal = (comments, title) => {
-    setCurrentComments(comments);
-    setCurrentPaperTitle(title);
+  const openModal = (paper) => {
+    setCurrentPaper(paper);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setCurrentComments([]);
   };
 
-  const handleAddComment = () => {
+  const handleAddComment = async (thesis_id) => {
     if (newComment.trim()) {
-      setCurrentComments([...currentComments, newComment]);
-      setNewComment(""); // Clear input field after adding comment
+      const token = sessionStorage.getItem("authToken");
+
+      const response = await apiRequest(
+        `${AddComments}`,
+        "POST",
+        { comment: newComment, thesisId: thesis_id },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      if (response) {
+        debugger;
+        currentPaper.comments.push(response); // Add the new comment to the paper
+        setCurrentPaper(currentPaper);
+        setNewComment(""); // Clear input field after adding comment
+      }
     }
   };
-  const [thesisData, setThesisData] = useState(initialThesisData);
+  // const [thesisData, setThesisData] = useState(initialThesisData);
   const [commentView, setCommentView] = useState(null); // Track which row is showing comments
   // const [newComment, setNewComment] = useState(""); // Track new comment input
 
@@ -101,14 +89,14 @@ const PublishedPapersManagement = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // First, wait for authors data to be collected
-      const [authorDetails, authorMapDetails] = await fetchAuthors();
-      if (authorMapDetails !== null && authorDetails !== null) {
-        setAuthorMap(authorMapDetails); // Set author map data
-        setAuthors(authorDetails); // Set author details
-      } else {
-        setError(authorDetails); // Handle error case
-      }
+      // // First, wait for authors data to be collected
+      // const [authorDetails, authorMapDetails] = await fetchAuthors();
+      // if (authorMapDetails !== null && authorDetails !== null) {
+      //   setAuthorMap(authorMapDetails); // Set author map data
+      //   setAuthors(authorDetails); // Set author details
+      // } else {
+      //   setError(authorDetails); // Handle error case
+      // }
 
       // After the first fetch is completed, wait for papers data to be collected
       const authorPublishPaper = await fetchPaper();
@@ -142,83 +130,82 @@ const PublishedPapersManagement = () => {
     }
   };
 
-  const handleAddPaper = async (event) => {
-    event.preventDefault();
-    const { title, file, authorId, abstract, other_authors, references } =
-      newPaper;
+  // const handleAddPaper = async (event) => {
+  //   event.preventDefault();
+  //   const { title, file, authorId, abstract, other_authors, references } =
+  //     newPaper;
 
-    if (!title || !file || !authorId) {
-      let errorMessage = "Please fill in all required fields.";
-      if (!authorId) {
-        errorMessage += " Select an author.";
-      }
-      setError(errorMessage);
+  //   if (!title || !file || !authorId) {
+  //     let errorMessage = "Please fill in all required fields.";
+  //     if (!authorId) {
+  //       errorMessage += " Select an author.";
+  //     }
+  //     setError(errorMessage);
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("abstract", abstract);
+  //   formData.append("other_authors", other_authors);
+  //   formData.append("referace", references);
+  //   formData.append("file", file);
+  //   formData.append("author_id", authorId);
+  //   formData.append("submission_date", new Date().toISOString());
+  //   formData.append("status", "published");
+
+  //   try {
+  //     const response = await fetch(CreateAuthorPaperEndPoint, {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     if (response.ok) {
+  //       const paperData = await response.json();
+  //       console.log(paperData);
+  //       setPublishedPapers((prevPapers) => [
+  //         ...prevPapers,
+  //         {
+  //           id: paperData.id,
+  //           title: paperData.title,
+  //           abstract: paperData.abstract,
+  //           other_authors: paperData.other_authors,
+  //           referace: paperData.referace,
+  //           link: paperData.file_path,
+  //           status: paperData.status,
+  //           authorId: paperData.author_id,
+  //           authorName: authorMap[paperData.author_id] || "",
+  //         },
+  //       ]);
+
+  //       // Clear the form
+  //       setNewPaper({ title: "", file: null, authorId: "" });
+  //       if (fileInputRef.current) {
+  //         fileInputRef.current.value = ""; // Reset the file input using ref
+  //       }
+  //       setError("");
+  //     } else {
+  //       setError("Error uploading paper: " + response.statusText);
+  //     }
+  //   } catch (error) {
+  //     setError("An error occurred while uploading the paper.");
+  //     console.error("Error:", error.message);
+  //   }
+  // };
+
+  const handleDeletePaper = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this paper?"
+    );
+    if (!confirmDelete) {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("abstract", abstract);
-    formData.append("other_authors", other_authors);
-    formData.append("referace", references);
-    formData.append("file", file);
-    formData.append("author_id", authorId);
-    formData.append("submission_date", new Date().toISOString());
-    formData.append("status", "published");
-
-    try {
-      const response = await fetch(CreateAuthorPaperEndPoint, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const paperData = await response.json();
-        console.log(paperData);
-        setPublishedPapers((prevPapers) => [
-          ...prevPapers,
-          {
-            id: paperData.id,
-            title: paperData.title,
-            abstract: paperData.abstract,
-            other_authors: paperData.other_authors,
-            referace: paperData.referace,
-            link: paperData.file_path,
-            status: paperData.status,
-            authorId: paperData.author_id,
-            authorName: authorMap[paperData.author_id] || "",
-          },
-        ]);
-
-        // Clear the form
-        setNewPaper({ title: "", file: null, authorId: "" });
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset the file input using ref
-        }
-        setError("");
-      } else {
-        setError("Error uploading paper: " + response.statusText);
-      }
-    } catch (error) {
-      setError("An error occurred while uploading the paper.");
-      console.error("Error:", error.message);
-    }
-  };
-
-  const handleDeletePaper = async (id) => {
-    // const confirmDelete = window.confirm(
-    //   "Are you sure you want to delete this paper?"
-    // );
-    // if (!confirmDelete) return;
-    console.log(id);
-
     try {
       const response = await apiRequest(
-        `${AuthorPaperEndPoint}/${id}`,
+        `${AuthorPaperEndPoint}?id=${id}`,
         "DELETE"
       );
-      console.log(response);
-
       if (response) {
         setPublishedPapers(publishedPapers.filter((paper) => paper.id !== id));
       } else {
@@ -296,7 +283,7 @@ const PublishedPapersManagement = () => {
           <button onClick={handleAddPaper}>Add Paper</button>
         </div> */}
         <div className="papers-grid">
-          {thesisData.map((paper) => (
+          {publishedPapers.map((paper) => (
             <div className="paper-card" key={paper.id}>
               <h3 className="paper-title">{paper.title}</h3>
               <p className="paper-abstract">
@@ -320,6 +307,13 @@ const PublishedPapersManagement = () => {
                 href={`/${paper.document}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{
+                  display: "inline-block",
+                  width: "100%",
+                  color: "#3498DB", // Link color
+                  textDecoration: "none", // Remove underline
+                  overflow: "hidden", // Hide overflow content
+                }}
               >
                 {paper.document}
               </a>
@@ -335,7 +329,7 @@ const PublishedPapersManagement = () => {
               >
                 <div style={{ display: "flex", gap: "10px" }}>
                   <button
-                    onClick={() => window.alert("Delete Thessis...")}
+                    onClick={() => handleDeletePaper(paper.id)}
                     style={{
                       backgroundColor: "#F1C40F",
                       color: "#fff",
@@ -355,7 +349,7 @@ const PublishedPapersManagement = () => {
                   </button>
 
                   <button
-                    onClick={() => openModal(paper.comments, paper.title)}
+                    onClick={() => openModal(paper)}
                     style={{
                       backgroundColor: "#F1C40F",
                       color: "#fff",
@@ -405,12 +399,12 @@ const PublishedPapersManagement = () => {
               <button className="close-button" onClick={closeModal}>
                 X
               </button>
-              <h2>Comments for {currentPaperTitle}</h2>
+              <h2>Comments for {currentPaper.title}</h2>
               <ul>
-                {currentComments.length > 0 ? (
-                  currentComments.map((comment, i) => (
+                {currentPaper.comments.length > 0 ? (
+                  currentPaper.comments.map((comment, i) => (
                     <li key={i}>
-                      <strong>User:</strong> {comment}
+                      <strong>{comment.userName}:</strong> {comment.comment}
                     </li>
                   ))
                 ) : (
@@ -425,7 +419,9 @@ const PublishedPapersManagement = () => {
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                 />
-                <button onClick={handleAddComment}>Submit</button>
+                <button onClick={() => handleAddComment(currentPaper.id)}>
+                  Submit
+                </button>
               </div>
             </div>
           </div>

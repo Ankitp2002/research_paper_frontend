@@ -21,7 +21,7 @@ export const fetchAuthors = async () => {
 
 export const fetchPaper = async () => {
   const papersResponse = await apiRequest(
-    `${AuthorPaperEndPoint}/published`,
+    `${AuthorPaperEndPoint}?status=published`,
     "GET"
   );
   if (Array.isArray(papersResponse)) {
@@ -29,11 +29,22 @@ export const fetchPaper = async () => {
       id: ele.id,
       status: ele.status,
       title: ele.title,
-      referace: ele.referace,
-      other_authors: ele.other_authors,
+      publishYear: ele.publishYear,
+      references: ele.references,
+      contributorAuthors: ele.contributorAuthors,
+      document: ele.document,
       abstract: ele.abstract,
-      authorId: ele.User ? ele.User.id : null,
-      authorName: ele.User ? ele.User.username : null,
+      keyword: ele.keyword,
+      authorId: ele?.author ? ele.author.id : null,
+      authorName: ele?.author ? ele.author.name : null,
+      comments: ele.comments
+        ? ele.comments
+            .filter((comment) => comment.user.role == "admin") // Filter comments by user role
+            .map((comment) => ({
+              comment: comment.comment,
+              userName: comment.user.name, // Include the user's name
+            }))
+        : [],
     }));
   } else {
     return `Error fetching published papers: ${papersResponse.status}`;
