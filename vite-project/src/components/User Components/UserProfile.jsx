@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarUser from "./Navbar";
 import Footer from "./Footer";
+import { apiRequest } from "../RequestModul/requests";
+import { USEREndPoint } from "../RequestModul/Endpoint";
+
 export default function Basic() {
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
@@ -8,59 +11,102 @@ export default function Basic() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
   const openForgotPasswordModal = () => setForgotPasswordOpen(true);
   const closeForgotPasswordModal = () => setForgotPasswordOpen(false);
   const openChangePasswordModal = () => setChangePasswordOpen(true);
   const closeChangePasswordModal = () => setChangePasswordOpen(false);
 
+  const token = sessionStorage.getItem("authToken");
   const sendForgotPasswordEmail = () => {
     console.log(`Sending reset password email to ${email}`);
     closeForgotPasswordModal();
   };
 
-  const updatePassword = () => {
+  const updatePassword = async () => {
     if (newPassword === confirmNewPassword) {
-      console.log("Password updated successfully");
+      try {
+        const response = await apiRequest(
+          USEREndPoint,
+          "PUT",
+
+          JSON.stringify({
+            currentPassword,
+            newPassword,
+          }),
+          {
+            Authorization: `Bearer ${token}`,
+            // Include any additional headers, like authorization, if necessary
+          }
+        );
+        if (response.user || response.email) {
+          window.alert("Password updated successfully");
+          // Optionally, reset password state fields if needed
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
+          closeChangePasswordModal();
+        } else {
+          window.alert("Failed to update password. Please try again.");
+          // Handle error (show message to user)
+        }
+      } catch (error) {
+        window.alert(`Failed to update password ${error.response.data.error}`);
+        console.error("Error occurred while updating password:", error);
+        // Handle error (show message to user)
+      }
       closeChangePasswordModal();
     } else {
       console.log("Passwords do not match");
     }
   };
+  // Fetch user details on component mount
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await apiRequest(
+          USEREndPoint,
+          "GET",
+          {},
+          {
+            Authorization: `Bearer ${token}`,
+          }
+        ); // Update with your API URL
+        if (!response) {
+          throw new Error("Network response was not ok");
+        }
+        setName(response.username); // Assuming your API returns a name field
+        setEmail(response.email); // Assuming your API returns an email field
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   return (
     <div className="user-home-page">
       <NavbarUser />
       <div className="submit-container">
         <h2>Profile Page</h2>
-        <br></br>
+        <br />
         <div className="profile-info">
           <form>
             <label>Name:</label>
             <input
               type="text"
               name="name"
-              value="Parth Patel"
+              value={name} // Bind state here
               style={{ color: "black" }}
               readOnly
             />
             <label>Email:</label>
             <input
-              type="Text"
+              type="text"
               name="email"
-              value="Parth@gmail.com"
-              style={{
-                color: "black",
-                backgroundColor: "#d3d3d3",
-                borderColor: "#d3d3d3",
-              }}
-              readOnly
-            />
-            <label>Phone Number:</label>
-            <input
-              type="Text"
-              name="number"
-              value="987654321"
+              value={email} // Bind state here
               style={{
                 color: "black",
                 backgroundColor: "#d3d3d3",
@@ -95,6 +141,7 @@ export default function Basic() {
     </div> */}
         </div>
 
+        {/* Forgot Password Modal */}
         {isForgotPasswordOpen && (
           <div
             style={{
@@ -199,6 +246,7 @@ export default function Basic() {
           </div>
         )}
 
+        {/* Change Password Modal */}
         {isChangePasswordOpen && (
           <div
             style={{
@@ -335,51 +383,44 @@ export default function Basic() {
                     }}
                   />
                 </div>
-                <div
+                <button
+                  type="submit"
                   style={{
-                    display: "flex",
-                    gap: "10px",
-                    justifyContent: "flex-end",
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    padding: "10px",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    marginTop: "10px",
+                    width: "100%",
                   }}
                 >
-                  <button
-                    className="update-btn"
-                    type="submit"
-                    style={{
-                      backgroundColor: "#007bff",
-                      color: "white",
-                      padding: "10px",
-                      border: "none",
-                      borderRadius: "5px",
-                      fontSize: "16px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Update Password
-                  </button>
-                  <button
-                    className="close-btn"
-                    type="button"
-                    onClick={closeChangePasswordModal}
-                    style={{
-                      backgroundColor: "#dc3545",
-                      color: "white",
-                      padding: "10px",
-                      border: "none",
-                      borderRadius: "5px",
-                      fontSize: "16px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
+                  Update Password
+                </button>
+                <button
+                  className="close-btn"
+                  onClick={closeChangePasswordModal}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    padding: "10px",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    marginTop: "10px",
+                    width: "100%",
+                  }}
+                >
+                  Close
+                </button>
               </form>
             </div>
           </div>
         )}
       </div>
-
       <Footer />
     </div>
   );
