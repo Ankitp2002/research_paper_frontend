@@ -5,31 +5,31 @@ import "./Home.css";
 import { fetchPaper, handleGetPaperB64 } from "../../utils/handleAuthor";
 import NavbarWithOutLogin from "./Navbar_wihtout_login";
 const UserPublishPaperPage = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Thesis A, Thesis B, Thesis C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Thesis X, Thesis Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
+  // const initialThesisData = [
+  //   {
+  //     title: "Energy Efficient Cloud Computing",
+  //     abstract:
+  //       "This thesis focuses on reducing energy consumption in data centers...",
+  //     contributorAuthors: "John Doe, Alice Smith",
+  //     references: "Thesis A, Thesis B, Thesis C",
+  //     publishYear: 2023,
+  //     keyword: "Cloud Computing, Energy Efficiency",
+  //     document: "View-Thesis.pdf",
+  //     authorName: "Ankit Kumar",
+  //     comments: ["Great thesis!", "Needs more data on VM migration."],
+  //   },
+  //   {
+  //     title: "AI and Machine Learning in Healthcare",
+  //     abstract: "An overview of the impact of AI in medical diagnostics...",
+  //     contributorAuthors: "Emily Johnson, Mark Lee",
+  //     references: "Thesis X, Thesis Y",
+  //     publishYear: 2022,
+  //     keyword: "AI, Healthcare",
+  //     document: "View-Thesis.pdf",
+  //     authorName: "Jane Doe",
+  //     comments: ["Innovative approach.", "Consider additional case studies."],
+  //   },
+  // ];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentComments, setCurrentComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -52,9 +52,7 @@ const UserPublishPaperPage = () => {
       setNewComment(""); // Clear input field after adding comment
     }
   };
-  const [publishPaper, setThesisData] = useState(initialThesisData);
-
-  // const [publishPaper, setPublishedPapers] = useState([]);
+  const [publishPaper, setPublishedPapers] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -102,8 +100,15 @@ const UserPublishPaperPage = () => {
                   href={`/${paper.document}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{
+                    display: "inline-block",
+                    width: "100%",
+                    color: "#3498DB", // Link color
+                    textDecoration: "none", // Remove underline
+                    overflow: "hidden", // Hide overflow content
+                  }}
                 >
-                  {paper.document}
+                  View-thesis
                 </a>
               </div>
             ))}

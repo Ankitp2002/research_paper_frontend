@@ -6,58 +6,42 @@ import { fetchPaper, handleGetPaperB64 } from "../../utils/handleAuthor";
 import NavbarWithOutLogin from "./Navbar_wihtout_login";
 import commentIcon from "../../favIcon/comment.png";
 import viewIcon from "../../favIcon/view.png";
+import { apiRequest } from "../RequestModul/requests";
+import { AddComments, AUTHOREndPoint } from "../RequestModul/Endpoint";
 const UserPublishPaperPage = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Thesis A, Thesis B, Thesis C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Thesis X, Thesis Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentComments, setCurrentComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [currentPaperTitle, setCurrentPaperTitle] = useState("");
+  const [currentPaper, setCurrentPaper] = useState({});
 
-  const openModal = (comments, title) => {
-    setCurrentComments(comments);
-    setCurrentPaperTitle(title);
+  const openModal = (paper) => {
+    setCurrentPaper(paper);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setCurrentComments([]);
   };
-
-  const handleAddComment = () => {
+  const token = sessionStorage.getItem("authToken");
+  const handleAddComment = async (thesis_id) => {
     if (newComment.trim()) {
-      setCurrentComments([...currentComments, newComment]);
-      setNewComment(""); // Clear input field after adding comment
+      const response = await apiRequest(
+        `${AddComments}`,
+        "POST",
+        { comment: newComment, thesisId: thesis_id },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      if (response) {
+        currentPaper.comments.push(response); // Add the new comment to the paper
+        setCurrentPaper(currentPaper);
+        setNewComment(""); // Clear input field after adding comment
+      }
     }
   };
   const [commentView, setCommentView] = useState(null);
-  const [publishPaper, setThesisData] = useState(initialThesisData);
+  const [publishPaper, setPublishedPapers] = useState([]);
 
-  // const [publishPaper, setPublishedPapers] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -71,6 +55,37 @@ const UserPublishPaperPage = () => {
     };
     fetchData();
   }, []);
+
+  const handleViewThesis = async (documentPath, paperId) => {
+    try {
+      // First, call the API to increase the view count
+      const response = await fetch(`${AUTHOREndPoint}?for=view_count`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ paperId }), // Pass paperId to the API
+      });
+
+      // Check if the response is okay
+      if (!response.ok) {
+        throw new Error("Failed to increase view count");
+      }
+
+      // Open the document link in a new tab
+      window.open(
+        `http://localhost:3000/${documentPath}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      // Reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <div className="user-home-page">
@@ -105,15 +120,26 @@ const UserPublishPaperPage = () => {
                   href={`/${paper.document}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{
+                    display: "inline-block",
+                    width: "100%",
+                    color: "#3498DB", // Link color
+                    textDecoration: "none", // Remove underline
+                    overflow: "hidden", // Hide overflow content
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent default link navigation
+                    handleViewThesis(paper.document, paper.id); // Call the function with parameters
+                  }}
                 >
-                  {paper.document}
+                  View-thesis
                 </a>
                 <div
                   className="actions"
                   style={{ display: "flex", gap: "10px" }}
                 >
                   <button
-                    onClick={() => openModal(paper.comments, paper.title)}
+                    onClick={() => openModal(paper)}
                     style={{
                       backgroundColor: "#F1C40F",
                       color: "#fff",
@@ -134,7 +160,7 @@ const UserPublishPaperPage = () => {
                   </button>
 
                   <button
-                    onClick={() => openViewModal(paper.id)} // Replace with your view function
+                    onClick={() => handlegetCommentCount(paper.id)} // Replace with your view function
                     style={{
                       backgroundColor: "#3498DB",
                       color: "#fff",
@@ -151,7 +177,10 @@ const UserPublishPaperPage = () => {
                       alt="view_icon"
                       style={{ height: 20, marginRight: "8px" }}
                     />
-                    <span>Views (123)</span> {/* Dummy count for views */}
+                    <span>
+                      Views ({paper.view_count ? paper.view_count : 0})
+                    </span>{" "}
+                    {/* Dummy count for views */}
                   </button>
                 </div>
               </div>
@@ -168,12 +197,12 @@ const UserPublishPaperPage = () => {
                 <button className="close-button" onClick={closeModal}>
                   X
                 </button>
-                <h2>Comments for {currentPaperTitle}</h2>
+                <h2>Comments for {currentPaper.title}</h2>
                 <ul>
-                  {currentComments.length > 0 ? (
-                    currentComments.map((comment, i) => (
+                  {currentPaper.comments.length > 0 ? (
+                    currentPaper.comments.map((comment, i) => (
                       <li key={i}>
-                        <strong>User:</strong> {comment}
+                        <strong>{comment.userName}:</strong> {comment.comment}
                       </li>
                     ))
                   ) : (
@@ -188,7 +217,9 @@ const UserPublishPaperPage = () => {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                   />
-                  <button onClick={handleAddComment}>Submit</button>
+                  <button onClick={() => handleAddComment(currentPaper.id)}>
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>

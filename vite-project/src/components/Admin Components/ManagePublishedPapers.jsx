@@ -46,7 +46,6 @@ const PublishedPapersManagement = () => {
         }
       );
       if (response) {
-        debugger;
         currentPaper.comments.push(response); // Add the new comment to the paper
         setCurrentPaper(currentPaper);
         setNewComment(""); // Clear input field after adding comment

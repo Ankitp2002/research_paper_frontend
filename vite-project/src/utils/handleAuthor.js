@@ -35,11 +35,12 @@ export const fetchPaper = async () => {
       document: ele.document,
       abstract: ele.abstract,
       keyword: ele.keyword,
+      view_count: ele.view_count,
       authorId: ele?.author ? ele.author.id : null,
       authorName: ele?.author ? ele.author.name : null,
       comments: ele.comments
         ? ele.comments
-            .filter((comment) => comment.user.role == "admin") // Filter comments by user role
+            .filter((comment) => comment.user.role == "user") // Filter comments by user role
             .map((comment) => ({
               comment: comment.comment,
               userName: comment.user.name, // Include the user's name
