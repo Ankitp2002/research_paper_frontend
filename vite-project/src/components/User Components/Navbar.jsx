@@ -1,16 +1,8 @@
-import React, { useState } from "react";
-import "./Navbar.css"; // Create a CSS file for user navbar styles
+import React from "react";
+import "./Navbar.css";
 import userIcon from "../../favIcon/icons8-user-16.png";
-const NavbarUser = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+const NavbarUser = ({ searchTerm, setSearchTerm }) => {
   return (
     <nav className="admin-navbar">
       <div className="navbar-title">User Panel</div>
@@ -40,27 +32,25 @@ const NavbarUser = () => {
           <input
             type="text"
             placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             style={{
               padding: "3px",
               borderRadius: "4px",
               border: "1px solid #ccc",
               width: "180px",
-              marginTop: "0px",
               color: "black",
             }}
           />
         </li>
         <li>
-          <div className="Profile Images">
-            <a href="/user-profile">
-              <img src={userIcon} alt="Profile Image" style={{ height: 30 }} />
-            </a>
-          </div>
+          <a href="/user-profile">
+            <img src={userIcon} alt="Profile" style={{ height: 30 }} />
+          </a>
         </li>
         <li>
           <a href="/logout">Logout</a>
         </li>
-        {/* Modal */}
       </ul>
     </nav>
   );

@@ -31,22 +31,27 @@
     text-align: left;
 }
 .papers-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Reduce space between the cards */
-    justify-content: space-between;
-  }
-  
-  .paper-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Reduce the card width slightly */
-    margin-bottom: 10px; /* Reduce the bottom margin */
-    padding: 30px 20px;
-    box-sizing: border-box;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  /* Adjust spacing between cards */
+  justify-content: center;
+  /* Center cards to avoid excess spacing */
+}
+
+.paper-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1 1 300px;
+  /* Allow cards to grow and shrink */
+  max-width: 350px;
+  /* Set a max width for consistency */
+  margin-bottom: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
   
   .paper-title {
     font-size: 18px;
