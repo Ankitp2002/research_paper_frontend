@@ -85,7 +85,16 @@ const UserPublishPaperPage = () => {
   };
 
   const filteredPapers = publishPaper.filter((paper) =>
-    paper.title.toLowerCase().includes(searchTerm.toLowerCase())
+    [
+      paper.title,
+      paper.abstract,
+      paper.contributorAuthors,
+      paper.references,
+      paper.keyword,
+      paper.publishYear,
+    ].some(
+      (field) => field && field.toLowerCase().includes(searchTerm.toLowerCase())
+    )
   );
 
   return (
