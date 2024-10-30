@@ -40,21 +40,24 @@ import Basic from "./components/User Components/UserProfile";
 import AboutUs_wihout_login from "./components/User Components/About_without_login";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null); // null initially to indicate loading
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // Initialize as null to indicate loading
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      // const token_Details = await tokenValidation();
-      // setIsAuthenticated(token_Details ? true : false);
-      const token_Details = "";
-      setIsAuthenticated(true);
+      const token_Details = await tokenValidation();
+      setIsAuthenticated(!!token_Details); // Set to true if token_Details exists, false otherwise
     };
 
     checkAuthentication();
   }, []);
 
+  // Log the authentication status when it changes
+  useEffect(() => {
+    console.log("Authentication Status:", isAuthenticated);
+  }, [isAuthenticated]);
+
+  // Show a loading indicator while the authentication check is in progress
   if (isAuthenticated === null) {
-    // Show a loading indicator while the authentication check is in progress
     return <div>Loading...</div>;
   }
 
@@ -108,10 +111,7 @@ function App() {
             isAuthenticated ? <PublishedPapersPage /> : <Navigate to="/" />
           }
         />
-        <Route
-          path="/"
-          element={isAuthenticated ? <HomePage /> : <Navigate to="/" />}
-        />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/user-published-thesis"
           element={
@@ -138,33 +138,19 @@ function App() {
           path="/user-home-page"
           element={isAuthenticated ? <UserHomePage /> : <Navigate to="/" />}
         />
-        <Route
-          path="/user-home"
-          element={
-            isAuthenticated ? <UserHomePageWithoutLogin /> : <Navigate to="/" />
-          }
-        />
+        <Route path="/user-home" element={<UserHomePageWithoutLogin />} />
         <Route
           path="/without_login_contact_us"
-          element={
-            isAuthenticated ? <ContactUs_without_login /> : <Navigate to="/" />
-          }
+          element={<ContactUs_without_login />}
         />
         <Route
           path="/without_login_support"
-          element={
-            isAuthenticated ? <Support_without_login /> : <Navigate to="/" />
-          }
+          element={<Support_without_login />}
         />
-        <Route
-          path="/without_login_FAQ"
-          element={isAuthenticated ? <FAQ_wihout_login /> : <Navigate to="/" />}
-        />
+        <Route path="/without_login_FAQ" element={<FAQ_wihout_login />} />
         <Route
           path="/without_login_about_us"
-          element={
-            isAuthenticated ? <AboutUs_wihout_login /> : <Navigate to="/" />
-          }
+          element={<AboutUs_wihout_login />}
         />
         <Route
           path="/user-profile"

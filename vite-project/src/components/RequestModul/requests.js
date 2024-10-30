@@ -32,23 +32,23 @@ export const tokenValidation = async (navigate) => {
     const token = sessionStorage.getItem("authToken"); // Get token from sessionStorage
     const user_details = await apiRequest(
       GetUserDetailsEndPoint,
-      "POST",
+      "GET",
       {},
       {
         Authorization: `Bearer ${token}`,
       }
     );
     if (!user_details.name && user_details != null) {
-      return user_details; // Store the author_id in the state
+      return true; // Store the author_id in the state
     } else {
-      navigate("/");
+      return false;
     }
   } catch (error) {
     if (error.response?.status === 401) {
       if (navigate) {
         navigate("/");
       } else {
-        navigate("/");
+        return false;
       } // Redirect to login on unauthorized access
     }
   }
