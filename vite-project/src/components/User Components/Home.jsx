@@ -4,42 +4,12 @@ import Footer from "./Footer";
 import "./Home.css";
 import { fetchPaper, handleGetPaperB64 } from "../../utils/handleAuthor";
 import NavbarWithOutLogin from "./Navbar_wihtout_login";
+import { AUTHOREndPoint } from "../RequestModul/Endpoint";
 const UserPublishPaperPage = () => {
-  // const initialThesisData = [
-  //   {
-  //     title: "Energy Efficient Cloud Computing",
-  //     abstract:
-  //       "This thesis focuses on reducing energy consumption in data centers...",
-  //     contributorAuthors: "John Doe, Alice Smith",
-  //     references: "Thesis A, Thesis B, Thesis C",
-  //     publishYear: 2023,
-  //     keyword: "Cloud Computing, Energy Efficiency",
-  //     document: "View-Thesis.pdf",
-  //     authorName: "Ankit Kumar",
-  //     comments: ["Great thesis!", "Needs more data on VM migration."],
-  //   },
-  //   {
-  //     title: "AI and Machine Learning in Healthcare",
-  //     abstract: "An overview of the impact of AI in medical diagnostics...",
-  //     contributorAuthors: "Emily Johnson, Mark Lee",
-  //     references: "Thesis X, Thesis Y",
-  //     publishYear: 2022,
-  //     keyword: "AI, Healthcare",
-  //     document: "View-Thesis.pdf",
-  //     authorName: "Jane Doe",
-  //     comments: ["Innovative approach.", "Consider additional case studies."],
-  //   },
-  // ];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentComments, setCurrentComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [currentPaperTitle, setCurrentPaperTitle] = useState("");
-
-  const openModal = (comments, title) => {
-    setCurrentComments(comments);
-    setCurrentPaperTitle(title);
-    setIsModalOpen(true);
-  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -66,13 +36,41 @@ const UserPublishPaperPage = () => {
     };
     fetchData();
   }, []);
+  const handleViewThesis = async (documentPath, paperId) => {
+    try {
+      // First, call the API to increase the view count
+      const response = await fetch(`${AUTHOREndPoint}?for=view_count`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ paperId }), // Pass paperId to the API
+      });
 
+      // Check if the response is okay
+      if (!response.ok) {
+        throw new Error("Failed to increase view count");
+      }
+
+      // Open the document link in a new tab
+      window.open(
+        `http://localhost:3000/${documentPath}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      // Reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className="user-home-page">
       <NavbarWithOutLogin />
       <div className="home-container">
         <h2>Published Thesis</h2>
-        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div>
           <div className="papers-grid">
             {publishPaper.map((paper) => (
@@ -106,6 +104,10 @@ const UserPublishPaperPage = () => {
                     color: "#3498DB", // Link color
                     textDecoration: "none", // Remove underline
                     overflow: "hidden", // Hide overflow content
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent default link navigation
+                    handleViewThesis(paper.document, paper.id); // Call the function with parameters
                   }}
                 >
                   View-thesis

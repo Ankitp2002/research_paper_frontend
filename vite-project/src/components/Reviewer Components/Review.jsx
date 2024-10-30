@@ -38,11 +38,13 @@ const ReviewPage = () => {
     // Fetch the paper status data when the component mounts
     const fetchPapers = async () => {
       try {
-        const response = await apiRequest(
+        let response = await apiRequest(
           `${AuthorPaperEndPoint}?status=excluded`,
           "GET"
         ); // Adjust the endpoint URL as necessary
         if (Array.isArray(response) && response.length > 0) {
+          response = response.filter((item) => item.status !== "rejected");
+
           setPapers(response); // Set the paper data to state
         } else {
           setError(`Error: ${response.status}`);
@@ -140,7 +142,6 @@ const ReviewPage = () => {
                     href={paper.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => handleGetPaperB64(paper.id)}
                     style={{ color: "#3498DB" }}
                   >
                     View Thesis

@@ -78,11 +78,11 @@ const ApprovedPapersPage = () => {
                 <td style={{ textAlign: "center" }}>{paper.keyword}</td>
                 <td style={{ textAlign: "center" }}>
                   <a
-                    href={`/${paper.document}`}
+                    href={`http://localhost:3000/${paper.document}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {paper.document}
+                    View-thesis
                   </a>
                 </td>
               </tr>

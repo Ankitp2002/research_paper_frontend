@@ -5,6 +5,7 @@ import "./ManagePublishedPapers.css";
 import { apiRequest } from "../RequestModul/requests";
 import {
   AddComments,
+  AUTHOREndPoint,
   AuthorPaperEndPoint,
   CreateAuthorPaperEndPoint,
   REVIEWEREndPoint,
@@ -33,10 +34,9 @@ const PublishedPapersManagement = () => {
     setIsModalOpen(false);
   };
 
+  const token = sessionStorage.getItem("authToken");
   const handleAddComment = async (thesis_id) => {
     if (newComment.trim()) {
-      const token = sessionStorage.getItem("authToken");
-
       const response = await apiRequest(
         `${AddComments}`,
         "POST",
@@ -52,52 +52,12 @@ const PublishedPapersManagement = () => {
       }
     }
   };
-  // const [thesisData, setThesisData] = useState(initialThesisData);
-  const [commentView, setCommentView] = useState(null); // Track which row is showing comments
-  // const [newComment, setNewComment] = useState(""); // Track new comment input
-
-  // Function to toggle comment view
-  const toggleComments = (index) => {
-    setCommentView(commentView === index ? null : index);
-    setNewComment(""); // Reset the comment input when switching rows
-  };
-
-  // // Function to handle adding a new comment
-  // const handleAddComment = (index) => {
-  //   if (newComment.trim()) {
-  //     const updatedThesisData = [...thesisData];
-  //     updatedThesisData[index].comments.push(newComment);
-  //     setThesisData(updatedThesisData);
-  //     setNewComment(""); // Clear the input after adding the comment
-  //   }
-  // };
 
   const [publishedPapers, setPublishedPapers] = useState([]);
-  const [newPaper, setNewPaper] = useState({
-    title: "",
-    file: null,
-    authorId: "",
-    abstract: "",
-    other_authors: "",
-    references: "",
-  });
-  const [authors, setAuthors] = useState([]);
-  const [authorMap, setAuthorMap] = useState({});
   const [error, setError] = useState("");
-  const fileInputRef = useRef(null); // Create a ref for the file input
 
   useEffect(() => {
     const fetchData = async () => {
-      // // First, wait for authors data to be collected
-      // const [authorDetails, authorMapDetails] = await fetchAuthors();
-      // if (authorMapDetails !== null && authorDetails !== null) {
-      //   setAuthorMap(authorMapDetails); // Set author map data
-      //   setAuthors(authorDetails); // Set author details
-      // } else {
-      //   setError(authorDetails); // Handle error case
-      // }
-
-      // After the first fetch is completed, wait for papers data to be collected
       const authorPublishPaper = await fetchPaper();
 
       if (
@@ -114,83 +74,6 @@ const PublishedPapersManagement = () => {
 
     // Optionally return a cleanup function if necessary
   }, []); // Empty dependency array ensures this only runs on component mount
-
-  const handleInputChange = (e) => {
-    setNewPaper({ ...newPaper, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Selected file:", file);
-      setNewPaper({ ...newPaper, file });
-    } else {
-      console.warn("No file selected");
-    }
-  };
-
-  // const handleAddPaper = async (event) => {
-  //   event.preventDefault();
-  //   const { title, file, authorId, abstract, other_authors, references } =
-  //     newPaper;
-
-  //   if (!title || !file || !authorId) {
-  //     let errorMessage = "Please fill in all required fields.";
-  //     if (!authorId) {
-  //       errorMessage += " Select an author.";
-  //     }
-  //     setError(errorMessage);
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("abstract", abstract);
-  //   formData.append("other_authors", other_authors);
-  //   formData.append("referace", references);
-  //   formData.append("file", file);
-  //   formData.append("author_id", authorId);
-  //   formData.append("submission_date", new Date().toISOString());
-  //   formData.append("status", "published");
-
-  //   try {
-  //     const response = await fetch(CreateAuthorPaperEndPoint, {
-  //       method: "POST",
-  //       body: formData,
-  //     });
-
-  //     if (response.ok) {
-  //       const paperData = await response.json();
-  //       console.log(paperData);
-  //       setPublishedPapers((prevPapers) => [
-  //         ...prevPapers,
-  //         {
-  //           id: paperData.id,
-  //           title: paperData.title,
-  //           abstract: paperData.abstract,
-  //           other_authors: paperData.other_authors,
-  //           referace: paperData.referace,
-  //           link: paperData.file_path,
-  //           status: paperData.status,
-  //           authorId: paperData.author_id,
-  //           authorName: authorMap[paperData.author_id] || "",
-  //         },
-  //       ]);
-
-  //       // Clear the form
-  //       setNewPaper({ title: "", file: null, authorId: "" });
-  //       if (fileInputRef.current) {
-  //         fileInputRef.current.value = ""; // Reset the file input using ref
-  //       }
-  //       setError("");
-  //     } else {
-  //       setError("Error uploading paper: " + response.statusText);
-  //     }
-  //   } catch (error) {
-  //     setError("An error occurred while uploading the paper.");
-  //     console.error("Error:", error.message);
-  //   }
-  // };
 
   const handleDeletePaper = async (id) => {
     const confirmDelete = window.confirm(
@@ -216,71 +99,43 @@ const PublishedPapersManagement = () => {
       setError("Failed to delete the paper.");
     }
   };
+  const handleViewThesis = async (documentPath, paperId) => {
+    try {
+      // First, call the API to increase the view count
 
+      const response = await fetch(`${AUTHOREndPoint}?for=view_count`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ paperId }), // Pass paperId to the API
+      });
+
+      // Check if the response is okay
+      if (!response.ok) {
+        throw new Error("Failed to increase view count");
+      }
+
+      // Open the document link in a new tab
+      window.open(
+        `http://localhost:3000/${documentPath}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      // Reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div className="management-page">
       <NavbarAdmin />
       <div className="management-container">
         <h2>Manage Published Papers</h2>
-        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
-        {/* <div className="add-paper-form">
-          <input
-            type="text"
-            name="title"
-            placeholder="Paper Title"
-            value={newPaper.title}
-            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="abstract"
-            placeholder="Abstract"
-            value={newPaper?.abstract}
-            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="other_authors"
-            placeholder="Other Authors"
-            value={newPaper?.other_authors}
-            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="references"
-            placeholder="References"
-            value={newPaper?.references}
-            style={{ color: "#666666", backgroundColor: "#f8f8f8" }}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="file"
-            name="file"
-            accept=".pdf" //,.doc,.docx,.txt"
-            onChange={handleFileChange}
-            ref={fileInputRef} // Attach the ref to the file input
-          />
-          <select
-            name="authorId"
-            value={newPaper.authorId}
-            onChange={handleInputChange}
-            className="select-field"
-          >
-            <option value="">Select Author</option>
-            {authors.map((author) => (
-              <option key={author.id} value={author.id}>
-                {author.username}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleAddPaper}>Add Paper</button>
-        </div> */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="papers-grid">
           {publishedPapers.map((paper) => (
             <div className="paper-card" key={paper.id}>
@@ -313,8 +168,12 @@ const PublishedPapersManagement = () => {
                   textDecoration: "none", // Remove underline
                   overflow: "hidden", // Hide overflow content
                 }}
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default link navigation
+                  handleViewThesis(paper.document, paper.id); // Call the function with parameters
+                }}
               >
-                {paper.document}
+                View-thesis
               </a>
               <div
                 className="actions"
@@ -386,7 +245,8 @@ const PublishedPapersManagement = () => {
                     alt="view_icon"
                     style={{ height: 20, marginRight: "8px" }}
                   />
-                  <span>Views (123)</span> {/* Dummy count for views */}
+                  <span>Views ({paper.view_count ? paper.view_count : 0})</span>{" "}
+                  {/* Dummy count for views */}
                 </button>
               </div>
             </div>

@@ -10,36 +10,6 @@ import {
 import { useNavigate } from "react-router";
 
 const PaperStatusPage = () => {
-  // const papers = [
-  //   {
-  //     title: "Efficient Data Structures",
-  //     abstract:
-  //       "An in-depth look at modern data structures and their applications.",
-  //     authors: "John Doe, Jane Smith",
-  //     references: "Doe et al., 2020",
-  //     keywords: "Data Structures, Algorithms",
-  //     status: "Under Review",
-  //     comments: ["Great paper!", "Needs more detail in section 3."],
-  //   },
-  //   {
-  //     title: "AI in Healthcare",
-  //     abstract: "A comprehensive study on the role of AI in modern healthcare.",
-  //     authors: "Alice Johnson, Bob Brown",
-  //     references: "Johnson et al., 2021",
-  //     keywords: "Artificial Intelligence, Healthcare",
-  //     status: "Approved",
-  //     comments: ["Excellent research.", "Could improve conclusion."],
-  //   },
-  //   {
-  //     title: "Blockchain Technology",
-  //     abstract: "The future of decentralized systems and blockchain.",
-  //     authors: "Mike Davis, Sarah Lee",
-  //     references: "Davis et al., 2019",
-  //     keywords: "Blockchain, Decentralization",
-  //     status: "Rejected",
-  //     comments: ["Needs more references.", "The argument is not clear."],
-  //   },
-  // ];
   const [commentView, setCommentView] = useState(null);
   const toggleComments = (index) => {
     if (commentView === index) {
@@ -217,6 +187,15 @@ const PaperStatusPage = () => {
                 >
                   Status
                 </th>
+                <th
+                  style={{
+                    color: "#666666",
+                    textAlign: "center",
+                    backgroundColor: "#fdfffe",
+                  }}
+                >
+                  Comment
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -237,21 +216,31 @@ const PaperStatusPage = () => {
                   <td style={{ textAlign: "center", padding: "10px" }}>
                     {thesis.keyword}
                   </td>
+
                   <td
                     style={{
                       textAlign: "center",
                       padding: "10px",
                       color:
                         thesis.status === "submitted"
-                          ? "orange"
-                          : thesis.status === "reviewed"
                           ? "green"
+                          : thesis.status === "reviewed"
+                          ? "orange"
                           : thesis.status === "rejected"
                           ? "red"
                           : "black", // default color for other statuses
                     }}
                   >
-                    {thesis.status}
+                    {thesis.status === "submitted"
+                      ? "Submitted"
+                      : thesis.status === "reviewed"
+                      ? "Under Review"
+                      : thesis.status === "rejected"
+                      ? "Rejected"
+                      : thesis?.status}
+                  </td>
+                  <td style={{ textAlign: "center", padding: "10px" }}>
+                    {thesis?.review_comment}
                   </td>
                 </tr>
               ))}

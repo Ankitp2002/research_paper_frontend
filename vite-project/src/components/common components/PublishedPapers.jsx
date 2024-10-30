@@ -104,26 +104,6 @@ const PublishedPapersPage = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {publishedPapers.map((paper) => (
-                <tr key={paper.id}>
-                  <td style={{ textAlign: "center" }}>{paper.title}</td>
-                  <td style={{ textAlign: "center" }}>{paper?.abstract}</td>
-                  <td style={{ textAlign: "center" }}>
-                    {paper?.other_authors}
-                  </td>
-                  <td style={{ textAlign: "center" }}>{paper?.referace}</td>
-                  <td style={{ textAlign: "center" }}>
-                    <a
-                      href={paper.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => handleGetPaperB64(paper.id)}
-                    >
-                      View Paper
-                    </a>
-                  </td>
-                </tr>
-              ))} */}
               {publishedPapers.map((thesis, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: "center" }}>{thesis.title}</td>
@@ -136,11 +116,11 @@ const PublishedPapersPage = () => {
                   <td style={{ textAlign: "center" }}>{thesis.keyword}</td>
                   <td style={{ textAlign: "center" }}>
                     <a
-                      href={`/${thesis.document}`}
+                      href={`http://localhost:3000/${thesis.document}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {thesis.document}
+                      View-thesis
                     </a>
                   </td>
                   <td style={{ textAlign: "center" }}>

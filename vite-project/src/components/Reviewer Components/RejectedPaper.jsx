@@ -87,7 +87,7 @@ const RejectedPapersPage = () => {
                   </a>
                 </td>
                 <td style={{ textAlign: "center" }}>
-                  {paper.comments[0].comment}
+                  {paper?.comments[0]?.comment}
                 </td>
               </tr>
             ))}

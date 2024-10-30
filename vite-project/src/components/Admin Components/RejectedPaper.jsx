@@ -7,56 +7,29 @@ import AdminNavbar from "./AdminNavbar";
 import AdminFooter from "./AdminFooter";
 
 const RejectedPapersPage = () => {
-  const initialThesisData = [
-    {
-      title: "Energy Efficient Cloud Computing",
-      abstract:
-        "This thesis focuses on reducing energy consumption in data centers...",
-      contributorAuthors: "John Doe, Alice Smith",
-      references: "Thesis A, Thesis B, Thesis C",
-      publishYear: 2023,
-      keyword: "Cloud Computing, Energy Efficiency",
-      document: "View-Thesis.pdf",
-      authorName: "Ankit Kumar",
-      comments: ["Great thesis!", "Needs more data on VM migration."],
-    },
-    {
-      title: "AI and Machine Learning in Healthcare",
-      abstract: "An overview of the impact of AI in medical diagnostics...",
-      contributorAuthors: "Emily Johnson, Mark Lee",
-      references: "Thesis X, Thesis Y",
-      publishYear: 2022,
-      keyword: "AI, Healthcare",
-      document: "View-Thesis.pdf",
-      authorName: "Jane Doe",
-      comments: ["Innovative approach.", "Consider additional case studies."],
-    },
-  ];
-
-  const [rejectedPapers, setThesisData] = useState(initialThesisData);
+  const [rejectedPapers, setThesisData] = useState([]);
   const [commentView, setCommentView] = useState(null); // Track which row is showing comments
   const [newComment, setNewComment] = useState(""); // Track new comment input
 
   // const [rejectedPapers, setrejectedPapers] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const cancelReview = () => {
-    setSelectedPaper(null); // This will hide the review form
-    setComments(""); // Clear any entered comments
-    setIsReviewed(false); // Reset review state if necessary
-  };
   useEffect(() => {
     // Fetch the paper status data when the component mounts
     const fetchReviewerApprovePapers = async () => {
       try {
+        const token = sessionStorage.getItem("authToken");
         const response = await apiRequest(
-          `${REVIEWEREndPoint}/rejected`,
+          `${REVIEWEREndPoint}?status=rejected`,
           "GET",
-          {}
+          {},
+          {
+            Authorization: `Bearer ${token}`,
+          }
         );
 
         if (Array.isArray(response) && response.length > 0) {
-          setrejectedPapers(response); // Set the paper data to state
+          setThesisData(response); // Set the paper data to state
         } else {
           setError(`Error: ${response.status}`);
         }
@@ -86,9 +59,6 @@ const RejectedPapersPage = () => {
               <th style={{ color: "#666666", textAlign: "center" }}>
                 References
               </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Publish Year
-              </th>
               <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
               <th style={{ color: "#666666", textAlign: "center" }}>
                 Document
@@ -105,7 +75,6 @@ const RejectedPapersPage = () => {
                   {paper.contributorAuthors}
                 </td>
                 <td style={{ textAlign: "center" }}>{paper.references}</td>
-                <td style={{ textAlign: "center" }}>{paper.publishYear}</td>
                 <td style={{ textAlign: "center" }}>{paper.keyword}</td>
                 <td style={{ textAlign: "center" }}>
                   <a
@@ -118,7 +87,7 @@ const RejectedPapersPage = () => {
                     View Thesis
                   </a>
                 </td>
-                <td style={{ textAlign: "center" }}>xyz...Comment...</td>
+                <td style={{ textAlign: "center" }}>{paper?.review_comment}</td>
               </tr>
             ))}
           </tbody>
