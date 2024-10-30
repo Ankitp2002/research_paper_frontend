@@ -56,9 +56,6 @@ const RejectedPapersPage = () => {
               <th style={{ color: "#666666", textAlign: "center" }}>
                 References
               </th>
-              <th style={{ color: "#666666", textAlign: "center" }}>
-                Publish Year
-              </th>
               <th style={{ color: "#666666", textAlign: "center" }}>Keyword</th>
               <th style={{ color: "#666666", textAlign: "center" }}>
                 Document
@@ -75,20 +72,17 @@ const RejectedPapersPage = () => {
                   {paper.contributorAuthors}
                 </td>
                 <td style={{ textAlign: "center" }}>{paper.references}</td>
-                <td style={{ textAlign: "center" }}>{paper.publishYear}</td>
                 <td style={{ textAlign: "center" }}>{paper.keyword}</td>
                 <td style={{ textAlign: "center" }}>
                   <a
-                    href={`/${paper.document}`}
+                    href={`http://localhost:3000/${paper.document}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {paper.document}
                   </a>
                 </td>
-                <td style={{ textAlign: "center" }}>
-                  {paper?.comments[0]?.comment}
-                </td>
+                <td style={{ textAlign: "center" }}>{paper?.review_comment}</td>
               </tr>
             ))}
           </tbody>
