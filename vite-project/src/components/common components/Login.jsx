@@ -2,71 +2,56 @@ import React, { useState } from "react";
 import { LoginEndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"; // Ensure this imports the updated CSS
+import "./Login.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [selectedRole, setRole] = useState("");
-  const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handleNavigation = (role) => {
+    if (role === "admin") {
+      navigate("/admin-home");
+    } else if (role === "reviewer") {
+      navigate("/reviewer-home");
+    } else if (role === "author") {
+      navigate("/author-home");
+    } else if (role === "user") {
+      navigate("/user-home-page");
+    } else {
+      setError("Invalid role");
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // Reset error state on each login attempt
     try {
-      let response;
-      try {
-        const params = { username, password };
-        response = await apiRequest(LoginEndPoint, "POST", params, {});
-        console.log("Login successful:", response);
-        // Handle successful login (e.g., store token, redirect, etc.)
-      } catch (error) {
-        console.error("Login failed:", error);
-        // Handle login error (e.g., show error message)
-      }
-      const { role, token } = response;
-      if (role == selectedRole) {
-        if (token) {
-          sessionStorage.setItem("authToken", token);
-          setToken(token); // Store token in state as well (optional)
-        }
-      }
-      // Navigate to different home pages based on role
-      switch (selectedRole) {
-        case "admin":
-          setTimeout(() => {
-            navigate("/admin-home");
-          }, 300);
-          break;
+      const params = { username, password };
+      const response = await apiRequest(LoginEndPoint, "POST", params, {});
 
-        case "reviewer":
-          setTimeout(() => {
-            navigate("/reviewer-home");
-          }, 300);
-          break;
-        case "author":
-          setTimeout(() => {
-            navigate("/author-home");
-          }, 300);
-          break;
-        case "user":
-          setTimeout(() => {
-            navigate("/user-home-page");
-          }, 300);
-          break;
-        default:
-          setError("Invalid role");
+      if (!response) {
+        setError("Failed to receive server response.");
+        return;
       }
-      // }
-      //   setError("Invalid Selected Role");
+
+      const { role, token } = response;
+
+      if (role && role === selectedRole) {
+        sessionStorage.setItem("authToken", token);
+        handleNavigation(role);
+      } else {
+        setError("Invalid Selected Role");
+      }
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message || "Login failed");
       } else {
         setError("Please Check Your Credentials......");
       }
-      console.log("Error", error);
+      console.log("Error:", error);
     }
   };
 
