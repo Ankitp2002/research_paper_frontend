@@ -9,31 +9,45 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [selectedRole, setRole] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const navigate = useNavigate();
 
   const handleNavigation = (role) => {
-    if (role === "admin") {
-      navigate("/admin-home");
-    } else if (role === "reviewer") {
-      navigate("/reviewer-home");
-    } else if (role === "author") {
-      navigate("/author-home");
-    } else if (role === "user") {
-      navigate("/user-home-page");
-    } else {
-      setError("Invalid role");
-    }
+    setIsNavigating(true);
+
+    // Simulate brief timeout to allow component to load
+    setTimeout(() => {
+      const path = {
+        admin: "/admin-home",
+        reviewer: "/reviewer-home",
+        author: "/author-home",
+        user: "/user-home-page",
+      }[role];
+
+      if (path) {
+        window.location.href = path;
+      } else {
+        setError("Invalid role");
+      }
+
+      setIsNavigating(false);
+    }, 300);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error state on each login attempt
+    if (isLoading || isNavigating) return;
+    setError("");
+    setIsLoading(true);
+
     try {
       const params = { username, password };
       const response = await apiRequest(LoginEndPoint, "POST", params, {});
 
       if (!response) {
         setError("Failed to receive server response.");
+        setIsLoading(false);
         return;
       }
 
@@ -46,12 +60,11 @@ const Login = () => {
         setError("Invalid Selected Role");
       }
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message || "Login failed");
-      } else {
-        setError("Please Check Your Credentials......");
-      }
-      console.log("Error:", error);
+      setError(
+        error.response?.data.message || "Please Check Your Credentials......"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,9 +108,17 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" disabled={isLoading || isNavigating}>
+            {isLoading || isNavigating ? "Loading..." : "Login"}
+          </button>
         </form>
       </div>
+
+      {isNavigating && (
+        <div className="loading-overlay">
+          <p>Navigating, please wait...</p>
+        </div>
+      )}
     </div>
   );
 };
