@@ -79,7 +79,7 @@ const RejectedPapersPage = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {paper.document}
+                    View-Thesis
                   </a>
                 </td>
                 <td style={{ textAlign: "center" }}>{paper?.review_comment}</td>
