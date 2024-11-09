@@ -8,6 +8,8 @@ import { fetchPaper, handleGetPaperB64 } from "../../utils/handleAuthor";
 import NavbarWithOutLogin from "./Navbar_wihtout_login";
 import { AUTHOREndPoint } from "../RequestModul/Endpoint";
 const UserPublishPaperPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentComments, setCurrentComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -71,15 +73,31 @@ const UserPublishPaperPage = () => {
       console.error("Error:", error);
     }
   };
+  const filteredPapers = publishPaper.filter((paper) =>
+    [
+      paper.title,
+      paper.abstract,
+      paper.contributorAuthors,
+      paper.references,
+      paper.keyword,
+      paper.publishYear,
+      paper.authorName,
+    ].some(
+      (field) => field && field.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
   return (
     <div className="user-home-page">
-      <NavbarWithOutLogin />
+      <NavbarWithOutLogin
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <div className="home-container">
         <h2>Published Thesis</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div>
           <div className="papers-grid">
-            {publishPaper.map((paper) => (
+            {filteredPapers.map((paper) => (
               <div className="paper-card" key={paper.id}>
                 <h3 className="paper-title">{paper.title}</h3>
                 <p className="paper-abstract">
