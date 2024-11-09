@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import NavbarUser from "./Navbar";
 import Footer from "./Footer";
 import "./Home.css";
+import commentIcon from "../../favIcon/comment.png";
+import viewIcon from "../../favIcon/view.png";
 import { fetchPaper, handleGetPaperB64 } from "../../utils/handleAuthor";
 import NavbarWithOutLogin from "./Navbar_wihtout_login";
 import { AUTHOREndPoint } from "../RequestModul/Endpoint";
@@ -10,10 +12,14 @@ const UserPublishPaperPage = () => {
   const [currentComments, setCurrentComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [currentPaperTitle, setCurrentPaperTitle] = useState("");
+  const [currentPaper, setCurrentPaper] = useState({});
+  const openModal = (paper) => {
+    setCurrentPaper(paper);
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setCurrentComments([]);
   };
 
   const handleAddComment = () => {
@@ -112,6 +118,50 @@ const UserPublishPaperPage = () => {
                 >
                   View-thesis
                 </a>
+                <div
+                  className="actions"
+                  style={{ display: "flex", gap: "10px" }}
+                >
+                  <button
+                    onClick={() => openModal(paper)}
+                    style={{
+                      backgroundColor: "#F1C40F",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                      marginTop: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={commentIcon}
+                      alt="comment_icon"
+                      style={{ height: 20, marginRight: "8px" }}
+                    />
+                    <span>Comments ({paper.comments.length || 0})</span>
+                  </button>
+                  <button
+                    style={{
+                      backgroundColor: "#3498DB",
+                      color: "#fff",
+                      padding: "8px 16px",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                      marginTop: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={viewIcon}
+                      alt="view_icon"
+                      style={{ height: 20, marginRight: "8px" }}
+                    />
+                    <span>Views ({paper.view_count || 0})</span>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -126,28 +176,28 @@ const UserPublishPaperPage = () => {
                 <button className="close-button" onClick={closeModal}>
                   X
                 </button>
-                <h2>Comments for {currentPaperTitle}</h2>
+                <h2>Comments for {currentPaper.title}</h2>
                 <ul>
-                  {currentComments.length > 0 ? (
-                    currentComments.map((comment, i) => (
+                  {currentPaper.comments.length > 0 ? (
+                    currentPaper.comments.map((comment, i) => (
                       <li key={i}>
-                        <strong>User:</strong> {comment}
+                        <strong>{comment.userName}:</strong> {comment.comment}
                       </li>
                     ))
                   ) : (
                     <p>No comments available</p>
                   )}
                 </ul>
-
-                {/* Add Comment Section */}
-                <div className="add-comment-section">
+                {/* <div className="add-comment-section">
                   <textarea
                     placeholder="Add a comment"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                   />
-                  <button onClick={handleAddComment}>Submit</button>
-                </div>
+                  <button onClick={() => handleAddComment(currentPaper.id)}>
+                    Submit
+                  </button>
+                </div> */}
               </div>
             </div>
           )}
