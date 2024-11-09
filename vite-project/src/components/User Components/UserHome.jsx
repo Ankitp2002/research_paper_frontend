@@ -92,6 +92,7 @@ const UserPublishPaperPage = () => {
       paper.references,
       paper.keyword,
       paper.publishYear,
+      paper.authorName,
     ].some(
       (field) => field && field.toLowerCase().includes(searchTerm.toLowerCase())
     )
