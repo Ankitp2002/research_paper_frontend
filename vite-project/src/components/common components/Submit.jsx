@@ -122,6 +122,11 @@ const Submit = () => {
       <Navbar />
       <div className="submit-container">
         <h2>Submit Your Thesis</h2>
+        <label>Author Guideline:</label>
+        <a href="Thesis_Submission_Guidelines.pdf" target="_blank">
+          Thesis_Submission_Guidelines
+        </a>
+        <div style={{ borderTop: "1px solid #ccc", margin: "20px 0" }}></div>
         <form onSubmit={handleSubmit}>
           <label>Title:</label>
           <input

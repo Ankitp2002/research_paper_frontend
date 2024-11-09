@@ -234,7 +234,7 @@ const PaperStatusPage = () => {
                     {thesis.status === "submitted"
                       ? "Submitted"
                       : thesis.status === "reviewed"
-                      ? "Under Review"
+                      ? "Change Requested"
                       : thesis.status === "rejected"
                       ? "Rejected"
                       : thesis?.status}
