@@ -2,9 +2,25 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import userIcon from "../../favIcon/icons8-user-16.png";
 import notificaionIcon from "../../favIcon/notification.png";
+import NotificationModal from "../notificationModel";
 
 const NavbarUser = ({ searchTerm, setSearchTerm }) => {
   const [notificationCount, setNotificationCount] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    "Notification 1",
+    "Notification 2",
+    "Notification 3",
+  ]);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const clearNotifications = () => setNotifications([]);
+
+  const removeNotification = (index) => {
+    setNotifications(notifications.filter((_, i) => i !== index));
+  };
   return (
     <nav className="admin-navbar">
       <div className="navbar-title">User Panel</div>
@@ -55,10 +71,11 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
           <a href="/logout">Logout</a>
         </li>
         <li>
-          <a href="#" style={{ position: "relative", display: "inline-block" }}>
+          <a style={{ position: "relative", display: "inline-block" }}>
             <img
               src={notificaionIcon}
               alt="Notification"
+              onClick={openModal}
               style={{
                 height: 22,
                 marginTop: 2,
@@ -82,6 +99,15 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
               </span>
             )}
           </a>
+          {/* Notification Modal */}
+          {isModalOpen && (
+            <NotificationModal
+              notifications={notifications}
+              onClose={closeModal}
+              onClear={clearNotifications}
+              onRemove={removeNotification}
+            />
+          )}
         </li>
       </ul>
     </nav>
