@@ -40,7 +40,7 @@ const ReviewerNavbar = () => {
 
   const clearNotifications = async () => {
     const notificationIds = notifications.map((notification) => {
-      return notification.auditId;
+      return notification.auditId;  
     });
     try {
       const response = await apiRequest(
