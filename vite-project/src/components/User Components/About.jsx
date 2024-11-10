@@ -41,6 +41,8 @@ const AboutUs = () => {
             reach out to us at{" "}
             <a href="mailto:support@example.com">support@example.com</a>.
           </p>
+          <div style={{ borderTop: "1px solid #ccc", margin: "20px 0" }}></div>
+          <p style={{ color: "#666666", textAlign: "center" }}>Mission</p>
         </div>
       </div>
       <Footer />

@@ -10,6 +10,7 @@
     color: #fff;
     padding: 0;
     box-sizing: border-box; /* Ensures padding doesn't affect width */
+    margin-top: 20px;
 }
 
 .header-content {

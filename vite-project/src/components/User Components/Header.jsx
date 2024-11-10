@@ -20,6 +20,8 @@ const Header = () => {
           Please Log In To Access Your Account And Start Exploring The
           Repository!
         </p>
+        <div style={{ borderTop: "1px solid #ccc", margin: "20px 0" }}></div>
+        <p style={{ color: "#666666", textAlign: "center" }}>Intro</p>
       </div>
     </header>
   );
