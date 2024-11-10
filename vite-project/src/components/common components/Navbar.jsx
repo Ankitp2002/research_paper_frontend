@@ -11,6 +11,21 @@ const Navbar = () => {
     "Notification 2",
     "Notification 3",
   ]);
+  // useEffect(() => {
+  //   // Simulate fetching notification count from an API
+  //   const fetchNotificationCount = async () => {
+  //     const response = await apiRequest(
+  //       RegisterEndPoint,
+  //       "POST",
+  //       JSON.stringify(reviewerToAdd),
+  //       {}
+  //     );
+  //     setNotificationCount(response?.newCount);
+  //     setNotifications(response?.notificationDetails);
+  //   };
+
+  //   fetchNotificationCount();
+  // }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

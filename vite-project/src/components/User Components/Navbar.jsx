@@ -3,6 +3,8 @@ import "./Navbar.css";
 import userIcon from "../../favIcon/icons8-user-16.png";
 import notificaionIcon from "../../favIcon/notification.png";
 import NotificationModal from "../notificationModel";
+import { apiRequest } from "../RequestModul/requests";
+import { RegisterEndPoint } from "../RequestModul/Endpoint";
 
 const NavbarUser = ({ searchTerm, setSearchTerm }) => {
   const [notificationCount, setNotificationCount] = useState(1);
@@ -12,6 +14,21 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
     "Notification 2",
     "Notification 3",
   ]);
+  // useEffect(() => {
+  //   // Simulate fetching notification count from an API
+  //   const fetchNotificationCount = async () => {
+  //     const response = await apiRequest(
+  //       RegisterEndPoint,
+  //       "POST",
+  //       JSON.stringify(reviewerToAdd),
+  //       {}
+  //     );
+  //     setNotificationCount(response?.newCount);
+  //     setNotifications(response?.notificationDetails);
+  //   };
+
+  //   fetchNotificationCount();
+  // }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
