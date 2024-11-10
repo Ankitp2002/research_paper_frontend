@@ -19,3 +19,6 @@ export const ReviewAuthorPaper = `${AUTHOREndPoint}`;
 
 //comments
 export const AddComments = `${BASE_URL}/comment`;
+
+// notification
+export const notificationUser = `${BASE_URL}/notification`;

@@ -1,31 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import notificaionIcon from "../../favIcon/notification.png";
 import NotificationModal from "../notificationModel";
+import { apiRequest } from "../RequestModul/requests";
+import { notificationUser } from "../RequestModul/Endpoint";
 
 const ReviewerNavbar = () => {
   const [notificationCount, setNotificationCount] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [notifications, setNotifications] = useState([
-    "Notification 1",
-    "Notification 2",
-    "Notification 3",
-  ]);
-  // useEffect(() => {
-  //   // Simulate fetching notification count from an API
-  //   const fetchNotificationCount = async () => {
-  //     const response = await apiRequest(
-  //       RegisterEndPoint,
-  //       "POST",
-  //       JSON.stringify(reviewerToAdd),
-  //       {}
-  //     );
-  //     setNotificationCount(response?.newCount);
-  //     setNotifications(response?.notificationDetails);
-  //   };
+  const [notifications, setNotifications] = useState([]);
+  useEffect(() => {
+    const token = sessionStorage.getItem("authToken");
 
-  //   fetchNotificationCount();
-  // }, []);
+    // Simulate fetching notification count from an API
+    const fetchNotificationCount = async () => {
+      const response = await apiRequest(
+        notificationUser,
+        "GET",
+        {},
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      setNotificationCount(response.length);
+      const titles = response.map((data) => {
+        return {
+          id: data.notification.id, // Notification ID
+          title: data.notification.title, // Notification Title
+        }; // Return the title
+      });
+      setNotifications(titles);
+    };
+
+    fetchNotificationCount();
+  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

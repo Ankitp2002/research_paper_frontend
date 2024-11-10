@@ -1,42 +1,86 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import userIcon from "../../favIcon/icons8-user-16.png";
 import notificaionIcon from "../../favIcon/notification.png";
 import NotificationModal from "../notificationModel";
 import { apiRequest } from "../RequestModul/requests";
-import { RegisterEndPoint } from "../RequestModul/Endpoint";
+import { notificationUser, RegisterEndPoint } from "../RequestModul/Endpoint";
 
 const NavbarUser = ({ searchTerm, setSearchTerm }) => {
-  const [notificationCount, setNotificationCount] = useState(1);
+  const [notificationCount, setNotificationCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [notifications, setNotifications] = useState([
-    "Notification 1",
-    "Notification 2",
-    "Notification 3",
-  ]);
-  // useEffect(() => {
-  //   // Simulate fetching notification count from an API
-  //   const fetchNotificationCount = async () => {
-  //     const response = await apiRequest(
-  //       RegisterEndPoint,
-  //       "POST",
-  //       JSON.stringify(reviewerToAdd),
-  //       {}
-  //     );
-  //     setNotificationCount(response?.newCount);
-  //     setNotifications(response?.notificationDetails);
-  //   };
+  const [notifications, setNotifications] = useState([]);
+  const token = sessionStorage.getItem("authToken");
+  useEffect(() => {
+    // Simulate fetching notification count from an API
+    const fetchNotificationCount = async () => {
+      const response = await apiRequest(
+        notificationUser,
+        "GET",
+        {},
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      setNotificationCount(response.length);
+      const titles = response.map((data) => {
+        return {
+          id: data.notification.id, // Notification ID
+          title: data.notification.title, // Notification Title
+          auditId: data.id,
+        };
+      });
+      setNotifications(titles);
+    };
 
-  //   fetchNotificationCount();
-  // }, []);
+    fetchNotificationCount();
+  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const clearNotifications = () => setNotifications([]);
+  const clearNotifications = async () => {
+    const notificationIds = notifications.map((notification) => {
+      return notification.auditId;
+    });
+    try {
+      const response = await apiRequest(
+        notificationUser,
+        "DELETE",
+        {
+          ids: notificationIds,
+        },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      if (response) {
+        setNotifications([]);
+        setNotificationCount(0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-  const removeNotification = (index) => {
-    setNotifications(notifications.filter((_, i) => i !== index));
+  const removeNotification = async (notificationId) => {
+    const response = await apiRequest(
+      notificationUser,
+      "DELETE",
+      {
+        ids: [notificationId],
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    if (response) {
+      const updatedNotifications = notifications.filter(
+        (notification) => notification.auditId !== notificationId
+      );
+      setNotifications(updatedNotifications);
+      setNotificationCount(updatedNotifications.length);
+    }
   };
   return (
     <nav className="admin-navbar">

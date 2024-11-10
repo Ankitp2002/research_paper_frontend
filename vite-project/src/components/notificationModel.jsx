@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { FaTrash } from "react-icons/fa";
 const NotificationModal = ({ notifications, onClose, onClear, onRemove }) => {
   return (
     <div style={styles.overlay}>
@@ -12,11 +12,15 @@ const NotificationModal = ({ notifications, onClose, onClear, onRemove }) => {
         <ul style={styles.notificationList}>
           {notifications.map((notification, index) => (
             <li
-              key={index}
+              key={notification.auditId}
               style={styles.notificationItem}
-              onTouchEnd={() => onRemove(index)}
+              onTouchEnd={() => onRemove(notification.auditId)}
             >
-              {notification}
+              <span>{notification.title}</span> {/* Display the title */}
+              <FaTrash
+                style={styles.trashIcon} // Style the trash icon
+                onClick={() => onRemove(notification.auditId)} // Optionally add click event for desktop devices
+              />
             </li>
           ))}
         </ul>
