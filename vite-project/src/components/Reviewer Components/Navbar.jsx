@@ -6,7 +6,7 @@ import { apiRequest } from "../RequestModul/requests";
 import { notificationUser } from "../RequestModul/Endpoint";
 
 const ReviewerNavbar = () => {
-  const [notificationCount, setNotificationCount] = useState(1);
+  const [notificationCount, setNotificationCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const token = sessionStorage.getItem("authToken");
@@ -33,6 +33,10 @@ const ReviewerNavbar = () => {
     };
 
     fetchNotificationCount();
+    const intervalId = setInterval(fetchNotificationCount, 2000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const openModal = () => setIsModalOpen(true);
@@ -40,7 +44,7 @@ const ReviewerNavbar = () => {
 
   const clearNotifications = async () => {
     const notificationIds = notifications.map((notification) => {
-      return notification.auditId;  
+      return notification.auditId;
     });
     try {
       const response = await apiRequest(

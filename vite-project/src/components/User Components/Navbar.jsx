@@ -34,6 +34,10 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
     };
 
     fetchNotificationCount();
+    const intervalId = setInterval(fetchNotificationCount, 2000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const openModal = () => setIsModalOpen(true);

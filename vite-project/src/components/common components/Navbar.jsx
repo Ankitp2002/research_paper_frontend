@@ -6,7 +6,7 @@ import { notificationUser } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
 
 const Navbar = () => {
-  const [notificationCount, setNotificationCount] = useState(1);
+  const [notificationCount, setNotificationCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const token = sessionStorage.getItem("authToken");
@@ -33,6 +33,10 @@ const Navbar = () => {
     };
 
     fetchNotificationCount();
+    const intervalId = setInterval(fetchNotificationCount, 2000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const openModal = () => setIsModalOpen(true);
