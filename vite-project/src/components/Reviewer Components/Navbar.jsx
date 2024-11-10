@@ -9,9 +9,8 @@ const ReviewerNavbar = () => {
   const [notificationCount, setNotificationCount] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const token = sessionStorage.getItem("authToken");
   useEffect(() => {
-    const token = sessionStorage.getItem("authToken");
-
     // Simulate fetching notification count from an API
     const fetchNotificationCount = async () => {
       const response = await apiRequest(
@@ -27,6 +26,7 @@ const ReviewerNavbar = () => {
         return {
           id: data.notification.id, // Notification ID
           title: data.notification.title, // Notification Title
+          auditId: data.id, // Notification audit ID
         }; // Return the title
       });
       setNotifications(titles);
@@ -38,11 +38,50 @@ const ReviewerNavbar = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const clearNotifications = () => setNotifications([]);
-
-  const removeNotification = (index) => {
-    setNotifications(notifications.filter((_, i) => i !== index));
+  const clearNotifications = async () => {
+    const notificationIds = notifications.map((notification) => {
+      return notification.auditId;
+    });
+    try {
+      const response = await apiRequest(
+        notificationUser,
+        "DELETE",
+        {
+          ids: notificationIds,
+        },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      if (response) {
+        setNotifications([]);
+        setNotificationCount(0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  const removeNotification = async (notificationId) => {
+    const response = await apiRequest(
+      notificationUser,
+      "DELETE",
+      {
+        ids: [notificationId],
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    if (response) {
+      const updatedNotifications = notifications.filter(
+        (notification) => notification.auditId !== notificationId
+      );
+      setNotifications(updatedNotifications);
+      setNotificationCount(updatedNotifications.length);
+    }
+  };
+
   return (
     <nav className="admin-navbar">
       <div className="navbar-title">Reviewer Dashboard</div>
