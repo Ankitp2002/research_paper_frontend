@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import NavbarUser from "./Navbar_wihtout_login";
 import Footer from "./Footer";
+import { apiRequest } from "../RequestModul/requests";
+import { contactUs } from "../RequestModul/Endpoint";
 const ContactUs_without_login = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -14,10 +16,13 @@ const ContactUs_without_login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
     // Handle form submission logic here (e.g., send the data to an API)
-    alert("Your message has been sent!");
+    const response = await apiRequest(`${contactUs}`, "POST", {
+      data: formData,
+    });
+
+    const data = await response.json();
     setFormData({ name: "", email: "", subject: "", message: "" }); // Reset form
   };
 

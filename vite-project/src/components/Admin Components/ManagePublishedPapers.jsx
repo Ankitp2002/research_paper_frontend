@@ -94,7 +94,7 @@ const PublishedPapersManagement = () => {
         const errorData = await response.json();
         setError(`Error deleting paper: ${errorData.message}`);
       }
-    } catch (error) {
+    } catch (error) { 
       console.error("Error deleting paper:", error);
       setError("Failed to delete the paper.");
     }

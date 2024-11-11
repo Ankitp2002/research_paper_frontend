@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api"; // Adjust if necessary
+const BASE_URL = "http://localhost:4000/api"; // Adjust if necessary
 
 // Define your endpoints
 export const USEREndPoint = `${BASE_URL}/users`;
@@ -22,3 +22,6 @@ export const AddComments = `${BASE_URL}/comment`;
 
 // notification
 export const notificationUser = `${BASE_URL}/notification`;
+
+//contectUs
+export const contactUs = `${BASE_URL}/contectUs`;
