@@ -38,6 +38,7 @@ import Support_without_login from "./components/User Components/Support_without_
 import ContactUs_without_login from "./components/User Components/Contact_Without_Login";
 import Basic from "./components/User Components/UserProfile";
 import AboutUs_wihout_login from "./components/User Components/About_without_login";
+import AdminPIChart from "./components/Admin Components/admin-pi-chart";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Initialize as null to indicate loading
@@ -71,6 +72,10 @@ function App() {
         <Route
           path="/author-home"
           element={isAuthenticated ? <Home /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin-pi-chart"
+          element={isAuthenticated ? <AdminPIChart /> : <Navigate to="/" />}
         />
         <Route
           path="/submit"

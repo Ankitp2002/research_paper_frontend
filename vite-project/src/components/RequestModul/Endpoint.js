@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000/api"; // Adjust if necessary
+const BASE_URL = "http://localhost:3000/api"; // Adjust if necessary
 
 // Define your endpoints
 export const USEREndPoint = `${BASE_URL}/users`;

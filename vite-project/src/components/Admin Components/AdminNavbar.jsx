@@ -1,6 +1,6 @@
 import React from "react";
 import "./AdminNavbar.css";
-import userIcon from "../../favIcon/icons8-user-16.png"
+import userIcon from "../../favIcon/icons8-user-16.png";
 
 const AdminNavbar = () => {
   return (
@@ -9,6 +9,9 @@ const AdminNavbar = () => {
       <ul className="navbar-links">
         <li>
           <a href="/admin-home">Home</a>
+        </li>
+        <li>
+          <a href="/admin-pi-chart">Analysis Thesis</a>
         </li>
         <li>
           <a href="/admin/usermanagement">User Management</a>
