@@ -23,6 +23,16 @@ ChartJS.register(
   ChartDataLabels
 );
 
+// Function to generate a random color
+const generateRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
 const PieChart = () => {
   const [commentCounts, setCommentCounts] = useState([]);
   const [viewCounts, setViewCounts] = useState([]);
@@ -78,6 +88,13 @@ const PieChart = () => {
     setChartData(groupByCount(data));
   }, [selectedCategory, commentCounts, viewCounts]);
 
+  // Generate a color for each unique count
+  const uniqueCounts = chartData.map((item) => item.count);
+  const colorMap = {};
+  uniqueCounts.forEach((count) => {
+    colorMap[count] = generateRandomColor();
+  });
+
   // Handle dropdown change
   const handleDropdownChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -90,8 +107,8 @@ const PieChart = () => {
       {
         label: "Distribution(%)",
         data: chartData.map((item) => item.count),
-        backgroundColor: ["#FF5733", "#33FF57", "#3357FF"],
-        borderColor: ["#FF5733", "#33FF57", "#3357FF"],
+        backgroundColor: chartData.map((item) => colorMap[item.count]),
+        borderColor: chartData.map((item) => colorMap[item.count]),
         borderWidth: 1,
       },
     ],
