@@ -59,13 +59,13 @@ const AdminPIChart = () => {
 
   // Prepare the data array for rendering
   const data = [
-    { title: "Published Theses", count: statusCounts.published, color: "blue" },
+    { title: "Published Thesis", count: statusCounts.published, color: "blue" },
     {
-      title: "Change Request Theses",
+      title: "Change Request Thesis",
       count: statusCounts.review,
       color: "orange",
     },
-    { title: "Rejected Theses", count: statusCounts.reject, color: "red" },
+    { title: "Rejected Thesis", count: statusCounts.reject, color: "red" },
   ];
   return (
     <div className="user-page">
