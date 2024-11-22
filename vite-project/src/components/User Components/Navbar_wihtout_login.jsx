@@ -1,11 +1,19 @@
-import React from "react";
-import "./Navbar.css"; // Create a CSS file for user navbar styles
+import React, { useState } from "react";
+import "./Navbar.css";
 
 const NavbarWithOutLogin = ({ searchTerm, setSearchTerm }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <nav className="admin-navbar">
-      <div className="navbar-title">User Panel</div>
-      <ul className="navbar-links">
+    <nav className="navbar">
+      <h1>User Panel</h1>
+      <div
+        className="navbar-toggle"
+        onClick={() => setMenuOpen((prevState) => !prevState)}
+      >
+        {menuOpen ? "✖" : "☰"} {/* Toggle between hamburger and close icon */}
+      </div>
+      <ul className={menuOpen ? "active" : ""}>
         <li>
           <a href="/user-home">Home</a>
         </li>

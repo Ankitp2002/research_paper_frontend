@@ -1,17 +1,32 @@
 .user-home-page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure full height */
+  
 }
-
+.home-container h2 {
+  color:#fff ;
+}
 .home-container {
-    flex: 1; /* Allow this to grow and fill space between navbar and footer */
-    padding: 20px;
+  height: 80vh;
+  flex: 1;
+    /* Allow this to grow and fill space between navbar and footer */
+    padding: 10px;
+    background: linear-gradient(rgba(47, 89, 203, 0.6), rgba(105, 110, 129, 0.6)),
+      url('/download1.jpg') no-repeat center center/cover;
+    background-attachment: fixed;
+    /* Keep the background image fixed during scroll */
+    background-size: cover;
+    /* Ensure the image covers the area */
+    background-position: center;
+    /* Position the image at the center */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    justify-content: flex-start; /* Align items at the start vertically */
-    width: 100%; /* Full width */
+    align-items: center;
+    /* Center items horizontally */
+    justify-content: flex-start;
+    /* Align items at the start vertically */
+    width: 100%;
+    /* Full width */
 }
 
 .papers-table {
@@ -33,6 +48,7 @@
 .papers-grid {
   display: flex;
   flex-wrap: wrap;
+  margin: 0px 50px;
   gap: 10px;
   /* Adjust spacing between cards */
   justify-content: center;
@@ -40,16 +56,17 @@
 }
 
 .paper-card {
-  background-color: #fff;
+  background-color: #e1eaeb;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  flex: 1 1 300px;
+  flex: 1 1 375px;
   /* Allow cards to grow and shrink */
   max-width: 350px;
   /* Set a max width for consistency */
-  margin-bottom: 10px;
-  padding: 20px;
+  margin: 1px 1px;
+  padding:8px 10px;
+  
   box-sizing: border-box;
 }
   

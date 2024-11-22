@@ -9,7 +9,7 @@ const NotificationModal = ({ notifications, onClose, onClear, onRemove }) => {
         </button>
         <h2>Notifications</h2>
 
-        <ul style={styles.notificationList}>
+        <ul style={{ padding: "0px 10px", margin: "10px 0px" }}>
           {notifications.map((notification, index) => (
             <li
               key={notification.auditId}
@@ -17,10 +17,12 @@ const NotificationModal = ({ notifications, onClose, onClear, onRemove }) => {
               onTouchEnd={() => onRemove(notification.auditId)}
             >
               <span>{notification.title}</span> {/* Display the title */}
-              <FaTrash
-                style={styles.trashIcon} // Style the trash icon
-                onClick={() => onRemove(notification.auditId)} // Optionally add click event for desktop devices
-              />
+              <div>
+                <FaTrash
+                  style={styles.trashIcon} // Style the trash icon
+                  onClick={() => onRemove(notification.auditId)} // Optionally add click event for desktop devices
+                />
+              </div>
             </li>
           ))}
         </ul>

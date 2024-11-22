@@ -42,7 +42,13 @@ const AboutUs = () => {
             <a href="mailto:support@example.com">support@example.com</a>.
           </p>
           <div style={{ borderTop: "1px solid #ccc", margin: "20px 0" }}></div>
-          <p style={{ color: "#666666", textAlign: "center" }}>Mission</p>
+          <p style={{ color: "#666666", textAlign: "center" }}>
+            Prabhakar Gundebommu 1002129227
+            <br></br>Yuva Teja Kadari 1002162449
+            <br></br>Vashishth Gajjar 1002160256
+            <br></br>Sharath Chandhra Yadav Gori 1002163921
+            <br></br>Saad Kadri 1002153702
+          </p>
         </div>
       </div>
       <Footer />

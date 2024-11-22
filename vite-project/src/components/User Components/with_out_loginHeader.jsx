@@ -15,9 +15,12 @@ const Header = () => {
           <strong>Support</strong>, <strong>FAQ</strong>, and use the search bar
           for seamless navigation.
         </p>
-        <p>You’re already logged in. Start exploring now!</p>
-        <a href="/user-published-thesis" className="cta-button">
-          Explore Repository
+        <p>
+          Please log in to access your account and start exploring the
+          repository!
+        </p>
+        <a href="/login" className="cta-button">
+          Login
         </a>
       </div>
     </header>

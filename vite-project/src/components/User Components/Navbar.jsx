@@ -7,6 +7,7 @@ import { apiRequest } from "../RequestModul/requests";
 import { notificationUser, RegisterEndPoint } from "../RequestModul/Endpoint";
 
 const NavbarUser = ({ searchTerm, setSearchTerm }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -87,9 +88,15 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
     }
   };
   return (
-    <nav className="admin-navbar">
-      <div className="navbar-title">User Panel</div>
-      <ul className="navbar-links">
+    <nav className="navbar">
+      <h1 style={{ marginBottom: 10 }}>User Panel</h1>
+      <div
+        className="navbar-toggle"
+        onClick={() => setMenuOpen((prevState) => !prevState)}
+      >
+        {menuOpen ? "✖" : "☰"} {/* Toggle between hamburger and close icon */}
+      </div>
+      <ul className={menuOpen ? "active" : ""}>
         <li>
           <a href="/user-home-page">Home</a>
         </li>
@@ -143,7 +150,6 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
               onClick={openModal}
               style={{
                 height: 22,
-                marginTop: 2,
                 filter: "brightness(0) invert(1)",
               }}
             />

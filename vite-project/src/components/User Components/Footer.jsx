@@ -3,7 +3,7 @@ import "./Footer.css"; // Create a CSS file for footer styles
 
 const SimpleFooter = () => {
   return (
-    <footer className="admin-footer">
+    <footer className="footer">
       <div className="footer-content">
         <p>© 2024 ResearchHub. All rights reserved.</p>
         <p>

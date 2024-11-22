@@ -1,9 +1,9 @@
 import React from "react";
-import "./Header.css";
+import "./commonHeader.css";
 
 const Header = () => {
   return (
-    <header className="header">
+    <header className="header1">
       <div className="header-content">
         <h1>Welcome To Author Dashboard</h1>
         <p style={{ color: "#666666", textAlign: "center" }}>

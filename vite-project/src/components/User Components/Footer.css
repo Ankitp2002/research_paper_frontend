@@ -1,20 +1,36 @@
-.simple-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-    position: relative; /* Keeps the footer at the bottom of the page */
-    bottom: 0;
-    left: 0;
-    width: 100%; /* Full width */
+.footer {
+    background-color: #3a87d4;
+        color: #ECF0F1;
+        text-align: center;
+        padding: 20px 0;
+        width: 100%;
+        box-shadow: 0 -2px 10px rgba(220, 198, 198, 0.2);
+        margin-top: auto;
+        position: fixed;
+        bottom: 0;
+            left: 0;
+            /* Ensure it spans the full width */
+            z-index: 1000;
+            /* Ensure it is above other elements */
+        
 }
 
-.footer-content a {
-    color: #4CAF50; /* Link color */
+.footer a {
+    color: #ffffff;
     text-decoration: none;
-    margin: 0 10px; /* Space between links */
+    margin: 0 10px;
+    /* Spacing between links */
+    font-weight: bold;
+    transition: color 0.3s ease;
+    /* Smooth hover effect */
 }
 
-.footer-content a:hover {
-    text-decoration: underline; /* Underline on hover */
+.footer a:hover {
+    color: #ffcc00;
+    /* Highlight on hover */
+}
+
+.footer p {
+    margin: 5px 0 0;
+    /* Adjust margin for spacing */
 }
