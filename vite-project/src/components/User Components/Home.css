@@ -1,20 +1,22 @@
 .user-home-page {
     display: flex;
     flex-direction: column;
+    padding-bottom: 80px;
   
 }
 .home-container h2 {
   color:#fff ;
 }
 .home-container {
-  height: 80vh;
-  flex: 1;
-    /* Allow this to grow and fill space between navbar and footer */
-    padding: 10px;
+  min-height: 100vh;
+    /* Ensure the container can grow taller than the viewport */
+    flex: 1;
+    padding: 20px;
+    /* Add extra padding to prevent content clipping */
     background: linear-gradient(rgba(47, 89, 203, 0.6), rgba(105, 110, 129, 0.6)),
       url('/download1.jpg') no-repeat center center/cover;
     background-attachment: fixed;
-    /* Keep the background image fixed during scroll */
+    /* Keep the background fixed during scroll */
     background-size: cover;
     /* Ensure the image covers the area */
     background-position: center;
@@ -27,6 +29,8 @@
     /* Align items at the start vertically */
     width: 100%;
     /* Full width */
+    overflow-y: auto;
+    /* Enable scrolling */
 }
 
 .papers-table {
@@ -48,12 +52,16 @@
 .papers-grid {
   display: flex;
   flex-wrap: wrap;
-  margin: 0px 50px;
   gap: 10px;
   /* Adjust spacing between cards */
   justify-content: center;
   /* Center cards to avoid excess spacing */
+  padding-bottom: 20px;
+  /* Add bottom padding to ensure the last element is visible */
+  overflow-y: auto;
+  /* Allow scrolling within the grid */
 }
+
 
 .paper-card {
   background-color: #e1eaeb;

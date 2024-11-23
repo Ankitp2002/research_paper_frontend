@@ -22,14 +22,17 @@
     color: azure;
 }
 
-.navbar ul {
+.navbar-links {
     list-style: none;
     margin: -6px;
     padding: 0;
     display: flex;
     flex-direction: row;
 }
-
+.navbar-links.active {
+    display: block;
+    /* Adjust layout if needed for active state */
+}
 .navbar ul li {
     margin-left: 5px;
 }

@@ -96,7 +96,7 @@ const NavbarUser = ({ searchTerm, setSearchTerm }) => {
       >
         {menuOpen ? "✖" : "☰"} {/* Toggle between hamburger and close icon */}
       </div>
-      <ul className={menuOpen ? "active" : ""}>
+      <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
         <li>
           <a href="/user-home-page">Home</a>
         </li>

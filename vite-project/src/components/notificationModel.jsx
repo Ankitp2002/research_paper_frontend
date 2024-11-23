@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaTrash } from "react-icons/fa";
+
 const NotificationModal = ({ notifications, onClose, onClear, onRemove }) => {
   return (
     <div style={styles.overlay}>
@@ -9,23 +10,25 @@ const NotificationModal = ({ notifications, onClose, onClear, onRemove }) => {
         </button>
         <h2>Notifications</h2>
 
-        <ul style={{ padding: "0px 10px", margin: "10px 0px" }}>
+        {/* Scrollable List */}
+        <ul style={styles.notificationList}>
           {notifications.map((notification, index) => (
             <li
               key={notification.auditId}
               style={styles.notificationItem}
               onTouchEnd={() => onRemove(notification.auditId)}
             >
-              <span>{notification.title}</span> {/* Display the title */}
+              <span>{notification.title}</span>
               <div>
                 <FaTrash
-                  style={styles.trashIcon} // Style the trash icon
-                  onClick={() => onRemove(notification.auditId)} // Optionally add click event for desktop devices
+                  style={styles.trashIcon}
+                  onClick={() => onRemove(notification.auditId)}
                 />
               </div>
             </li>
           ))}
         </ul>
+
         <button onClick={onClear} style={styles.clearButton}>
           Clear All
         </button>
@@ -59,6 +62,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    maxHeight: "80vh", // Ensure the modal doesn’t overflow the screen
+    overflow: "hidden",
   },
   closeButton: {
     position: "absolute",
@@ -82,10 +87,10 @@ const styles = {
   },
   notificationList: {
     listStyle: "none",
-    padding: 0,
-    margin: 0,
+    padding: "10px 10px",
+    margin: "10px 0px",
     overflowY: "auto",
-    maxHeight: "200px",
+    maxHeight: "60vh", // Ensures list is scrollable
     scrollbarWidth: "thin", // Firefox
     scrollbarColor: "#ccc transparent", // Firefox
   },
@@ -102,9 +107,13 @@ const styles = {
     justifyContent: "space-between",
     color: "black",
   },
+  trashIcon: {
+    color: "red",
+    cursor: "pointer",
+  },
 };
 
-// Additional CSS for Chrome, Edge, and Safari scrollbars
+// Additional CSS for scrollbars
 const additionalStyles = `
   .notificationList::-webkit-scrollbar {
     width: 8px;

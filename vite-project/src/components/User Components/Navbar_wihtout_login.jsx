@@ -13,7 +13,7 @@ const NavbarWithOutLogin = ({ searchTerm, setSearchTerm }) => {
       >
         {menuOpen ? "✖" : "☰"} {/* Toggle between hamburger and close icon */}
       </div>
-      <ul className={menuOpen ? "active" : ""}>
+      <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
         <li>
           <a href="/user-home">Home</a>
         </li>
