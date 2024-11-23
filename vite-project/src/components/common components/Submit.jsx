@@ -5,6 +5,7 @@ import "./Submit.css";
 import { tokenValidation } from "../RequestModul/requests"; // Import the apiRequest function
 import { CreateAuthorPaperEndPoint } from "../RequestModul/Endpoint";
 import { useNavigate } from "react-router";
+import ChatComponent from "../chetModel";
 
 const Submit = () => {
   const navigate = useNavigate();
@@ -190,6 +191,7 @@ const Submit = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </div>
+      <ChatComponent />
       <Footer />
     </div>
   );

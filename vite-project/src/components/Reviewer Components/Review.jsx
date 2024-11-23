@@ -11,6 +11,7 @@ import {
 import { apiRequest } from "../RequestModul/requests";
 import { handleGetPaperB64 } from "../../utils/handleAuthor";
 import reviewIcon from "../../favIcon/feedback.png";
+import ChatComponent from "../chetModel";
 
 const ReviewPage = () => {
   const [commentView, setCommentView] = useState(null); // Track which row is showing comments
@@ -267,6 +268,7 @@ const ReviewPage = () => {
           </div>
         )}
       </div>
+      <ChatComponent />
       <ReviewerFooter />
     </div>
   );
