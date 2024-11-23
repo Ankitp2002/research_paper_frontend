@@ -7,6 +7,7 @@ import commentIcon from "../../favIcon/comment.png";
 import viewIcon from "../../favIcon/view.png";
 import { apiRequest } from "../RequestModul/requests";
 import { AddComments, AUTHOREndPoint } from "../RequestModul/Endpoint";
+import ChatComponent from "../chetModel";
 
 const UserPublishPaperPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -210,6 +211,7 @@ const UserPublishPaperPage = () => {
           </div>
         )}
       </div>
+      <ChatComponent />
       <Footer />
     </div>
   );
