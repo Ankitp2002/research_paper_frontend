@@ -11,6 +11,7 @@ import {
 } from "../RequestModul/Endpoint";
 import { handleGetPaperB64 } from "../../utils/handleAuthor";
 import deleteIcon from "../../favIcon/delete.png";
+import ChatComponent from "../chetModel";
 
 const PublishedPapersPage = () => {
   const [publishedPapers, setPublishedPapers] = useState([]);
@@ -164,6 +165,7 @@ const PublishedPapersPage = () => {
           </table>
         )}
       </div>
+      <ChatComponent />
       <AuthorFooter />
     </div>
   );

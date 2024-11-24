@@ -5,6 +5,7 @@ import "./ApprovedPaper.css";
 import { useNavigate } from "react-router";
 import { REVIEWEREndPoint } from "../RequestModul/Endpoint";
 import { apiRequest } from "../RequestModul/requests";
+import ChatComponent from "../chetModel";
 
 const ApprovedPapersPage = () => {
   const [approvedPapers, setapprovedPapers] = useState([]);
@@ -90,6 +91,7 @@ const ApprovedPapersPage = () => {
           </tbody>
         </table>
       </div>
+      <ChatComponent />
       <ReviewerFooter />
     </div>
   );
