@@ -25,3 +25,6 @@ export const notificationUser = `${BASE_URL}/notification`;
 
 //contectUs
 export const contactUs = `${BASE_URL}/contectUs`;
+
+//Chet 
+export const GetchetHistory = `${BASE_URL}/chet`;

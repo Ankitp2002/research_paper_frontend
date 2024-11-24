@@ -1,39 +1,60 @@
 import React, { useState, useEffect } from "react";
+import { apiRequest } from "./RequestModul/requests";
+import { GetchetHistory, USEREndPoint } from "./RequestModul/Endpoint";
+import { Navigate } from "react-router";
 
 const ChatComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]); // Store chat messages
   const [newMessage, setNewMessage] = useState(""); // Store the current message being typed
-
-  const users = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-    { id: 3, name: "Alex Johnson" },
-    { id: 4, name: "John Doe" },
-    { id: 5, name: "Jane Smith" },
-    { id: 6, name: "Alex Johnson" },
-    { id: 7, name: "John Doe" },
-    { id: 8, name: "Jane Smith" },
-    { id: 9, name: "Alex Johnson" },
-    { id: 10, name: "Ankit Johnson" },
-  ];
-
+  const [error, setError] = useState(""); // Error handling
+  const [currentUser, setCurrentUser] = useState([]); // Store current user data
+  const [users, setUsers] = useState([]); // Store other users for chat selection
+  const token = sessionStorage.getItem("authToken");
+  const [isSending, setIsSending] = useState(false);
   useEffect(() => {
     let interval;
+    const fetchChetUser = async () => {
+      try {
+        let response = await apiRequest(`${USEREndPoint}`, "GET"); // Fetch users
+        const current_user = await apiRequest(
+          USEREndPoint,
+          "GET",
+          {},
+          {
+            Authorization: `Bearer ${token}`,
+          }
+        );
+        if (!current_user) {
+          Navigate("/");
+        }
+        if (response && response.length > 0) {
+          response = response.filter(
+            (user) => user.role !== "admin" && user.id !== current_user.user_id
+          );
+          setCurrentUser(current_user);
+          setUsers(response); // Update state with fetched users
+        } else if (response.error) {
+          setError(`Error: ${response.error?.parent?.sqlMessage}`);
+        }
+      } catch (error) {
+        setError("Error: " + error.message);
+      }
+    };
+    fetchChetUser();
 
-    // Fetch new messages every 2 seconds if there's a selected user
+    // Fetch new messages every 5 seconds if there's a selected user
     if (selectedUser) {
       interval = setInterval(() => {
-        fetchNewMessages(selectedUser.id);
+        fetchNewMessages(selectedUser);
       }, 5000);
     }
 
-    // Clear interval when modal is closed or user is unselected
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval) clearInterval(interval); // Clear interval when modal is closed
     };
-  }, [selectedUser]);
+  }, [selectedUser, messages]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -41,55 +62,110 @@ const ChatComponent = () => {
     setSelectedUser(null);
     setMessages([]); // Clear chat history when closing modal
   };
+
   const backToUserList = () => {
-    setSelectedUser(null); // Deselect the current user and show the user list
+    setSelectedUser(null); // Deselect user and show user list
+    setMessages([]);
   };
+
   const selectUser = (user) => {
     setSelectedUser(user);
-    fetchChatHistory(user.id); // Fetch existing chat history for the user
+    fetchChatHistory(user); // Fetch existing chat history for selected user
   };
 
-  // Simulating chat history fetch with dummy data
-  const fetchChatHistory = async (userId) => {
-    console.log("Fetching chat history for user:", userId);
-    // Use dummy data for now
-    const dummyMessages = [
-      { sender: "John Doe", text: "Hello, how are you?" },
-      { sender: "You", text: "I'm good, thanks! How about you?" },
-    ];
-    setMessages(dummyMessages); // Set dummy data as the message history
-  };
+  const fetchChatHistory = async (selected_chet) => {
+    try {
+      const dummyMessages = await apiRequest(
+        `${GetchetHistory}?current_user=${currentUser.user_id}&&receiver=${selected_chet.id}`,
+        "GET"
+      );
+      if (!currentUser) {
+        Navigate("/");
+      }
+      const updatedMessages = dummyMessages.map((data) => ({
+        ...data.message,
+        sender: data.sender.name, // Replace sender ID with name
+        mesg_id: data.id, // Use message ID
+      }));
 
-  // Simulating fetching new messages with dummy data
-  const fetchNewMessages = async (userId) => {
-    console.log("Fetching new messages for user:", userId);
-    // Simulate new message data
-    const newMessageData = [
-      { sender: "John Doe", text: "Did you get my last message?" },
-    ];
-    if (newMessageData.length > 0) {
-      setMessages((prevMessages) => [...prevMessages, ...newMessageData]);
+      setMessages(updatedMessages); // Store the fetched chat history
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
     }
   };
 
-  // Simulating sending a message with dummy data
-  const sendMessage = async () => {
-    if (!newMessage.trim()) return;
+  const fetchNewMessages = async (selected_chet) => {
+    console.log("Fetching new messages for user:", selected_chet);
+    try {
+      const newMessageData = await apiRequest(
+        `${GetchetHistory}?current_user=${currentUser.user_id}&&receiver=${selected_chet.id}`,
+        "GET"
+      );
+      if (!currentUser) {
+        Navigate("/");
+      }
+      let updatedMessages = newMessageData.map((data) => ({
+        ...data.message,
+        sender: data.sender.name,
+        mesg_id: data.id, // Use message ID
+      }));
 
-    // Simulate sending message without API call
-    const newSentMessage = { sender: "You", text: newMessage };
-    setMessages((prevMessages) => [...prevMessages, newSentMessage]);
-    setNewMessage(""); // Clear input field
-    console.log("Message sent:", newSentMessage);
-    // Here, you would make the API call in the future
-    // Example: await axios.post("/api/chats", newSentMessage);
+      // Filter out only new messages (those not already in the existing messages state)
+      updatedMessages = updatedMessages.filter(
+        (msg) =>
+          !messages.some((existingMsg) => existingMsg.mesg_id === msg.mesg_id)
+      );
+      if (updatedMessages.length > 0) {
+        // Update messages only if there are new messages
+        setMessages((prevMessages) => [...prevMessages, ...updatedMessages]);
+      }
+    } catch (error) {
+      console.error("Error fetching new messages:", error);
+    }
   };
 
-  // Handle Enter key press to send message
-  const handleKeyDown = (e) => {
+  const sendMessage = async (selected_chet) => {
+    if (isSending) return; // Prevent sending multiple messages at the same time
+    if (!newMessage.trim()) return; // Don't send empty messages
+
+    setIsSending(true);
+
+    try {
+      const newSentMessage = { sender: currentUser.username, text: newMessage };
+
+      // First API call to send the message
+      await apiRequest(`${GetchetHistory}`, "POST", {
+        current_user: currentUser.user_id,
+        selected_chet: selected_chet.id,
+        messages: newMessage,
+      });
+
+      // Second API call to fetch the updated message history
+      const updatedMessages = await apiRequest(
+        `${GetchetHistory}?current_user=${currentUser.user_id}&&receiver=${selected_chet.id}`,
+        "GET"
+      );
+
+      // Process and update messages after both API calls
+      const processedMessages = updatedMessages.map((data) => ({
+        ...data.message,
+        sender: data.sender.name,
+        mesg_id: data.id, // Use message ID
+      }));
+
+      setMessages(processedMessages); // Update state with the latest messages
+      setNewMessage(""); // Clear the input field
+    } catch (error) {
+      console.error("Error sending or fetching messages:", error);
+    } finally {
+      setIsSending(false); // Allow sending after the message is sent
+    }
+  };
+
+  const handleKeyDown = (e, selectedUser) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent the default behavior (new line)
-      sendMessage(); // Send the message
+      e.preventDefault(); // Prevent default Enter behavior (new line)
+      sendMessage(selectedUser); // Send the message when Enter is pressed
     }
   };
 
@@ -189,92 +265,100 @@ const ChatComponent = () => {
                 style={{
                   background: "transparent",
                   border: "none",
-                  fontSize: "20px",
+                  fontSize: "24px",
                   cursor: "pointer",
-                  color: "#999",
-                  transition: "color 0.3s",
+                  color: "#333",
                 }}
-                onMouseEnter={(e) => (e.target.style.color = "#333")}
-                onMouseLeave={(e) => (e.target.style.color = "#999")}
               >
-                &times;
+                ✖
               </button>
             </div>
 
+            {/* Users List or Chat */}
             <div
               style={{
-                padding: "10px",
-                flex: "1",
+                flex: 1,
                 overflowY: "auto",
+                padding: "10px 20px",
+                backgroundColor: "#f9f9f9",
               }}
             >
-              {!selectedUser ? (
-                <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
-                  {users.map((user, index) => (
-                    <li
-                      key={index}
-                      style={{
-                        marginBottom: "10px",
-                        padding: "10px",
-                        backgroundColor: "#f9f9f9",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-                      }}
-                      onClick={() => selectUser(user)}
-                    >
-                      {user.name}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
+              {selectedUser ? (
                 <div>
-                  <h3>Connected with {selectedUser.name}</h3>
                   <div
                     style={{
-                      border: "1px solid #ddd",
-                      borderRadius: "5px",
-                      padding: "10px",
-                      height: "300px",
-                      overflowY: "auto",
-                      marginBottom: "10px",
+                      display: "flex",
+                      flexDirection: "column",
+                      marginBottom: "15px",
                     }}
                   >
-                    {messages.map((msg, index) => (
-                      <p key={index}>
-                        <strong>{msg.sender}:</strong> {msg.text}
-                      </p>
-                    ))}
+                    {messages.length > 0 ? (
+                      messages.map((message, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            padding: "10px",
+                            borderRadius: "5px",
+                            backgroundColor:
+                              message.sender === "You" ? "#e1f7d5" : "#f1f1f1",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          <strong>{message.sender}:</strong> {message.text}
+                        </div>
+                      ))
+                    ) : (
+                      <div>No messages yet</div>
+                    )}
                   </div>
-                  <div style={{ display: "flex", gap: "10px" }}>
-                    <input
-                      type="text"
-                      placeholder="Type a message..."
+
+                  {/* Message Input */}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <textarea
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, selectedUser)}
+                      placeholder="Type your message..."
                       style={{
-                        flex: "1",
+                        width: "100%",
+                        height: "50px",
                         padding: "10px",
                         border: "1px solid #ddd",
                         borderRadius: "5px",
+                        marginBottom: "10px",
                       }}
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyDown={handleKeyDown} // Handle Enter key press
                     />
                     <button
+                      onClick={() => sendMessage(selectedUser)}
                       style={{
                         backgroundColor: "#007bff",
-                        color: "#fff",
+                        color: "white",
                         border: "none",
-                        padding: "10px 20px",
+                        padding: "10px 15px",
                         borderRadius: "5px",
                         cursor: "pointer",
+                        marginLeft: "10px",
                       }}
-                      onClick={sendMessage}
                     >
                       Send
                     </button>
                   </div>
                 </div>
+              ) : (
+                users.map((user) => (
+                  <div
+                    key={user.id}
+                    onClick={() => selectUser(user)}
+                    style={{
+                      padding: "10px",
+                      cursor: "pointer",
+                      backgroundColor: "#fff",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {user.name} ({user.role})
+                  </div>
+                ))
               )}
             </div>
           </div>
